@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos</title>
+    <link rel="stylesheet" href="estilos.css"> <!-- Agrega tu archivo de estilos -->
+</head>
+
+<body>
+
+    <h1>Modelos</h1>
+
+    <!-- Este botón solo es visible para usuarios con rol de administrador -->
+    <p>
+        <a href="ruta/para/crear">Nuevo modelo</a>
+    </p>
+
+    <div style="max-height:68vh; overflow: auto;">
+        <table class="table">
+            <thead style="position: sticky; top: 0;">
+                <tr>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Núm. Productos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ejemplo de fila de datos, reemplaza con datos reales si lo deseas -->
+                <tr>
+                    <td>Marca Ejemplo</td>
+                    <td>Modelo Ejemplo</td>
+                    <td>10</td>
+                    <td>
+                        <!-- Estas opciones dependen del rol del usuario -->
+                        <a href="ruta/para/editar">Editar</a> <span>|</span>
+                        <a href="ruta/para/detalles">Detalles</a> <span>|</span>
+                        <a href="ruta/para/eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Otra Marca</td>
+                    <td>Otro Modelo</td>
+                    <td>5</td>
+                    <td>
+                        <a href="ruta/para/detalles">Detalles</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
