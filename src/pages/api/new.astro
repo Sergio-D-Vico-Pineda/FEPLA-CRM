@@ -6,8 +6,10 @@ import Footer from "../../components/Footer.astro";
 import { tursodb } from "../../../astro.config.mjs";
 
 // url params
-const { bruh } = Astro.params;
-
+const bruh = Astro.params;
+console.log("Astro: ", Astro);
+console.log("Astro.url: ", Astro.url);
+console.log("Astro.params: ", Astro.params);
 ---
 
 <Layout title="Empresa">
@@ -15,7 +17,17 @@ const { bruh } = Astro.params;
         <Header />
         <div class="flex justify-between w-full px-5 py-2 h-fit">
             <h2>{bruh ? "success" : "error"}</h2>
+            <button
+            id="btnback"
+            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
+            >Volver</button
+            >
         </div>
+        <main class="p-5">
+            <h2 class="text-xl font-bold">
+                WIP
+            </h2>
+        </main>
         <Footer />
     </div>
 </Layout>
