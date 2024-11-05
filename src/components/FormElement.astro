@@ -1,0 +1,22 @@
+---
+interface Props {
+    texto: string;
+    placehold: string;
+    type?: string; // default: text
+}
+
+const { type = "text", texto, placehold } = Astro.props;
+
+let textCapital = texto[0].toUpperCase() + texto.slice(1);
+---
+
+<label
+    class="flex flex-col w-52 p-2 gap-1.5 bg-gray-300 rounded-lg shadow-md drop-shadow-md"
+    ><span>{textCapital}</span>
+    <input
+        class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
+        type={type as astroHTML.JSX.HTMLInputTypeAttribute}
+        name={texto}
+        placeholder={placehold}
+    /></label
+>
