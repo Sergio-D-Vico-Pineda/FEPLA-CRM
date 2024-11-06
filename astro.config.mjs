@@ -20,6 +20,7 @@ dotenv.config();
 
 export default defineConfig(
 {
+    output: 'server',
     integrations: [tailwind()]
 });
 
