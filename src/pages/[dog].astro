@@ -1,0 +1,25 @@
+---
+/* import { undefined } from 'astro:schema';
+
+export function getStaticPaths() {
+    return [
+        { params: { dog: "clifford" } },
+        { params: { dog: "spot" } },
+        { params: { dog: "one/two/three" } },
+    ];
+}
+ */
+const { dog } = Astro.params;
+let a = 1;
+
+async function onload() {
+    const response = await fetch("localhost:4321/api/myapi");
+    const data = await response.json();
+    console.log(data.message);
+}
+
+await onload();
+---
+
+<div>Good dog, {dog}!</div>
+{a}
