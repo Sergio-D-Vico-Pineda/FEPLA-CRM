@@ -1,0 +1,39 @@
+---
+/* import { undefined } from 'astro:schema';
+
+export function getStaticPaths() {
+    return [
+        { params: { dog: "clifford" } },
+        { params: { dog: "spot" } },
+        { params: { dog: "one/two/three" } },
+    ];
+}
+ */
+const { dog } = Astro.params;
+let a = 1;
+
+async function onload() {
+    const url = "http://localhost:4321/api/myapi";
+    const data = {
+        name: "Clifford",
+        email: "c9I7s@example.com",
+        password: "1234"
+    }
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    console.log(response);
+    /* const res = await response.json();
+    a = res.message; */
+}
+
+await onload();
+---
+
+<div>Good dog, {dog}!</div>
+AAAA
