@@ -44,7 +44,7 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
                 </li>
                 {
                     rows.map((row) => (
-                        <li class="flex gap-2 justify-around px-2 py-1">
+                        <li class="flex gap-2 justify-around px-2 py-1" id={row.empresaId}>
                             <div class="flex gap-1">
                                 <span>{row.nombre}</span>
                                 <span>{row.email}</span>
