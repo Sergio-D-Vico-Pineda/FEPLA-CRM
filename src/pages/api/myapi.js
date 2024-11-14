@@ -40,7 +40,7 @@ export async function POST(
 
     tursodb.execute(
     {
-        sql: `INSERT INTO empresa(email, cif, nombre, telefono, disponibilidad, comentarios, fechaRegistro) VALUES($email, $cif, $nombre, $telefono, $disponibilidad, $comentarios, $fechaRegistro);`,
+        sql: `INSERT INTO empresa(email_contacto, contacto_principal, telefono_contacto, disponibilidad, comentarios, fechaRegistro) VALUES($email, $cif, $nombre, $telefono, $disponibilidad, $comentarios, $fechaRegistro);`,
         args:
         {
             email: data.email,

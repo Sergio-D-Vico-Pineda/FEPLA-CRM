@@ -53,9 +53,11 @@ import FormElement from "../components/FormElement.astro";
 </Layout>
 
 <script>
-    document.getElementById("btnsubmit").addEventListener("click", (e) => {
+    const form = document.querySelector("#formnew");
+    const url = "http://localhost:4321/api/myapi";
+
+    async function sendData(e) {
         e.preventDefault();
-        const form = document.querySelector("#formnew");
         const data = {
             nombre: form.nombre.value,
             email: form.email.value,
@@ -64,16 +66,20 @@ import FormElement from "../components/FormElement.astro";
             disponibilidad: form.disponibilidad.value,
             comentarios: form.comentarios.value,
         };
-        const url = "http://localhost:4321/api/myapi";
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        if (response.ok) {
+            alert("Empresa añadida");
+            window.location.href = "/empresa";
+        } else {
+            alert("Error al añadir empresa");
+        }
+    }
 
-        async () => {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-        };
-    });
+    document.getElementById("btnsubmit").addEventListener("click", sendData);
 </script>
