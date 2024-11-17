@@ -53,8 +53,8 @@ import FormElement from "../components/FormElement.astro";
 </Layout>
 
 <script>
-    const form = document.querySelector("#formnew");
-    const url = "http://localhost:4321/api/myapi";
+    const form = document.querySelector("#formnew") as HTMLFormElement;
+    const url = "http://localhost:4321/api/newempresa";
 
     async function sendData(e) {
         e.preventDefault();

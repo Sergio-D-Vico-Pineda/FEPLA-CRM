@@ -48,7 +48,7 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
                     rows.map((row) => (
                         <li
                             class="flex gap-2 justify-around px-2 py-1"
-                            id={row.empresaId}
+                            id={row.empresaId as string}
                         >
                             <div class="flex gap-1 justify-between grow max-w-96">
                                 <span>{row.nombre}</span>
