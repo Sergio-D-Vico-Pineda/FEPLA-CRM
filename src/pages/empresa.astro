@@ -39,8 +39,8 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
                         class="flex gap-1 px-2 py-1 justify-between grow max-w-96"
                     >
                         <span>Nombre</span>
-                        <span>Email</span>
-                        <span>Teléfono</span>
+                        <span>Dirección</span>
+                        <span>Sitio web</span>
                     </div>
                     <div></div>
                 </li>
@@ -51,9 +51,9 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
                             id={row.empresaId as string}
                         >
                             <div class="flex gap-1 justify-between grow max-w-96">
-                                <span>{row.nombre}</span>
-                                <span>{row.email_contacto}</span>
-                                <span>{row.telefono_contacto}</span>
+                                <span class="min-w-24 text-start">{row.nombre}</span>
+                                <span class="min-w-24 text-start">{row.direccion}</span>
+                                <span class="min-w-24 text-start">{row.sitio_web}</span>
                             </div>
                             <div>
                                 <button class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-1 py-1 transition-colors">

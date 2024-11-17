@@ -26,14 +26,19 @@ import FormElement from "../components/FormElement.astro";
                         class="ms-4 px-1.5 bg-[#476683] rounded-md text-white"
                         >Añade una nueva empresa</legend
                     >
-                    <FormElement texto="nombre" placehold="Fepla-CRM" />
-                    <FormElement texto="email" placehold="fepla@ieselpla.es" />
-                    <FormElement texto="cif" placehold="B12345678" />
-                    <FormElement texto="telefono" placehold="123456789" />
                     <FormElement
-                        texto="disponibilidad"
-                        placehold="Lunes a viernes"
+                        texto="nombre"
+                        placehold="CRM del IES El Pla"
                     />
+                    <FormElement texto="nombre_oficial" placehold="FEPLA-CRM" />
+                    <FormElement texto="direccion" placehold="Calle 1" />
+                    <FormElement texto="cif" placehold="B12345678" />
+                    <FormElement
+                        texto="sitio_web"
+                        placehold="https://fepla.es"
+                    />
+                    <FormElement texto="sector" placehold="Tecnologia" />
+                    <FormElement texto="tecnologias" placehold="js, rust" />
                     <FormElement
                         texto="comentarios"
                         placehold="..."
@@ -56,14 +61,16 @@ import FormElement from "../components/FormElement.astro";
     const form = document.querySelector("#formnew") as HTMLFormElement;
     const url = "http://localhost:4321/api/newempresa";
 
-    async function sendData(e) {
+    async function sendData(e: Event) {
         e.preventDefault();
         const data = {
             nombre: form.nombre.value,
-            email: form.email.value,
+            nombre_oficial: form.nombre_oficial.value,
+            direccion: form.direccion.value,
             cif: form.cif.value,
-            telefono: form.telefono.value,
-            disponibilidad: form.disponibilidad.value,
+            sitio_web: form.sitio_web.value,
+            sector: form.sector.value,
+            tecnologias: form.tecnologias.value,
             comentarios: form.comentarios.value,
         };
         const response = await fetch(url, {
@@ -74,7 +81,8 @@ import FormElement from "../components/FormElement.astro";
             body: JSON.stringify(data),
         });
         if (response.ok) {
-            alert("Empresa añadida");
+            let msg = await response.json();
+            alert(msg.message);
             window.location.href = "/empresa";
         } else {
             alert("Error al añadir empresa");
