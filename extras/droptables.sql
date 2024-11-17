@@ -1,0 +1,18 @@
+-- Eliminar tablas
+DROP TABLE IF EXISTS pro_alu_emp;
+
+DROP TABLE IF EXISTS profesor;
+
+DROP TABLE IF EXISTS alumno;
+
+DROP TABLE IF EXISTS interaccion;
+
+DROP TABLE IF EXISTS empresa;
+
+DROP TABLE IF EXISTS grupo;
+
+DROP TABLE IF EXISTS instituto;
+
+DROP TABLE IF EXISTS usuario;
+
+DROP TABLE IF EXISTS contacto;
