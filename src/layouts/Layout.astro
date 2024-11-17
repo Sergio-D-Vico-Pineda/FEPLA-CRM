@@ -55,7 +55,10 @@ const { title } = Astro.props;
 </style>
 
 <script>
-    document.getElementById("btnback").addEventListener("click", () => {
-        window.location.href = "/empresa";
-    })
+	let btnback = document.getElementById("btnback");
+	if (btnback) {
+		btnback.addEventListener("click", () => {
+			window.location.href = "/empresa";
+		});
+	}
 </script>
