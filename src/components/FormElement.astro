@@ -3,9 +3,10 @@ interface Props {
     texto: string;
     placehold: string;
     type?: string; // default: text
+    isrequired?: boolean; // default: false
 }
 
-const { type = "text", texto, placehold } = Astro.props;
+const { type = "text", texto, placehold, isrequired = false } = Astro.props;
 
 let textCapital = texto[0].toUpperCase() + texto.slice(1);
 ---
@@ -19,5 +20,7 @@ let textCapital = texto[0].toUpperCase() + texto.slice(1);
         name={texto}
         id={texto}
         placeholder={placehold}
-    /></label
->
+    />
+</label>
+
+<!-- {isrequired && (required)} -->
