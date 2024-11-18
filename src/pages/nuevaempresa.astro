@@ -6,55 +6,46 @@ import FormElement from "../components/FormElement.astro";
 ---
 
 <Layout title="Nueva empresa">
-    <div class="structure">
-        <Header />
-        <div class="flex justify-between w-full px-5 py-2 h-fit">
-            <h2>Nueva empresa</h2>
-            <button
-                id="btnback"
-                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
-                >Volver</button
-            >
-        </div>
-        <main>
-            <form class="flex flex-col gap-4 m-5" id="formnew">
-                <!-- //TODO -->
-                <fieldset
-                    class="border border-solid border-black p-2.5 flex gap-2 flex-wrap"
-                >
-                    <legend
-                        class="ms-4 px-1.5 bg-[#476683] rounded-md text-white"
-                        >Añade una nueva empresa</legend
-                    >
-                    <FormElement
-                        texto="nombre"
-                        placehold="CRM del IES El Pla"
-                    />
-                    <FormElement texto="nombre_oficial" placehold="FEPLA-CRM" />
-                    <FormElement texto="direccion" placehold="Calle 1" />
-                    <FormElement texto="cif" placehold="B12345678" />
-                    <FormElement
-                        texto="sitio_web"
-                        placehold="https://fepla.es"
-                    />
-                    <FormElement texto="sector" placehold="Tecnologia" />
-                    <FormElement texto="tecnologias" placehold="js, rust" />
-                    <FormElement
-                        texto="comentarios"
-                        placehold="..."
-                        type="textarea"
-                    />
-                </fieldset>
-                <button
-                    type="submit"
-                    id="btnsubmit"
-                    class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
-                    >Añadir nueva empresa</button
-                >
-            </form>
-        </main>
-        <Footer />
+    <Header />
+    <div class="flex justify-between w-full px-5 py-2 h-fit">
+        <h2>Nueva empresa</h2>
+        <button
+            id="btnback"
+            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
+            >Volver</button
+        >
     </div>
+    <main>
+        <form class="flex flex-col gap-4 m-5" id="formnew">
+            <!-- //TODO -->
+            <fieldset
+                class="border border-solid border-black p-2.5 flex gap-2 flex-wrap"
+            >
+                <legend class="ms-4 px-1.5 bg-[#476683] rounded-md text-white"
+                    >Añade una nueva empresa</legend
+                >
+                <FormElement texto="nombre" placehold="CRM del IES El Pla" />
+                <FormElement texto="nombre_oficial" placehold="FEPLA-CRM" />
+                <FormElement texto="direccion" placehold="Calle 1" />
+                <FormElement texto="cif" placehold="B12345678" />
+                <FormElement texto="sitio_web" placehold="https://fepla.es" />
+                <FormElement texto="sector" placehold="Tecnologia" />
+                <FormElement texto="tecnologias" placehold="js, rust" />
+                <FormElement
+                    texto="comentarios"
+                    placehold="..."
+                    type="textarea"
+                />
+            </fieldset>
+            <button
+                type="submit"
+                id="btnsubmit"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
+                >Añadir nueva empresa</button
+            >
+        </form>
+    </main>
+    <Footer />
 </Layout>
 
 <script>
@@ -81,8 +72,7 @@ import FormElement from "../components/FormElement.astro";
             body: JSON.stringify(data),
         });
         if (response.ok) {
-            let msg = await response.json();
-            alert(msg.message);
+            alert((await response.json()).msg);
             window.location.href = "/empresa";
         } else {
             alert("Error al añadir empresa");
