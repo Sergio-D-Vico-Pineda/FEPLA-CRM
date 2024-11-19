@@ -20,7 +20,7 @@ export async function POST(
 
     let rows = tursodb.execute(
     {
-        sql: `SELECT rol FROM usuario WHERE (email = $emailusuario OR usuario = $emailusuario) AND contrasena = $password;`,
+        sql: `SELECT rol, usuario FROM usuario WHERE (email = $emailusuario OR usuario = $emailusuario) AND contrasena = $password;`,
         args:
         {
             emailusuario: data.emailusuario,
@@ -32,7 +32,8 @@ export async function POST(
 
     return new Response(JSON.stringify(
     {
-        message: `SERVER: Inicio de sesión de ${rowvalue[0].rol}.`
+        message: `SERVER: Inicio de sesión de ${rowvalue[0].rol}.`,
+        user: rowvalue[0].usuario
     }),
     {
         status: 200,
