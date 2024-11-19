@@ -3,15 +3,32 @@
 ---
 
 <header class="w-full flex justify-between bg-[#33495d] p-5 pb-2 text-white">
-    <h1 class="text-3xl font-bold"> <a href="/">Fepla CRM</a></h1>
+    <h1 class="text-3xl font-bold"><a href="/">Fepla CRM</a></h1>
     <div>
         <button
+            id="logout"
             class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-colors"
             >Cerrar sesión</button
         >
         <button
+            id="perfil"
             class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-colors"
             >Perfil</button
         >
     </div>
 </header>
+
+<script>
+    const logout = document.querySelector("#logout");
+    const perfil = document.querySelector("#perfil");
+    // clean login localstorage
+    logout.addEventListener("click", () => {
+        window.location.href = "/";
+    });
+
+    let user = localStorage.getItem("user");
+
+    perfil.addEventListener("click", () => {
+        window.location.href = `/perfil/${user}`;
+    });
+</script>
