@@ -5,12 +5,33 @@ import Footer from "../../components/Footer.astro";
 let { perfil } = Astro.params;
 
 import { tursodb } from "../../../astro.config.mjs";
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT u.usuario, u.activo, p.email, p.nombre, p.apellidos, p.telefono, p.nif, p.nip, p.comentarios
+    FROM usuario as u, profesor as p
+WHERE u.usuario_id = p.usuario_id
+  AND u.usuario = $usuario;`,
+    args: {
+        usuario: perfil,
+    },
+});
+
+const user = rows[0];
 ---
 
+<span id="hperfil" class="hidden">{perfil}</span>
+<script>
+    let user = localStorage.getItem("user");
+    let perfil = document.querySelector("#hperfil");
+    let content = document.querySelector("#content");
+    if (user != perfil.textContent) {
+        content.remove();
+    }
+</script>
 <Layout title="Tu Perfil" kind={1}>
     <Header />
     <main>
-        <div class="container mx-auto px-4 py-8">
+        <div id="content" class="container mx-auto px-4 py-8">
             <div
                 class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden"
             >
@@ -25,37 +46,67 @@ import { tursodb } from "../../../astro.config.mjs";
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">Nombre</h2>
-                            <p class="text-gray-700">Juan</p>
+                            <p class="text-gray-700">{user.nombre}</p>
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">
                                 Apellidos
                             </h2>
-                            <p class="text-gray-700">Pérez García</p>
+                            {
+                                user.apellidos ? (
+                                    <p class="text-gray-700">
+                                        {user.apellidos}
+                                    </p>
+                                ) : (
+                                    <p class="text-gray-700 italic">
+                                        Sin apellidos
+                                    </p>
+                                )
+                            }
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">Teléfono</h2>
-                            <p class="text-gray-700">+34 123 456 789</p>
+                            {
+                                user.telefono ? (
+                                    <p class="text-gray-700">
+                                        +34 {user.telefono}
+                                    </p>
+                                ) : (
+                                    <p class="text-gray-700 italic">
+                                        Sin telefono
+                                    </p>
+                                )
+                            }
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">Email</h2>
-                            <p class="text-gray-700">juan.perez@example.com</p>
+                            <p class="text-gray-700">{user.email}</p>
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">NIF</h2>
-                            <p class="text-gray-700">12345678A</p>
+                            {
+                                user.nif ? (
+                                    <p class="text-gray-700">{user.nif}</p>
+                                ) : (
+                                    <p class="text-gray-700 italic">Sin NIF</p>
+                                )
+                            }
                         </div>
                         <div>
                             <h2 class="text-lg font-semibold mb-2">NIP</h2>
-                            <p class="text-gray-700">987654</p>
+                            {
+                                user.nip ? (
+                                    <p class="text-gray-700">{user.nip}</p>
+                                ) : (
+                                    <p class="text-gray-700 italic">Sin NIP</p>
+                                )
+                            }
                         </div>
                     </div>
                     <div class="mt-6">
                         <h2 class="text-lg font-semibold mb-2">Comentarios</h2>
                         <p class="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
+                            {user.comentarios}
                         </p>
                     </div>
                 </div>
