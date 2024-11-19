@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/tailwind": "^5.1.2",
     "@libsql/client": "^0.14.0",
-    "astro": "^4.16.7",
+    "astro": "^4.16.13",
     "dotenv": "^16.4.5",
     "fepla-crm": "file:",
     "tailwindcss": "^3.4.14"
