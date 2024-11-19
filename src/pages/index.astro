@@ -57,7 +57,9 @@ import Footer from "../components/Footer.astro";
 			body: JSON.stringify(data),
 		});
 		if (response.ok) {
-			alert((await response.json()).message);
+			let json = await response.json();
+			alert(json.message);
+			localStorage.setItem("user", json.user);
 			window.location.href = "/empresa";
 		} else {
 			alert("Error al iniciar sesión");
