@@ -21,8 +21,9 @@
 <script>
     const logout = document.querySelector("#logout");
     const perfil = document.querySelector("#perfil");
-    // clean login localstorage
+
     logout.addEventListener("click", () => {
+        localStorage.removeItem("user");
         window.location.href = "/";
     });
 
