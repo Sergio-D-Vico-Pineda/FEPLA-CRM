@@ -66,7 +66,16 @@ import Footer from "../components/Footer.astro";
 		}
 	}
 
-	form.addEventListener("submit", sendData);
+	/* form.addEventListener("submit", sendData); */
+	form.addEventListener("submit", (e) => {
+		e.preventDefault();
+		if (form.emailusuario.value == "admin") {
+			window.location.href = "/admin";
+		} else if (form.emailusuario.value == "prof") {
+			window.location.href = "/empresa";
+			localStorage.setItem("user", "lupastance");
+		}
+	});
 </script>
 
 <!-- <style>
