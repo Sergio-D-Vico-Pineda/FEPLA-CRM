@@ -1,0 +1,76 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const { perfil, user } = Astro.props;
+---
+
+<Layout title="Información del profesor">
+    <div
+        class="p-4 bg-slate-300 rounded-lg shadow-lg w-fit border-2 border-black"
+    >
+        <h2 class="text-3xl font-semibold mb-4">Ficha del profesor</h2>
+        <hr class="border-black border-solid border-2 mx-4" />
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Usuario</h2>
+                    <p id="perfil" class="text-gray-700">{perfil}</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Nombre</h2>
+                    <p class="text-gray-700">{user.nombre}</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Apellidos</h2>
+                    {
+                        user.apellidos ? (
+                            <p class="text-gray-700">{user.apellidos}</p>
+                        ) : (
+                            <p class="text-gray-700 italic">Sin apellidos</p>
+                        )
+                    }
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Teléfono</h2>
+                    {
+                        user.telefono ? (
+                            <p class="text-gray-700">+34 {user.telefono}</p>
+                        ) : (
+                            <p class="text-gray-700 italic">Sin telefono</p>
+                        )
+                    }
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Email</h2>
+                    <p class="text-gray-700">{user.email}</p>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">NIF</h2>
+                    {
+                        user.nif ? (
+                            <p class="text-gray-700">{user.nif}</p>
+                        ) : (
+                            <p class="text-gray-700 italic">Sin NIF</p>
+                        )
+                    }
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">NIP</h2>
+                    {
+                        user.nip ? (
+                            <p class="text-gray-700">{user.nip}</p>
+                        ) : (
+                            <p class="text-gray-700 italic">Sin NIP</p>
+                        )
+                    }
+                </div>
+            </div>
+            <div class="mt-6">
+                <h2 class="text-lg font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">
+                    {user.comentarios}
+                </p>
+            </div>
+        </div>
+    </div>
+</Layout>
