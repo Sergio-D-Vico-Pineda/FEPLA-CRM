@@ -7,7 +7,9 @@ const { admin } = Astro.props;
 ---
 
 <header class="w-full flex justify-between bg-[#33495d] p-5 pb-2 text-white">
-    <h1 class="text-3xl font-bold"><a href="/">Fepla CRM</a></h1>
+    <h1 class="text-3xl font-bold">
+        {admin ? <a href="/">Fepla CRM</a> : <a href="/inicio">Fepla CRM</a>}
+    </h1>
     <div>
         <button
             id="logout"
