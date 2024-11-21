@@ -8,7 +8,7 @@ import Footer from "../components/Footer.astro";
 	<main class="grid place-items-center">
 		<form
 			id="formlogin"
-			class="text-center grid place-items-center gap-y-5 py-8 px-10 bg-amber-500 rounded-lg shadow-md w-fit"
+			class="text-center grid place-items-center gap-y-5 py-8 px-10 bg-gray-300 rounded-lg shadow-md w-fit"
 		>
 			<label class="text-lg">
 				Correo electrónico o usuario <br />
@@ -28,6 +28,9 @@ import Footer from "../components/Footer.astro";
 					class="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 				/>
 			</label>
+			<span id="loginfail" class="hidden text-red-500 text-sm font-bold">
+				Inicio de sesión incorrecto
+			</span>
 			<button
 				type="submit"
 				class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
@@ -42,6 +45,7 @@ import Footer from "../components/Footer.astro";
 <script>
 	const form = document.querySelector("#formlogin") as HTMLFormElement;
 	const url = "http://localhost:4321/api/login";
+	const loginfail = document.querySelector("#loginfail");
 
 	async function sendData(e: Event) {
 		e.preventDefault();
@@ -56,84 +60,28 @@ import Footer from "../components/Footer.astro";
 			},
 			body: JSON.stringify(data),
 		});
+		loginfail.classList.add("hidden");
 		if (response.ok) {
 			let json = await response.json();
 			alert(json.message);
 			localStorage.setItem("user", json.user);
-			window.location.href = "/empresa";
+			window.location.href = "/inicio";
 		} else {
-			alert("Error al iniciar sesión");
+			loginfail.classList.remove("hidden");
 		}
 	}
 
 	/* form.addEventListener("submit", sendData); */
 	form.addEventListener("submit", (e) => {
 		e.preventDefault();
+		loginfail.classList.add("hidden");
 		if (form.emailusuario.value == "admin") {
 			window.location.href = "/admin";
 		} else if (form.emailusuario.value == "prof") {
-			window.location.href = "/empresa";
+			window.location.href = "/inicio";
 			localStorage.setItem("user", "lupastance");
+		} else {
+			loginfail.classList.remove("hidden");
 		}
 	});
 </script>
-
-<!-- <style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
-	}
-</style>
- -->
