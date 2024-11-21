@@ -1,0 +1,18 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import { tursodb } from "../../../astro.config.mjs";
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
+    args: {
+        id: id,
+    },
+});
+---
+
+<Layout title="Información de la empresa">
+    hola empresa {id}
+</Layout>
