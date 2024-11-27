@@ -4,15 +4,33 @@ import Layout from "../../../layouts/Layout.astro";
 import { tursodb } from "../../../../astro.config.mjs";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
+import FormElement from "../../../components/FormElement.astro";
 
 const { id } = Astro.params;
 
-const { rows } = await tursodb.execute({
+/* const { rows } = await tursodb.execute({
     sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
     args: {
         id: id,
     },
-});
+}); */
+
+let rows = [
+    {
+        empresa_id: 1,
+        nombre: "IES EL pla CRM",
+        nombre_oficial: "FEPLA-CRM2",
+        direccion: "Calle 12",
+        cif: "B12345678",
+        sitio_web: "https://fepla.com",
+        sector: "Tecnologiaaaa",
+        tecnologias: "js, rust",
+        comentarios: "bluh bluh bluh",
+        fecha_creacion: "2023-01-01",
+        fecha_actualizacion: null,
+        contacto_id: 1,
+    },
+];
 
 const empresa = rows[0];
 /* empresa_id, nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, fecha_actualizacion, contacto_id */
@@ -21,83 +39,40 @@ const empresa = rows[0];
 <Layout title="Modificación de la empresa" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
-        <div
-            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
-        >
-            <!-- <div>
-                <h2 class="text-xl font-semibold mb-2">ID de la Empresa</h2>
-                <p class="text-gray-700">{empresa.empresa_id}</p>
-            </div> -->
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
-                <p class="text-gray-700">{empresa.nombre}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Nombre Oficial</h2>
-                <p class="text-gray-700">{empresa.nombre_oficial}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Dirección</h2>
-                <p class="text-gray-700">{empresa.direccion}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">CIF</h2>
-                <p class="text-gray-700">{empresa.cif}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Sitio Web</h2>
-                <p class="text-blue-500 hover:underline">
-                    <a
-                        href={`https://${empresa.sitio_web}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {empresa.sitio_web}
-                    </a>
-                </p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Sector</h2>
-                <p class="text-gray-700">{empresa.sector}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Tecnologías</h2>
-                <p class="text-gray-700">{empresa.tecnologias}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
-                <p class="text-gray-700">{empresa.comentarios}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
-                <p class="text-gray-700">{empresa.fecha_creacion}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">
-                    Fecha de Actualización
-                </h2>
-                <p class="text-gray-700">{empresa.fecha_actualizacion}</p>
-            </div>
-            <!-- <div>
-                <h2 class="text-xl font-semibold mb-2">ID del Contacto</h2>
-                <p class="text-gray-700">{empresa.contacto_id}</p>
-            </div> -->
-            <!-- Poner el boton en medio ignorando el grid del padre -->
-
-            <div class="flex justify-center space-x-2 col-span-2">
-                <button
-                    class="bg-green-700 hover:bg-green-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
+        <!-- class="flex flex-col gap-4 m-5" -->
+        <form id="formnew">
+            <fieldset
+                class="grid grid-cols-2 grid-rows gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit border border-solid border-black p-2.5"
+            >
+                <legend class="ms-4 px-1.5 bg-[#476683] rounded-md text-white"
+                    >Modificación de una empresa</legend
                 >
-                    Guardar
-                </button>
-                <button
-                    id="btnback"
-                    class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
-                >
-                    Volver
-                </button>
-            </div>
-        </div>
+                <FormElement texto="nombre" placehold={empresa.nombre} />
+                <FormElement
+                    texto="nombre_oficial"
+                    placehold={empresa.nombre_oficial}
+                />
+                <FormElement texto="direccion" placehold={empresa.direccion} />
+                <FormElement texto="cif" placehold={empresa.cif} />
+                <FormElement texto="sitio_web" placehold={empresa.sitio_web} />
+                <FormElement texto="sector" placehold={empresa.sector} />
+                <FormElement
+                    texto="tecnologias"
+                    placehold={empresa.tecnologias}
+                />
+                <FormElement
+                    texto="comentarios"
+                    placehold={empresa.comentarios}
+                    type="textarea"
+                />
+            </fieldset>
+            <button
+                type="submit"
+                id="btnsubmit"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
+                >Modificar empresa</button
+            >
+        </form>
         <!-- grid grid-cols-2 grid-rows-5 -->
         <div class="gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit">
             <h2 class="text-xl font-semibold mb-2">Contactos</h2>
@@ -105,3 +80,8 @@ const empresa = rows[0];
     </main>
     <Footer />
 </Layout>
+
+<script>
+    const form = document.querySelector("#formnew") as HTMLFormElement;
+    /* const url = "http://localhost:4321/api/newempresa"; */
+</script>
