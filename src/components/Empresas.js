@@ -1,10 +1,10 @@
 export const rows = Array.from(
 {
     length: 9
-}, (_, i) =>
+}, (_, i = 0) =>
 {
     return {
-        id: i + 1,
+        empresa_id: i + 1,
         nombre: `Empresa ${i + 1}`,
         nombre_oficial: `Empresa oficial ${i + 1}`,
         direccion: `Calle ${i + 1}, 1, 46001 Valencia`,
