@@ -10,29 +10,12 @@ import BackBtn from "../../../components/BackBtn.astro";
 
 const { id } = Astro.params;
 
-/* const { rows } = await tursodb.execute({
+const { rows } = await tursodb.execute({
     sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
     args: {
         id: id,
     },
-}); */
-
-let rows = [
-    {
-        empresa_id: 1,
-        nombre: "IES EL pla CRM",
-        nombre_oficial: "FEPLA-CRM2",
-        direccion: "Calle 12",
-        cif: "B12345678",
-        sitio_web: "https://fepla.com",
-        sector: "Tecnologiaaaa",
-        tecnologias: "js, rust",
-        comentarios: "bluh bluh bluh",
-        fecha_creacion: "2023-01-01",
-        fecha_actualizacion: null,
-        contacto_id: 1,
-    },
-];
+});
 
 const empresa = rows[0];
 /* empresa_id, nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, fecha_actualizacion, contacto_id */
@@ -50,65 +33,82 @@ const empresa = rows[0];
                 <legend
                     class="ms-4 px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una empresa:
-                    <span id="empresa_id">{empresa.empresa_id}</span>
+                    Modificación de una empresa
+                    <span id="empresa_id" class="hidden"
+                        >{empresa.empresa_id}</span
+                    >
                 </legend>
                 <FormElement
                     texto="nombre"
-                    placehold={empresa.nombre}
-                    value={empresa.nombre}
+                    placehold={empresa.nombre as string}
+                    value={empresa.nombre as string}
+                    isrequired={true}
                 />
                 <FormElement
                     texto="nombre_oficial"
-                    placehold={empresa.nombre_oficial}
-                    value={empresa.nombre_oficial}
+                    placehold={empresa.nombre_oficial as string}
+                    value={empresa.nombre_oficial as string}
                 />
                 <FormElement
                     texto="direccion"
-                    placehold={empresa.direccion}
-                    value={empresa.direccion}
+                    placehold={empresa.direccion as string}
+                    value={empresa.direccion as string}
                 />
                 <FormElement
                     texto="cif"
-                    placehold={empresa.cif}
-                    value={empresa.cif}
+                    placehold={empresa.cif as string}
+                    value={empresa.cif as string}
                 />
                 <FormElement
                     texto="sitio_web"
-                    placehold={empresa.sitio_web}
-                    value={empresa.sitio_web}
+                    placehold={empresa.sitio_web as string}
+                    value={empresa.sitio_web as string}
                 />
                 <FormElement
                     texto="sector"
-                    placehold={empresa.sector}
-                    value={empresa.sector}
+                    placehold={empresa.sector as string}
+                    value={empresa.sector as string}
                 />
                 <FormElement
                     texto="tecnologias"
-                    placehold={empresa.tecnologias}
-                    value={empresa.tecnologias}
+                    placehold={empresa.tecnologias as string}
+                    value={empresa.tecnologias as string}
                 />
                 <FormElement
                     texto="comentarios"
-                    placehold={empresa.comentarios}
-                    value={empresa.comentarios}
+                    placehold="..."
+                    value={empresa.comentarios as string}
                     type="textarea"
                 />
+                <div>
+                    <h2 class="text-xl font-semibold mb-2">
+                        Fecha de Creación
+                    </h2>
+                    <p class="text-gray-700">
+                        {empresa.fecha_creacion}
+                    </p>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold mb-2">
+                        Fecha de Actualización
+                    </h2>
+                    <p class="text-gray-700">
+                        {empresa.fecha_actualizacion}
+                    </p>
+                </div>
             </fieldset>
-            <button
-                type="submit"
-                id="btnsubmit"
-                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors mx-auto"
-                >Modificar empresa</button
-            >
-            <BackBtn />
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="btnsubmit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors mx-auto"
+                    >Modificar empresa</button
+                >
+                <BackBtn title="Los cambios no se guardaran" />
+            </div>
         </form>
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {
-            empresa.contacto_id ? (
-                <Contacts />
-            ) : ""
-        }
+        {empresa.contacto_id ? <Contacts /> : ""}
     </main>
     <Footer />
 </Layout>
@@ -119,6 +119,7 @@ const empresa = rows[0];
     const url = "http://localhost:4321/api/modifyinfo";
 
     form.addEventListener("submit", (e) => {
+        // Peticion para modificar la empresa
         e.preventDefault();
         const data = {
             empresa_id: emp_id.textContent,
@@ -130,16 +131,19 @@ const empresa = rows[0];
             sector: form.sector.value,
             tecnologias: form.tecnologias.value,
             comentarios: form.comentarios.value,
-            /* fecha_actualizacion: new Date(), */
         };
+        console.log(data);
         fetch(url, {
-            method: "PUT",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         })
             .then((response) => response.json())
-            .then((json) => alert(json.msg));
+            .then((json) => {
+                alert(json.message);
+                window.location.reload();
+            });
     });
 </script>
