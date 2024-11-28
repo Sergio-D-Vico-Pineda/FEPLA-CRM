@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { rows as empresas } from "../../components/Empresas.js";
 
 import { tursodb } from "../../../astro.config.mjs";
+import BackBtn from "../../components/BackBtn.astro";
 
 const { rows } = await tursodb.execute("SELECT * FROM empresa;");
 ---
@@ -28,6 +29,7 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs px-2 py-2 transition-colors"
                 >Nueva empresa</button
             >
+            <BackBtn />
         </div>
     </div>
     <main class="px-20 py-5">
