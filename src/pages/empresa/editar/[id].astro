@@ -27,7 +27,7 @@ const empresa = rows[0];
         <!-- class="flex flex-col gap-4 m-5" -->
         <form
             class="bg-gray-300 rounded-lg shadow-md w-fit py-10 px-8 flex flex-col"
-            id="formnew"
+            id="formedit"
         >
             <fieldset class="grid grid-cols-2 grid-rows gap-2 py-5 px-4">
                 <legend
@@ -114,13 +114,15 @@ const empresa = rows[0];
 </Layout>
 
 <script>
-    const form = document.querySelector("#formnew") as HTMLFormElement;
+    const form = document.querySelector("#formedit") as HTMLFormElement;
     const emp_id = document.querySelector("#empresa_id");
     const url = "http://localhost:4321/api/modifyinfo";
 
     form.addEventListener("submit", (e) => {
         // Peticion para modificar la empresa
+        // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
+
         const data = {
             empresa_id: emp_id.textContent,
             nombre: form.nombre.value,
@@ -132,7 +134,7 @@ const empresa = rows[0];
             tecnologias: form.tecnologias.value,
             comentarios: form.comentarios.value,
         };
-        console.log(data);
+
         fetch(url, {
             method: "POST",
             headers: {
