@@ -44,7 +44,9 @@ const { admin } = Astro.props;
 
     let user = localStorage.getItem("user");
 
-    perfil.addEventListener("click", () => {
-        window.location.href = `/perfil/${user}`;
-    });
+    if (perfil) {
+        perfil.addEventListener("click", () => {
+            window.location.href = `/perfil/${user}`;
+        });
+    }
 </script>
