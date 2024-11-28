@@ -31,33 +31,66 @@ export async function POST(
 {
     const data = await request.json();
 
-    tursodb.execute(
+    if (!data.nombre)
     {
-        sql: `INSERT INTO empresa(nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion)
+        return new Response(JSON.stringify(
+        {
+            message: "SERVER: Error al recibir los datos. Nombre vacio."
+        }),
+        {
+            status: 500,
+            headers:
+            {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+    try
+    {
+        let resp = await tursodb.execute(
+        {
+            sql: `INSERT INTO empresa(nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion)
         VALUES($nombre, $nombre_oficial, $direccion, $cif, $sitio_web, $sector, $tecnologias, $comentarios, $fecha_creacion);`,
-        args:
-        {
-            nombre: data.nombre,
-            nombre_oficial: data.nombre_oficial,
-            direccion: data.direccion,
-            cif: data.cif,
-            sitio_web: data.sitio_web,
-            sector: data.sector,
-            tecnologias: data.tecnologias,
-            comentarios: data.comentarios,
-            fecha_creacion: formatDate(new Date())
-        }
-    });
+            args:
+            {
+                nombre: data.nombre,
+                nombre_oficial: data.nombre_oficial,
+                direccion: data.direccion,
+                cif: data.cif,
+                sitio_web: data.sitio_web,
+                sector: data.sector,
+                tecnologias: data.tecnologias,
+                comentarios: data.comentarios,
+                fecha_creacion: formatDate(new Date())
+            }
+        });
 
-    return new Response(JSON.stringify(
-    {
-        message: "SERVER: Datos recibidos correctamente."
-    }),
-    {
-        status: 200,
-        headers:
+        console.log(resp);
+
+        return new Response(JSON.stringify(
         {
-            'Content-Type': 'application/json'
-        }
-    });
+            message: `SERVER: Datos recibidos correctamente. ${resp.rowsAffected}`
+        }),
+        {
+            status: 200,
+            headers:
+            {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+    catch (error)
+    {
+        return new Response(JSON.stringify(
+        {
+            message: "SERVER: Error al recibir los datos."
+        }),
+        {
+            status: 500,
+            headers:
+            {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
 }
