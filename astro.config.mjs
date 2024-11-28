@@ -54,6 +54,7 @@ const queries = [
     comentarios VARCHAR(255),
     fecha_creacion DATETIME NOT NULL,
     fecha_actualizacion DATETIME,
+    activo BOOLEAN NOT NULL,
     contacto_id INT,
     FOREIGN KEY (contacto_id) REFERENCES contacto (contacto_id) ON DELETE RESTRICT
 );`,
