@@ -12,7 +12,7 @@ const {
     texto,
     placehold,
     isrequired = false,
-    value,
+    value = "",
 } = Astro.props;
 
 let textCapital = texto[0].toUpperCase() + texto.slice(1);
@@ -21,14 +21,30 @@ let textCapital = texto[0].toUpperCase() + texto.slice(1);
 <label
     class="flex flex-col w-52 p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
     ><span>{textCapital}</span>
-    <input
-        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
-        type={type as astroHTML.JSX.HTMLInputTypeAttribute}
-        name={texto}
-        id={texto}
-        placeholder={placehold}
-        value={value}
-    />
-</label>
 
-<!-- {isrequired && (required)} -->
+    {
+        !isrequired && (
+            <input
+                class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                type={type as astroHTML.JSX.HTMLInputTypeAttribute}
+                name={texto}
+                id={texto}
+                placeholder={placehold}
+                value={value}
+            />
+        )
+    }
+    {
+        isrequired && (
+            <input
+                class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                type={type as astroHTML.JSX.HTMLInputTypeAttribute}
+                name={texto}
+                id={texto}
+                placeholder={placehold}
+                value={value}
+                required
+            />
+        )
+    }
+</label>
