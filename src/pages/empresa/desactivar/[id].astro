@@ -1,0 +1,99 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+import { tursodb } from "../../../../astro.config.mjs";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import Contacts from "../../../components/Contacts.astro";
+import BackBtn from "../../../components/BackBtn.astro";
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
+    args: {
+        id: id,
+    },
+});
+
+const empresa = rows[0];
+/* empresa_id, nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, fecha_actualizacion, contacto_id */
+---
+
+<Layout title="Confirmar eliminación de la empresa" kind={1}>
+    <Header />
+    <main class="flex justify-center items-center grid-flow-col gap-10">
+        <div
+            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
+        >
+            <div class="col-span-2 text-center">
+                <h2 class="text-2xl font-semibold mb-2">Confirmar eliminación de la empresa</h2>
+            </div>
+            <!-- <div>
+                <h2 class="text-xl font-semibold mb-2">ID de la Empresa</h2>
+                <p class="text-gray-700">{empresa.empresa_id}</p>
+            </div> -->
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
+                <p class="text-gray-700">{empresa.nombre}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre Oficial</h2>
+                <p class="text-gray-700">{empresa.nombre_oficial}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Dirección</h2>
+                <p class="text-gray-700">{empresa.direccion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">CIF</h2>
+                <p class="text-gray-700">{empresa.cif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Sitio Web</h2>
+                <p class="text-blue-500 hover:underline">
+                    <a
+                        href={`https://${empresa.sitio_web}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {empresa.sitio_web}
+                    </a>
+                </p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Sector</h2>
+                <p class="text-gray-700">{empresa.sector}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Tecnologías</h2>
+                <p class="text-gray-700">{empresa.tecnologias}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">{empresa.comentarios}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
+                <p class="text-gray-700">{empresa.fecha_creacion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">
+                    Fecha de Actualización
+                </h2>
+                <p class="text-gray-700">{empresa.fecha_actualizacion}</p>
+            </div>
+            <div class="flex justify-center space-x-2 col-span-2 mt-6">
+                <a
+                    class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                >
+                    Confirmar eliminación de la empresa
+                </a>
+                <BackBtn />
+            </div>
+        </div>
+        <!-- grid grid-cols-2 grid-rows-5 -->
+        {empresa.contacto_id && <Contacts />}
+    </main>
+    <Footer />
+</Layout>
