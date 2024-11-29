@@ -2,12 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { rows } from "../../components/Empresas.js";
+/* import { rows } from "../../components/Empresas.js"; */
 
 import { tursodb } from "../../../astro.config.mjs";
 import BackBtn from "../../components/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM empresa;"); */
+const { rows } = await tursodb.execute("SELECT * FROM empresa;");
+const rows2 = rows.filter((row) => row.activo == 1);
 ---
 
 <Layout title="Lista de empresas">
@@ -63,7 +64,7 @@ import BackBtn from "../../components/BackBtn.astro";
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     {
-                        rows.map((empresa) => (
+                        rows2.map((empresa) => (
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3 text-sm text-gray-900">
                                     {empresa.nombre}
