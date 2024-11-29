@@ -78,7 +78,7 @@ import BackBtn from "../components/BackBtn.astro";
             },
             body: JSON.stringify(data),
         });
-        /* alert((await response.json()).message); */
+        alert((await response.json()).message);
         if (response.ok) {
             window.location.href = "/empresa";
         }
