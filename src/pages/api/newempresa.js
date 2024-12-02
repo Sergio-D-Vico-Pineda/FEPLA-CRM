@@ -49,8 +49,8 @@ export async function POST(
     {
         let resp = await tursodb.execute(
         {
-            sql: `INSERT INTO empresa(nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, activo)
-        VALUES($nombre, $nombre_oficial, $direccion, $cif, $sitio_web, $sector, $tecnologias, $comentarios, $fecha_creacion, $activo);`,
+            sql: `INSERT INTO empresa(nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, activo, activo)
+        VALUES($nombre, $nombre_oficial, $direccion, $cif, $sitio_web, $sector, $tecnologias, $comentarios, $fecha_creacion, $activo, $activo);`,
             args:
             {
                 nombre: data.nombre,
@@ -62,7 +62,7 @@ export async function POST(
                 tecnologias: data.tecnologias,
                 comentarios: data.comentarios,
                 fecha_creacion: formatDate(new Date()),
-                activo: true
+                activo: 1
             }
         });
 

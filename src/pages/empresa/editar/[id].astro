@@ -144,8 +144,9 @@ const empresa = rows[0];
         })
             .then((response) => response.json())
             .then((json) => {
-                alert(json.message);
-                window.location.reload();
+                console.log(json.message);
+                window.location.href = `/empresa/${emp_id.textContent}`;
+                /* window.location.reload(); */
             });
     });
 </script>

@@ -2,12 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { rows } from "../../components/Empresas.js";
+/* import { rows } from "../../components/Empresas.js"; */
 
 import { tursodb } from "../../../astro.config.mjs";
 import BackBtn from "../../components/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM empresa;"); */
+const { rows } = await tursodb.execute("SELECT * FROM empresa;");
+/* const rows2 = rows.filter((row) => row.activo == 1); */
 ---
 
 <Layout title="Lista de empresas">
@@ -15,12 +16,19 @@ import BackBtn from "../../components/BackBtn.astro";
     <div class="flex justify-between w-full px-5 py-2 h-fit">
         <h2>Listado de empresas</h2>
         <div class="flex gap-4">
+            <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
+                <span>Activo</span>
+                <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+            </label>
             <input
+                id="busqueda"
                 class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
                 type="text"
                 placeholder="Nombre de la empresa"
             />
             <button
+                id="btnbuscar"
+                type="button"
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
                 >Buscar</button
             >
@@ -64,16 +72,11 @@ import BackBtn from "../../components/BackBtn.astro";
                 <tbody class="divide-y divide-gray-200">
                     {
                         rows.map((empresa) => (
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm text-gray-900">
-                                    {empresa.nombre}
-                                </td>
-                                <td class="px-4 py-3 text-sm text-gray-900">
-                                    {empresa.nombre_oficial}
-                                </td>
-                                <td class="px-4 py-3 text-sm text-gray-500">
-                                    {empresa.direccion}
-                                </td>
+                        empresa.activo ? (
+                            <tr class="hover:bg-gray-100" data-active="true">
+                                <td class="px-4 py-3 text-sm text-gray-900">{empresa.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{empresa.nombre_oficial}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{empresa.direccion}</td>
                                 <td class="px-4 py-3 text-sm text-blue-500 hover:underline">
                                     <a
                                         href={`https://${empresa.sitio_web}`}
@@ -98,6 +101,36 @@ import BackBtn from "../../components/BackBtn.astro";
                                     </div>
                                 </td>
                             </tr>
+                        ) : (
+                            <tr class="hover:bg-gray-100 hidden" data-active="false">
+                                <td class="px-4 py-3 text-sm text-gray-900">{empresa.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{empresa.nombre_oficial}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{empresa.direccion}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500 hover:underline">
+                                    <a
+                                        href={`https://${empresa.sitio_web}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {empresa.sitio_web}
+                                    </a>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/empresa/editar/${empresa.empresa_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/empresa/${empresa.empresa_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            )
                         ))
                     }
                 </tbody>
@@ -107,7 +140,40 @@ import BackBtn from "../../components/BackBtn.astro";
     <Footer />
 </Layout>
 <script>
+    const activeCb = document.querySelector("#activo-checkbox") as HTMLInputElement;
+    const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
+    const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
+
     document.getElementById("btnnew").addEventListener("click", () => {
         window.location.href = "/nuevaempresa";
     });
+    let allrows = document.querySelectorAll("tr[data-active]");
+    let rows = document.querySelectorAll("tr[data-active=false]");
+    // rows.forEach((row) => {
+    //         console.log(row)
+    //     });
+
+    activeCb.addEventListener("change", () => {
+        let busqueda = inputBusqueda.value.toLowerCase();
+
+        rows.forEach((row) => {
+            let emp_name = row.children[0].textContent.toLowerCase();
+            console.log(emp_name)
+            row.classList.toggle("hidden"); 
+        
+        });
+    });
+
+    btnBusqueda.addEventListener("click", () => {
+        let busqueda = inputBusqueda.value.toLowerCase();
+        allrows.forEach((row) => {
+            let emp_name = row.children[0].textContent.toLowerCase();
+            row.classList.add("hidden");
+            if (emp_name.includes(busqueda)) {
+                console.log(emp_name)
+                row.classList.remove("hidden");
+            }
+        });
+    });
+
 </script>
