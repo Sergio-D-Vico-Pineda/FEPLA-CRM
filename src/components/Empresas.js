@@ -13,5 +13,8 @@ export const rows = Array.from(
         sector: `Sector ${i + 1}`,
         tecnologias: `tecnologia ${i + 1}`,
         comentarios: `comentarios ${i + 1}`,
+        fecha_creacion: `2000-01-01`,
+        fecha_actualizacion: `2000-01-01`,
+        activo: true
     };
 });
