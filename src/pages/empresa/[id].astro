@@ -98,7 +98,7 @@ const empresa = rows[0];
                 {
                     empresa.activo ? (
                         <a
-                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300 cursor-not-allowed"
+                            class="opacity-50 bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300 cursor-not-allowed"
                         >
                             Crear contacto (🛠)
                         </a>
@@ -130,7 +130,7 @@ const empresa = rows[0];
             <span id="empresa_id" class="hidden">{empresa.empresa_id}</span>
         </div>
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {empresa.contacto_id && <Contacts />}
+        {empresa.contacto_id ? <Contacts /> : ""}
         <Popup
             title="¿Está seguro de desactivar la empresa?"
             url=`/empresa/desactivar/${empresa.empresa_id}`
@@ -145,7 +145,7 @@ const empresa = rows[0];
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
     let emp_id = document.getElementById("empresa_id");
-    let url = "http://localhost:4321/api/deactivateempresa";
+    let url = "http://localhost:4321/api/empresa/deactivateempresa";
 
     if (btnDesactivar) {
         btnDesactivar.addEventListener("click", () => {

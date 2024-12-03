@@ -14,7 +14,7 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
 <Layout title="Lista de empresas">
     <Header />
     <div class="flex justify-between w-full px-5 py-2 h-fit">
-        <h2>Listado de empresas</h2>
+        <h2 class="text-3xl">Listado de empresas</h2>
         <div class="flex gap-4">
             <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
                 <span>Activo</span>
@@ -143,37 +143,39 @@ const { rows } = await tursodb.execute("SELECT * FROM empresa;");
     const activeCb = document.querySelector("#activo-checkbox") as HTMLInputElement;
     const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
     const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
+    const rows = document.querySelectorAll("tr[data-active=false]");
+    const allrows = document.querySelectorAll("tr[data-active]");
+    const activerows = document.querySelectorAll("tr[data-active=true]");
 
     document.getElementById("btnnew").addEventListener("click", () => {
-        window.location.href = "/nuevaempresa";
+        window.location.href = "/empresa/nuevaempresa";
     });
-    let allrows = document.querySelectorAll("tr[data-active]");
-    let rows = document.querySelectorAll("tr[data-active=false]");
-    // rows.forEach((row) => {
-    //         console.log(row)
-    //     });
-
+    
     activeCb.addEventListener("change", () => {
-        let busqueda = inputBusqueda.value.toLowerCase();
-
-        rows.forEach((row) => {
-            let emp_name = row.children[0].textContent.toLowerCase();
-            console.log(emp_name)
-            row.classList.toggle("hidden"); 
-        
+        activerows.forEach(row => {
+            row.classList.toggle("hidden");
+        })
+        rows.forEach(row => {
+            row.classList.toggle("hidden");
         });
     });
 
     btnBusqueda.addEventListener("click", () => {
-        let busqueda = inputBusqueda.value.toLowerCase();
-        allrows.forEach((row) => {
-            let emp_name = row.children[0].textContent.toLowerCase();
-            row.classList.add("hidden");
-            if (emp_name.includes(busqueda)) {
-                console.log(emp_name)
+        const textoBusqueda = inputBusqueda.value.toLowerCase();
+        allrows.forEach(row => {
+            let textoCelda = row.querySelector("td").textContent.toLowerCase();
+            if (textoCelda.includes(textoBusqueda)) {
                 row.classList.remove("hidden");
+            } else {
+                row.classList.add("hidden");
             }
         });
+    });
+
+    inputBusqueda.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            btnBusqueda.click();
+        }
     });
 
 </script>
