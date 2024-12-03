@@ -1,9 +1,9 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import FormElement from "../components/FormElement.astro";
-import BackBtn from "../components/BackBtn.astro";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import FormElement from "../../components/FormElement.astro";
+import BackBtn from "../../components/BackBtn.astro";
 ---
 
 <Layout title="Nueva empresa" kind={1}>
@@ -51,7 +51,7 @@ import BackBtn from "../components/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/newempresa";
+    const url = "http://localhost:4321/api/empresa/newempresa";
 
     async function sendData(e: Event) {
         e.preventDefault();
