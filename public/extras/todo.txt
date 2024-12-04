@@ -1,1 +1,3 @@
 desactivar alumnos
+
+trycatch en la connection a la base de datos
