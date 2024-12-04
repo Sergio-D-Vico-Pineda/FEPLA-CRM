@@ -7,11 +7,10 @@ import Footer from "../../components/Footer.astro";
 import Contacts from "../../components/Contacts.astro";
 import BackBtn from "../../components/BackBtn.astro";
 import Popup from "../../components/Popup.astro";
-import { rows } from "../../components/Alumnos.js";
 
 const { id } = Astro.params;
 
-/* const { rows } = await tursodb.execute({
+const { rows } = await tursodb.execute({
     sql: `SELECT * FROM alumno WHERE alumno_id = $id;`,
     args: {
         id: id,
@@ -19,24 +18,29 @@ const { id } = Astro.params;
 }); 
 
 const alumno = rows[0];
-*/
-const alumno = {
-    alumno_id: id,
-    nombre: `Alumno ${id}`,
-    apellidos: `Apellidos ${id}`,
-    telefono: `6666666${id}`,
-    fecha_nacimiento: `2000-01-01`,
-    email: `alumno${id}@alumno.com`,
-    nif: `B12345678${id}`,
-    nia: `B12345678${id}`,
-    nuss: `B12345678${id}`,
-    comentarios: `comentarios ${id}`,
-    fecha_creacion: `2000-01-01`,
-    fecha_actualizacion: `2000-01-01`,
-    activo: true,
-    grupo_id: 1,
-    instituto_id: 0,
-};
+
+if (!alumno) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
+// const alumno = {
+//     alumno_id: id,
+//     nombre: `Alumno ${id}`,
+//     apellidos: `Apellidos ${id}`,
+//     telefono: `6666666${id}`,
+//     fecha_nacimiento: `2000-01-01`,
+//     email: `alumno${id}@alumno.com`,
+//     nif: `B12345678${id}`,
+//     nia: `B12345678${id}`,
+//     nuss: `B12345678${id}`,
+//     comentarios: `comentarios ${id}`,
+//     fecha_creacion: `2000-01-01`,
+//     fecha_actualizacion: `2000-01-01`,
+//     activo: true,
+//     grupo_id: 1,
+//     instituto_id: 0,
+// };
 /* alumno_id, nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, fecha_actualizacion, activo, grupo_id, instituto_id */
 ---
 

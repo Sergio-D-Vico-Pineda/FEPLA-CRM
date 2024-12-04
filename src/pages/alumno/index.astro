@@ -2,13 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { rows } from "../../components/Alumnos.js";
+// import { rows } from "../../components/Alumnos.js";
 
 import { tursodb } from "../../../astro.config.mjs";
 import BackBtn from "../../components/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM alumno;"); */
-/* const rows2 = rows.filter((row) => row.activo == 1); */
+const { rows } = await tursodb.execute("SELECT * FROM alumno;");
+console.log(rows);
 ---
 
 <Layout title="Lista de alumnos">
