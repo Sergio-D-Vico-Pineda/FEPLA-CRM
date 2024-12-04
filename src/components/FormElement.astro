@@ -1,10 +1,11 @@
 ---
 interface Props {
     texto: string;
-    placehold: string;
+    placehold?: string;
     type?: string; // default: text
     isrequired?: boolean; // default: false
     value?: string;
+    classes?: string;
 }
 
 const {
@@ -13,13 +14,14 @@ const {
     placehold,
     isrequired = false,
     value,
+    classes = "",
 } = Astro.props;
 
 let textCapital = texto[0].toUpperCase() + texto.slice(1);
 ---
 
 <label
-    class="flex flex-col w-52 p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+    class=`flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md ${classes}`
     ><span>{textCapital}</span>
 
     {
