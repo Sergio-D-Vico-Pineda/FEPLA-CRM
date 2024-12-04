@@ -16,7 +16,8 @@ console.log(rows);
     <div class="flex justify-between w-full px-5 py-2 h-fit">
         <h2 class="text-3xl">Listado de alumnos</h2>
         <div class="flex gap-4">
-            <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
+            { rows.length > 0 && (
+                <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
                 <span>Activo</span>
                 <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
             </label>
@@ -32,6 +33,7 @@ console.log(rows);
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
                 >Buscar</button
             >
+            )}
             <button
                 id="btnnew"
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
@@ -42,8 +44,9 @@ console.log(rows);
     </div>
     <main class="px-20 py-5">
         <div
-            class="max-h-[68vh] overflow-y-auto bg-transparent shadow-md rounded-lg"
+            class="max-h-[68vh] overflow-y-auto shadow-md rounded-lg"
         >
+        { rows.length > 0 ? (
             <table class="min-w-full bg-white overflow-y-auto">
                 <thead class="bg-gray-100">
                     <tr class="border-b-2 border-black border-solid">
@@ -119,6 +122,9 @@ console.log(rows);
                     }
                 </tbody>
             </table>
+            ) : (
+                <h3 class="py-10 text-center text-red-500 text-3xl">No hay alumnos registrados</h3>
+            )}
         </div>
     </main>
     <Footer />
@@ -136,31 +142,37 @@ console.log(rows);
         window.location.href = "/alumno/nuevoalumno";
     });
     
-    activeCb.addEventListener("change", () => {
-        activerows.forEach(row => {
-            row.classList.toggle("hidden");
-        })
-        rows.forEach(row => {
-            row.classList.toggle("hidden");
+    if (activeCb) {
+        activeCb.addEventListener("change", () => {
+            activerows.forEach(row => {
+                row.classList.toggle("hidden");
+            })
+            rows.forEach(row => {
+                row.classList.toggle("hidden");
+            });
         });
-    });
+    }
 
-    btnBusqueda.addEventListener("click", () => {
-        const textoBusqueda = inputBusqueda.value.toLowerCase();
-        allrows.forEach(row => {
-            let textoCelda = row.querySelector("td").textContent.toLowerCase();
-            if (textoCelda.includes(textoBusqueda)) {
-                row.classList.remove("hidden");
-            } else {
-                row.classList.add("hidden");
+    if (btnBusqueda) {
+        btnBusqueda.addEventListener("click", () => {
+            const textoBusqueda = inputBusqueda.value.toLowerCase();
+            allrows.forEach(row => {
+                let textoCelda = row.querySelector("td").textContent.toLowerCase();
+                if (textoCelda.includes(textoBusqueda)) {
+                    row.classList.remove("hidden");
+                } else {
+                    row.classList.add("hidden");
+                }
+            });
+        });
+    }
+
+    if (inputBusqueda) {   
+        inputBusqueda.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                btnBusqueda.click();
             }
         });
-    });
-
-    inputBusqueda.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            btnBusqueda.click();
-        }
-    });
+    }
 
 </script>

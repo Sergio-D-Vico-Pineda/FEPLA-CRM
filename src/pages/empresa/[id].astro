@@ -10,6 +10,8 @@ import Popup from "../../components/Popup.astro";
 
 const { id } = Astro.params;
 
+
+
 const { rows } = await tursodb.execute({
     sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
     args: {
@@ -18,6 +20,11 @@ const { rows } = await tursodb.execute({
 });
 
 const empresa = rows[0];
+
+if (!empresa) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
 /* empresa_id, nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, fecha_actualizacion, activo, contacto_id */
 ---
 
