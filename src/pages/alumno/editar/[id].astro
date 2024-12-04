@@ -133,7 +133,7 @@ const alumno = rows[0];
 
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
-    const emp_id = document.querySelector("#alumno_id");
+    const alu_id = document.querySelector("#alumno_id");
     const url = "http://localhost:4321/api/alumno/modifyinfo";
 
     form.addEventListener("submit", (e) => {
@@ -142,7 +142,7 @@ const alumno = rows[0];
         e.preventDefault();
 
         const data = {
-            alumno_id: emp_id.textContent,
+            alumno_id: alu_id.textContent,
             nombre: form.nombre.value,
             apellidos: form.apellidos.value,
             telefono: form.telefono.value,
@@ -163,7 +163,7 @@ const alumno = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/alumno/${emp_id.textContent}`;
+                window.location.href = `/alumno/${alu_id.textContent}`;
                 /* window.location.reload(); */
             });
     });
