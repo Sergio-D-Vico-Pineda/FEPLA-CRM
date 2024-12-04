@@ -20,16 +20,22 @@ import BackBtn from "../../components/BackBtn.astro";
                 >
                 <FormElement
                     texto="nombre"
-                    placehold="CRM del IES El Pla"
+                    placehold="Sergio"
                     isrequired={true}
                 />
-                <FormElement texto="nombre_oficial" placehold="FEPLA-CRM" />
-                <FormElement texto="direccion" placehold="Calle 1" />
-                <FormElement texto="cif" placehold="B12345678" />
-                <FormElement texto="sitio_web" placehold="https://fepla.es" />
-                <FormElement texto="sector" placehold="Tecnologia" />
-                <FormElement texto="tecnologias" placehold="js, rust" />
+                <FormElement texto="apellidos" placehold="Vico" />
+                <FormElement texto="telefono" placehold="123456789" />
+                <FormElement texto="fecha_nacimiento" type="date" />
                 <FormElement
+                    texto="email"
+                    placehold="servicpin2@alu.edu.gva.es"
+                    type="email"
+                />
+                <FormElement texto="nif" placehold="12345678A" />
+                <FormElement texto="nia" placehold="12345678" />
+                <FormElement texto="nuss" placehold="123456789123" />
+                <FormElement
+                    classes="col-span-2 w-full"
                     texto="comentarios"
                     placehold="..."
                     type="textarea"
@@ -51,7 +57,7 @@ import BackBtn from "../../components/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/empresa/newempresa";
+    const url = "http://localhost:4321/api/empresa/newalumno";
 
     async function sendData(e: Event) {
         e.preventDefault();
@@ -63,14 +69,17 @@ import BackBtn from "../../components/BackBtn.astro";
         }
         const data = {
             nombre: name,
-            nombre_oficial: form.nombre_oficial.value,
-            direccion: form.direccion.value,
-            cif: form.cif.value,
-            sitio_web: form.sitio_web.value,
-            sector: form.sector.value,
-            tecnologias: form.tecnologias.value,
+            apellidos: form.apellidos.value,
+            telefono: form.telefono.value,
+            fecha_nacimiento: form.fecha_nacimiento.value,
+            email: form.email.value,
+            nif: form.nif.value,
+            nia: form.nia.value,
+            nuss: form.nuss.value,
             comentarios: form.comentarios.value,
         };
+
+        console.log(data);
         const response = await fetch(url, {
             method: "POST",
             headers: {
