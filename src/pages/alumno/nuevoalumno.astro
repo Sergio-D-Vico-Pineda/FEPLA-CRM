@@ -4,6 +4,11 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import FormElement from "../../components/FormElement.astro";
 import BackBtn from "../../components/BackBtn.astro";
+
+import { tursodb } from "../../../astro.config.mjs";
+
+const { grows } = await tursodb.execute("SELECT * FROM grupo;");
+const { irows } = await tursodb.execute("SELECT * FROM instituto;");
 ---
 
 <Layout title="Nuevo alumno" kind={1}>
@@ -40,6 +45,22 @@ import BackBtn from "../../components/BackBtn.astro";
                     placehold="..."
                     type="textarea"
                 />
+                <select name="grupo" id="grupo_id">
+                    {
+                        grows.map((row) => (
+                            <option value={row.grupo_id}>{row.nombre}</option>
+                        ))
+                    }
+                </select>
+                <select name="instituto" id="instituto_id">
+                    {
+                        irows.map((row) => (
+                            <option value={row.instituto_id}>
+                                {row.nombre}
+                            </option>
+                        ))
+                    }
+                </select>
             </fieldset>
             <div class="text-center">
                 <button
@@ -57,7 +78,7 @@ import BackBtn from "../../components/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/empresa/newalumno";
+    const url = "http://localhost:4321/api/alumno/newalumno";
 
     async function sendData(e: Event) {
         e.preventDefault();
