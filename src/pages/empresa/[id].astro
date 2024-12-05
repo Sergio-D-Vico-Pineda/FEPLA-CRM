@@ -10,8 +10,6 @@ import Popup from "../../components/Popup.astro";
 
 const { id } = Astro.params;
 
-
-
 const { rows } = await tursodb.execute({
     sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
     args: {
@@ -137,7 +135,7 @@ if (!empresa) {
             <span id="empresa_id" class="hidden">{empresa.empresa_id}</span>
         </div>
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {empresa.contacto_id ? <Contacts /> : ""}
+        <Contacts />
         <Popup
             title="¿Está seguro de desactivar la empresa?"
             url=`/empresa/desactivar/${empresa.empresa_id}`
