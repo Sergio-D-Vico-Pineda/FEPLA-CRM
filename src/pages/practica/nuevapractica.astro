@@ -4,6 +4,8 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import FormElement from "../../components/FormElement.astro";
 import BackBtn from "../../components/BackBtn.astro";
+
+
 ---
 
 <Layout title="Nuevo practica" kind={1}>
@@ -16,37 +18,16 @@ import BackBtn from "../../components/BackBtn.astro";
             <fieldset class="grid grid-cols-2 grid-rows gap-2 py-5 px-4">
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
-                    >Añade un nuevo practica</legend
+                    >Nueva practica</legend
                 >
-                <FormElement
-                    texto="nombre"
-                    placehold="Sergio"
-                    isrequired={true}
-                />
-                <FormElement texto="apellidos" placehold="Vico" />
-                <FormElement texto="telefono" placehold="123456789" />
-                <FormElement texto="fecha_nacimiento" type="date" />
-                <FormElement
-                    texto="email"
-                    placehold="servicpin2@alu.edu.gva.es"
-                    type="email"
-                />
-                <FormElement texto="nif" placehold="12345678A" />
-                <FormElement texto="nia" placehold="12345678" />
-                <FormElement texto="nuss" placehold="123456789123" />
-                <FormElement
-                    classes="col-span-2 w-full"
-                    texto="comentarios"
-                    placehold="..."
-                    type="textarea"
-                />
             </fieldset>
+            <select name="empresa" id="empresa_id"></select>
             <div class="text-center">
                 <button
                     type="submit"
                     id="btnsubmit"
                     class="mx-auto bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-                    >Añadir nuevo practica</button
+                    >Crear nueva practica</button
                 >
                 <BackBtn />
             </div>
@@ -61,12 +42,6 @@ import BackBtn from "../../components/BackBtn.astro";
 
     async function sendData(e: Event) {
         e.preventDefault();
-        let name = form.nombre.value;
-        console.log(form.nombre);
-        if (!name) {
-            alert("El nombre del practica es obligatorio.");
-            return;
-        }
         const data = {
             nombre: name,
             apellidos: form.apellidos.value,
