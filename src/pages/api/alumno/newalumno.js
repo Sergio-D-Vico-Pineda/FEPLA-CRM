@@ -49,8 +49,8 @@ export async function POST(
     {
         let resp = await tursodb.execute(
         {
-            sql: `INSERT INTO alumno(nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, activo)
-        VALUES($alumno_id, $nombre, $apellidos, $telefono, $fecha_nacimiento, $email, $nif, $nia, $nuss, $comentarios, $fecha_creacion, $activo);`,
+            sql: `INSERT INTO alumno(nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, activo, grupo_id, instituto_id)
+        VALUES($nombre, $apellidos, $telefono, $fecha_nacimiento, $email, $nif, $nia, $nuss, $comentarios, $fecha_creacion, $activo, $grupo_id, $instituto_id);`,
 
             args:
             {
@@ -64,7 +64,9 @@ export async function POST(
                 nuss: data.nuss,
                 comentarios: data.comentarios,
                 fecha_creacion: formatDate(new Date()),
-                activo: 1
+                activo: 1,
+                grupo_id: data.grupo_id,
+                instituto_id: data.instituto_id
             }
         });
 
@@ -86,7 +88,7 @@ export async function POST(
     {
         return new Response(JSON.stringify(
         {
-            message: "SERVER: Error al recibir los datos."
+            message: `SERVER: Error al recibir los datos. ${error}`
         }),
         {
             status: 500,
