@@ -1,0 +1,178 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+// import { rows } from "../../components/practicas.js";
+
+import { tursodb } from "../../../astro.config.mjs";
+import BackBtn from "../../components/BackBtn.astro";
+
+/* const { rows } = await tursodb.execute("SELECT * FROM practica;"); */
+let rows = []
+---
+
+<Layout title="Lista de practicas">
+    <Header />
+    <div class="flex justify-between w-full px-5 py-2 h-fit">
+        <h2 class="text-3xl">Listado de practicas</h2>
+        <div class="flex gap-4">
+            { rows.length > 0 && (
+                <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
+                <span>Activo</span>
+                <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+            </label>
+            <input
+                id="busqueda"
+                class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
+                type="text"
+                placeholder="Nombre de la alumno"
+            />
+            <button
+                id="btnbuscar"
+                type="button"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                >Buscar</button
+            >
+            )}
+            <button
+                id="btnnew"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                >Nueva practica</button
+            >
+            <BackBtn />
+        </div>
+    </div>
+    <main class="px-20 py-5">
+        <div
+            class="max-h-[68vh] overflow-y-auto shadow-md rounded-lg"
+        >
+        { rows.length > 0 ? (
+            <table class="min-w-full bg-white overflow-y-auto">
+                <thead class="bg-gray-100">
+                    <tr class="border-b-2 border-black border-solid">
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Nombre</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Apellidos</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >NIF</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Teléfono</th
+                        >
+                        <th
+                            class="px-4 py-3 text-center text-sm font-semibold text-gray-600"
+                            >Acciones</th
+                        >
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {
+                        rows.map((practica) => (
+                        practica.activo ? (
+                            <tr class="hover:bg-gray-100" data-active="true">
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/practica/editar/${practica.practica_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/practica/${practica.practica_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (
+                            <tr class="hover:bg-gray-100 hidden" data-active="false">
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/practica/editar/${practica.practica_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/practica/${practica.practica_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            )
+                        ))
+                    }
+                </tbody>
+            </table>
+            ) : (
+                <h3 class="py-10 text-center text-red-500 text-3xl">No hay practicas registrados</h3>
+            )}
+        </div>
+    </main>
+    <Footer />
+</Layout>
+<script>
+    const activeCb = document.querySelector("#activo-checkbox") as HTMLInputElement;
+    const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
+    const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
+    const btnnew = document.getElementById("btnnew") as HTMLButtonElement;
+    const rows = document.querySelectorAll("tr[data-active=false]");
+    const allrows = document.querySelectorAll("tr[data-active]");
+    const activerows = document.querySelectorAll("tr[data-active=true]");
+
+    btnnew.addEventListener("click", () => {
+        window.location.href = "/practica/nuevopractica";
+    });
+    
+    if (activeCb) {
+        activeCb.addEventListener("change", () => {
+            activerows.forEach(row => {
+                row.classList.toggle("hidden");
+            })
+            rows.forEach(row => {
+                row.classList.toggle("hidden");
+            });
+        });
+    }
+
+    if (btnBusqueda) {
+        btnBusqueda.addEventListener("click", () => {
+            const textoBusqueda = inputBusqueda.value.toLowerCase();
+            allrows.forEach(row => {
+                let textoCelda = row.querySelector("td").textContent.toLowerCase();
+                if (textoCelda.includes(textoBusqueda)) {
+                    row.classList.remove("hidden");
+                } else {
+                    row.classList.add("hidden");
+                }
+            });
+        });
+    }
+
+    if (inputBusqueda) {   
+        inputBusqueda.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                btnBusqueda.click();
+            }
+        });
+    }
+
+</script>
