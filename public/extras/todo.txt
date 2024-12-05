@@ -1,3 +1,7 @@
 desactivar alumnos
 
 trycatch en la connection a la base de datos
+
+eliminar cosas
+- alumnos
+- empresas
