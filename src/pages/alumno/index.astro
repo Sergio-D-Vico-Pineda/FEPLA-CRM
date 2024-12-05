@@ -8,7 +8,6 @@ import { tursodb } from "../../../astro.config.mjs";
 import BackBtn from "../../components/BackBtn.astro";
 
 const { rows } = await tursodb.execute("SELECT * FROM alumno;");
-console.log(rows);
 ---
 
 <Layout title="Lista de alumnos">
