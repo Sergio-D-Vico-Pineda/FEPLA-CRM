@@ -7,8 +7,8 @@ import BackBtn from "../../components/BackBtn.astro";
 
 import { tursodb } from "../../../astro.config.mjs";
 
-const { grows } = await tursodb.execute("SELECT * FROM grupo;");
-const { irows } = await tursodb.execute("SELECT * FROM instituto;");
+const { rows: grows } = await tursodb.execute("SELECT * FROM grupo;");
+const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
 ---
 
 <Layout title="Nuevo alumno" kind={1}>
@@ -48,14 +48,16 @@ const { irows } = await tursodb.execute("SELECT * FROM instituto;");
                 <select name="grupo" id="grupo_id">
                     {
                         grows.map((row) => (
-                            <option value={row.grupo_id}>{row.nombre}</option>
+                            <option value={row.grupo_id as string}>
+                                {row.nombre}
+                            </option>
                         ))
                     }
                 </select>
                 <select name="instituto" id="instituto_id">
                     {
                         irows.map((row) => (
-                            <option value={row.instituto_id}>
+                            <option value={row.instituto_id as string}>
                                 {row.nombre}
                             </option>
                         ))
