@@ -128,8 +128,10 @@ const { rows } = await tursodb.execute("SELECT * FROM alumno;");
     </main>
     <Footer />
 </Layout>
+
 <script>
-    const activeCb = document.querySelector("#activo-checkbox") as HTMLInputElement;
+    
+    const activeCb = document.querySelector("#activo-checkbox")as HTMLInputElement;
     const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
     const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
     const btnnew = document.getElementById("btnnew") as HTMLButtonElement;
