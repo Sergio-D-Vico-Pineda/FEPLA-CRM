@@ -1,0 +1,199 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import { tursodb } from "../../../astro.config.mjs";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Contacts from "../../components/Contacts.astro";
+import BackBtn from "../../components/BackBtn.astro";
+import Popup from "../../components/Popup.astro";
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM practica WHERE practica_id = $id;`,
+    args: {
+        id: id,
+    },
+}); 
+
+const practica = rows[0];
+
+if (!practica) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
+/* practica structure */
+---
+
+<Layout title="Información de la practica" kind={1}>
+    <Header />
+    <main class="flex justify-center items-center grid-flow-col gap-10">
+        { practica &&
+        <div
+            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
+        >
+            <div class="col-span-2 text-center">
+                {
+                    practica.activo ? (
+                        <h2 class="text-2xl font-semibold mb-2 text-green-500">
+                            Información
+                        </h2>
+                    ) : (
+                        <h2 class="text-2xl font-semibold mb-2 text-red-500">
+                            Información
+                        </h2>
+                    )
+                }
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
+                <p class="text-gray-700">{practica.nombre}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
+                <p class="text-gray-700">{practica.apellidos}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Telefono</h2>
+                <p class="text-gray-700">{practica.telefono}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de nacimiento</h2>
+                <p class="text-gray-700">{practica.fecha_nacimiento}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Email</h2>
+                <p class="text-gray-700">{practica.email}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIF</h2>
+                <p class="text-gray-700">{practica.nif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIA</h2>
+                <p class="text-gray-700">{practica.nia}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NUSS</h2>
+                <p class="text-gray-700">{practica.nif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">{practica.comentarios}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
+                <p class="text-gray-700">{practica.fecha_creacion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">
+                    Fecha de Actualización
+                </h2>
+                <p class="text-gray-700">{practica.fecha_actualizacion}</p>
+            </div>
+            <div class="flex justify-center space-x-2 col-span-2 mt-6">
+                {
+                    practica.activo ? (
+                        <a
+                            class="opacity-50 bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300 cursor-not-allowed"
+                        >
+                            Crear practicas (🛠)
+                        </a>
+                        <a
+                            href=`/practica/editar/${practica.practica_id}`
+                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Editar
+                        </a>
+                        <button
+                            id="btnDesactivar"
+                            type="button"
+                            class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Desactivar
+                        </button>
+                    ) : (
+                    <button
+                            id="btnActivar"
+                            type="button"
+                            class="bg-green-500 hover:bg-green-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Activar
+                        </button>
+                    )
+                }
+                <BackBtn />
+            </div>
+            <span id="practica_id" class="hidden">{practica.practica_id}</span>
+        </div>
+        }
+        <!-- grid grid-cols-2 grid-rows-5 -->
+        {practica.grupo_id ? <Contacts /> : ""}
+        {practica.instituto_id ? <Contacts /> : ""}
+        <Popup
+            title="¿Está seguro de desactivar la practica?"
+            url=`/practica/desactivar/${practica.practica_id}`
+        />
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    let btnDesactivar = document.getElementById("btnDesactivar");
+    let btnActivar = document.getElementById("btnActivar");
+    let popup = document.getElementById("popup");
+    let btnAceptar = document.getElementById("btnconfirm");
+    let pra_id = document.getElementById("practica_id");
+    let url = "http://localhost:4321/api/practica/switch";
+
+    if (btnDesactivar) {
+        btnDesactivar.addEventListener("click", () => {
+            popup.style.display = "grid";
+        });
+    }
+
+    if (btnAceptar) {
+        btnAceptar.addEventListener("click", async () => {
+            popup.style.display = "none";
+
+            let data = {
+                practica_id: pra_id.textContent,
+                activo: 0,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+    if (btnActivar) {
+        btnActivar.addEventListener("click", async () => {
+            let data = {
+                practica_id: pra_id.textContent,
+                activo: 1,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+</script>

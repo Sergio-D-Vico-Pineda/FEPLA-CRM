@@ -1,0 +1,72 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import FormElement from "../../components/FormElement.astro";
+import BackBtn from "../../components/BackBtn.astro";
+
+
+---
+
+<Layout title="Nuevo practica" kind={1}>
+    <Header />
+    <main class="grid place-content-center">
+        <form
+            class="bg-gray-300 rounded-lg shadow-md w-fit py-10 px-8 flex flex-col"
+            id="formnew"
+        >
+            <fieldset class="grid grid-cols-2 grid-rows gap-2 py-5 px-4">
+                <legend
+                    class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
+                    >Nueva practica</legend
+                >
+            </fieldset>
+            <select name="empresa" id="empresa_id"></select>
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="btnsubmit"
+                    class="mx-auto bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                    >Crear nueva practica</button
+                >
+                <BackBtn />
+            </div>
+        </form>
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    const form = document.querySelector("#formnew") as HTMLFormElement;
+    const url = "http://localhost:4321/api/empresa/newpractica";
+
+    async function sendData(e: Event) {
+        e.preventDefault();
+        const data = {
+            nombre: name,
+            apellidos: form.apellidos.value,
+            telefono: form.telefono.value,
+            fecha_nacimiento: form.fecha_nacimiento.value,
+            email: form.email.value,
+            nif: form.nif.value,
+            nia: form.nia.value,
+            nuss: form.nuss.value,
+            comentarios: form.comentarios.value,
+        };
+
+        console.log(data);
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.href = "/empresa";
+        }
+    }
+
+    document.getElementById("btnsubmit").addEventListener("click", sendData);
+</script>
