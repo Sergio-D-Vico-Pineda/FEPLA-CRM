@@ -4,7 +4,7 @@ import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 let { perfil } = Astro.params;
 
-import { tursodb } from "../../../astro.config.mjs";
+import { tursodb } from "@r/astro.config.mjs";
 
 const { rows } = await tursodb.execute({
     sql: `SELECT u.usuario, u.activo, p.email, p.nombre, p.apellidos, p.telefono, p.nif, p.nip, p.comentarios

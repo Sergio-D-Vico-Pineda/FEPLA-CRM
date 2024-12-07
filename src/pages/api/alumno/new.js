@@ -4,7 +4,7 @@ import
 {
     tursodb
 }
-from "../../../../astro.config.mjs";
+from "@r/astro.config.mjs";
 
 export async function GET()
 {
