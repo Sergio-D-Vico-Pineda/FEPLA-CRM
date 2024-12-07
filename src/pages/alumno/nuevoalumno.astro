@@ -80,7 +80,7 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/alumno/newalumno";
+    const url = "http://localhost:4321/api/alumno/new";
 
     async function sendData(e: Event) {
         e.preventDefault();
