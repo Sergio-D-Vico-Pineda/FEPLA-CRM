@@ -1,0 +1,164 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import { tursodb } from "../../../astro.config.mjs";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Contacts from "../../components/Contacts.astro";
+import BackBtn from "../../components/BackBtn.astro";
+import Popup from "../../components/Popup.astro";
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM grupo WHERE grupo_id = $id;`,
+    args: {
+        id: id,
+    },
+}); 
+
+const grupo = rows[0];
+
+if (!grupo) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
+/* grupo structure */
+---
+
+<Layout title="Información del grupo" kind={1}>
+    <Header />
+    <main class="flex justify-center items-center grid-flow-col gap-10">
+        { grupo &&
+        <div
+            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
+        >
+            <div class="col-span-2 text-center">
+                <h2 class="text-2xl font-semibold mb-2">
+                    Información
+                </h2>        
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
+                <p class="text-gray-700">{grupo.nombre}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
+                <p class="text-gray-700">{grupo.apellidos}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Telefono</h2>
+                <p class="text-gray-700">{grupo.telefono}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de nacimiento</h2>
+                <p class="text-gray-700">{grupo.fecha_nacimiento}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Email</h2>
+                <p class="text-gray-700">{grupo.email}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIF</h2>
+                <p class="text-gray-700">{grupo.nif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIA</h2>
+                <p class="text-gray-700">{grupo.nia}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NUSS</h2>
+                <p class="text-gray-700">{grupo.nif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">{grupo.comentarios}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
+                <p class="text-gray-700">{grupo.fecha_creacion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">
+                    Fecha de Actualización
+                </h2>
+                <p class="text-gray-700">{grupo.fecha_actualizacion}</p>
+            </div>
+            <div class="flex justify-center space-x-2 col-span-2 mt-6">
+                <a
+                    href=`/grupo/editar/${grupo.grupo_id}`
+                    class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                >
+                    Editar
+                </a>
+                <BackBtn />
+            </div>
+            <span id="grupo_id" class="hidden">{grupo.grupo_id}</span>
+        </div>
+        }
+        <Popup
+            title="¿Está seguro de desactivar el grupo?"
+            url=`/grupo/desactivar/${grupo.grupo_id}`
+        />
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    let btnDesactivar = document.getElementById("btnDesactivar");
+    let btnActivar = document.getElementById("btnActivar");
+    let popup = document.getElementById("popup");
+    let btnAceptar = document.getElementById("btnconfirm");
+    let pra_id = document.getElementById("grupo_id");
+    let url = "http://localhost:4321/api/grupo/switch";
+
+    if (btnDesactivar) {
+        btnDesactivar.addEventListener("click", () => {
+            popup.style.display = "grid";
+        });
+    }
+
+    if (btnAceptar) {
+        btnAceptar.addEventListener("click", async () => {
+            popup.style.display = "none";
+
+            let data = {
+                grupo_id: pra_id.textContent,
+                activo: 0,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+    if (btnActivar) {
+        btnActivar.addEventListener("click", async () => {
+            let data = {
+                grupo_id: pra_id.textContent,
+                activo: 1,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+</script>
