@@ -1,6 +1,6 @@
 import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
 
 import
 {
