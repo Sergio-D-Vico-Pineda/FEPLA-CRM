@@ -5,6 +5,7 @@ import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
 import BackBtn from "@comp/BackBtn.astro";
 
+/* grupo_id, nombre, descripcion, curso, comentarios, fecha_creacion, fecha_actualizacion */
 ---
 
 <Layout title="Nuevo grupo" kind={1}>
@@ -24,10 +25,7 @@ import BackBtn from "@comp/BackBtn.astro";
                     placehold="Grupo 1"
                     isrequired={true}
                 />
-                <FormElement
-                    texto="curso"
-                    placehold="2024/2025"
-                />
+                <FormElement texto="curso" placehold="2024/2025" />
                 <FormElement
                     classes="col-span-2 w-full"
                     texto="descripcion"
@@ -57,19 +55,14 @@ import BackBtn from "@comp/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/empresa/newgrupo";
+    const url = "http://localhost:4321/api/grupo/new";
 
     async function sendData(e: Event) {
         e.preventDefault();
         const data = {
-            nombre: name,
-            apellidos: form.apellidos.value,
-            telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
-            nuss: form.nuss.value,
+            nombre: form.nombre.value,
+            descripcion: form.descripcion.value,
+            curso: form.curso.value,
             comentarios: form.comentarios.value,
         };
 
@@ -83,7 +76,7 @@ import BackBtn from "@comp/BackBtn.astro";
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/empresa";
+            window.location.href = "/grupo";
         }
     }
 

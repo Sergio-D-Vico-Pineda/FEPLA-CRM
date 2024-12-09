@@ -1,90 +1,75 @@
 import { formatDate } from "../funcs.js";
 
-import
-{
+import {
     tursodb
 }
-from "@r/astro.config.mjs";
+    from "@r/astro.config.mjs";
 
-export async function GET()
-{
+export async function GET() {
     return new Response(
         `Api to add a new group.`
     );
 }
 
 export async function POST(
-{
-    request
-})
-{
+    {
+        request
+    }) {
     const data = await request.json();
 
-    if (!data.nombre)
-    {
+    if (!data.nombre) {
         return new Response(JSON.stringify(
-        {
-            message: "SERVER: Error al recibir los datos. Nombre vacio."
-        }),
-        {
-            status: 500,
-            headers:
             {
-                'Content-Type': 'application/json'
-            }
-        });
+                message: "SERVER: Error al recibir los datos. Nombre vacio."
+            }),
+            {
+                status: 500,
+                headers:
+                {
+                    'Content-Type': 'application/json'
+                }
+            });
     }
-    try
-    {
+    try {
         let resp = await tursodb.execute(
-        {
-            sql: `INSERT INTO alumno(nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, activo, grupo_id, instituto_id)
-        VALUES($nombre, $apellidos, $telefono, $fecha_nacimiento, $email, $nif, $nia, $nuss, $comentarios, $fecha_creacion, $activo, $grupo_id, $instituto_id);`,
-
-            args:
             {
-                nombre: data.nombre,
-                apellidos: data.apellidos,
-                telefono: data.telefono,
-                fecha_nacimiento: data.fecha_nacimiento,
-                email: data.email,
-                nif: data.nif,
-                nia: data.nia,
-                nuss: data.nuss,
-                comentarios: data.comentarios,
-                fecha_creacion: formatDate(new Date()),
-                activo: 1,
-                grupo_id: data.grupo_id,
-                instituto_id: data.instituto_id
-            }
-        });
+                sql: `INSERT INTO grupo(nombre, descripcion, curso, comentarios, fecha_creacion)
+        VALUES($nombre, $descripcion, $curso, $comentarios, $fecha_creacion);`,
+                args:
+                {
+                    nombre: data.nombre,
+                    descripcion: data.descripcion,
+                    curso: data.curso,
+                    comentarios: data.comentarios,
+                    fecha_creacion: formatDate(new Date()),
+                }
+            });
 
         console.log(resp);
 
         return new Response(JSON.stringify(
-        {
-            message: `SERVER: Datos recibidos correctamente. ${resp.rowsAffected}`
-        }),
-        {
-            status: 200,
-            headers:
             {
-                'Content-Type': 'application/json'
-            }
-        });
+                message: `SERVER: Datos recibidos correctamente. ${resp.rowsAffected}`
+            }),
+            {
+                status: 200,
+                headers:
+                {
+                    'Content-Type': 'application/json'
+                }
+            });
     }
-    catch (error)
-    {
+    catch (error) {
         return new Response(JSON.stringify(
-        {
-            message: `SERVER: Error al recibir los datos. ${error}`
-        }),
-        {
-            status: 500,
-            headers:
             {
-                'Content-Type': 'application/json'
-            }
-        });
+                message: `SERVER: Error al recibir los datos. ${error}`
+            }),
+            {
+                status: 500,
+                headers:
+                {
+                    'Content-Type': 'application/json'
+                }
+            });
     }
 }

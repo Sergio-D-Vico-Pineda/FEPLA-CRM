@@ -7,8 +7,8 @@ import Footer from "@comp/Footer.astro";
 import { tursodb } from "@r/astro.config.mjs";
 import BackBtn from "@comp/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM grupo;"); */
-let rows = []
+const { rows } = await tursodb.execute("SELECT * FROM grupo;");
+// let rows = []
 ---
 
 <Layout title="Lista de grupos">
@@ -25,7 +25,7 @@ let rows = []
                 id="busqueda"
                 class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
                 type="text"
-                placeholder="Nombre de la alumno"
+                placeholder="Nombre del grupo"
             />
             <button
                 id="btnbuscar"
