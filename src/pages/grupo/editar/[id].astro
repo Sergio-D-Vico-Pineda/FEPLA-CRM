@@ -11,18 +11,16 @@ import BackBtn from "@comp/BackBtn.astro";
 const { id } = Astro.params;
 
 const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM alumno WHERE alumno_id = $id;`,
+    sql: `SELECT * FROM grupo WHERE grupo_id = $id;`,
     args: {
         id: id,
     },
 });
 
-const alumno = rows[0];
-
-
+const grupo = rows[0];
 ---
 
-<Layout title="Modificación del alumno" kind={1}>
+<Layout title="Modificación del grupo" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
         <!-- class="flex flex-col gap-4 m-5" -->
@@ -34,58 +32,40 @@ const alumno = rows[0];
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una alumno
-                    <span id="alumno_id" class="hidden">{alumno.alumno_id}</span
-                    >
+                    Modificación de una grupo
+                    <span id="grupo_id" class="hidden">{grupo.grupo_id}</span>
                 </legend>
                 <FormElement
                     texto="nombre"
-                    placehold={alumno.nombre as string}
-                    value={alumno.nombre as string}
+                    placehold="Grupo 1"
                     isrequired={true}
+                    value={grupo.nombre as string}
                 />
                 <FormElement
-                    texto="apellidos"
-                    placehold={alumno.apellidos as string}
-                    value={alumno.apellidos as string}
+                    texto="curso"
+                    placehold="2024/2025"
+                    value={grupo.curso as string}
                 />
                 <FormElement
-                    texto="telefono"
-                    placehold={alumno.telefono as string}
-                    value={alumno.telefono as string}
+                    classes="col-span-2 w-full"
+                    texto="descripcion"
+                    placehold="..."
+                    type="textarea"
+                    value={grupo.descripcion as string}
                 />
                 <FormElement
-                    texto="fecha_nacimiento"
-                    placehold={alumno.fecha_nacimiento as string}
-                    value={alumno.fecha_nacimiento as string}
-                />
-                <FormElement
-                    texto="email"
-                    placehold={alumno.email as string}
-                    value={alumno.email as string}
-                />
-                <FormElement
-                    texto="nif"
-                    placehold={alumno.nif as string}
-                    value={alumno.nif as string}
-                />
-                <FormElement
-                    texto="nia"
-                    placehold={alumno.nia as string}
-                    value={alumno.nia as string}
-                />
-                <FormElement
+                    classes="col-span-2 w-full"
                     texto="comentarios"
                     placehold="..."
-                    value={alumno.comentarios as string}
                     type="textarea"
+                    value={grupo.comentarios as string}
                 />
                 <div>
                     <h2 class="text-xl font-semibold mb-2">
                         Fecha de Creación
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_creacion}
+                        {grupo.fecha_creacion}
                     </p>
                 </div>
                 <div>
@@ -93,7 +73,7 @@ const alumno = rows[0];
                         Fecha de Actualización
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_actualizacion}
+                        {grupo.fecha_actualizacion}
                     </p>
                 </div>
             </fieldset>
@@ -102,37 +82,30 @@ const alumno = rows[0];
                     type="submit"
                     id="btnsubmit"
                     class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors mx-auto"
-                    >Modificar alumno</button
+                    >Modificar grupo</button
                 >
                 <BackBtn title="Los cambios no se guardaran" />
             </div>
         </form>
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        {alumno.instituto_id ? <Contacts /> : ""}
-        {alumno.grupo_id ? <Contacts /> : ""}
     </main>
     <Footer />
 </Layout>
 
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
-    const alu_id = document.querySelector("#alumno_id");
-    const url = "http://localhost:4321/api/alumno/modify";
+    const gru_id = document.querySelector("#grupo_id");
+    const url = "http://localhost:4321/api/grupo/modify";
 
     form.addEventListener("submit", (e) => {
-        // Peticion para modificar el alumno
+        // Peticion para modificar el grupo
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
 
         const data = {
-            alumno_id: alu_id.textContent,
+            grupo_id: gru_id.textContent,
             nombre: form.nombre.value,
-            apellidos: form.apellidos.value,
-            telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
+            descripcion: form.descripcion.value,
+            curso: form.curso.value,
             comentarios: form.comentarios.value,
         };
 
@@ -146,7 +119,7 @@ const alumno = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/alumno/${alu_id.textContent}`;
+                window.location.href = `/grupo/${gru_id.textContent}`;
                 /* window.location.reload(); */
             });
     });
