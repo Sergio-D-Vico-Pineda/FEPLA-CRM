@@ -82,11 +82,11 @@ if (!grupo) {
 </Layout>
 
 <script>
-    let btnDesactivar = document.getElementById("btnDesactivar");
+    /* let btnDesactivar = document.getElementById("btnDesactivar");
     let btnActivar = document.getElementById("btnActivar");
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
-    let pra_id = document.getElementById("grupo_id");
+    let grupo_id = document.getElementById("grupo_id");
     let url = "http://localhost:4321/api/grupo/switch";
 
     if (btnDesactivar) {
@@ -100,7 +100,7 @@ if (!grupo) {
             popup.style.display = "none";
 
             let data = {
-                grupo_id: pra_id.textContent,
+                grupo_id: grupo_id.textContent,
                 activo: 0,
             }
 
@@ -120,7 +120,7 @@ if (!grupo) {
     if (btnActivar) {
         btnActivar.addEventListener("click", async () => {
             let data = {
-                grupo_id: pra_id.textContent,
+                grupo_id: grupo_id.textContent,
                 activo: 1,
             }
 
@@ -136,5 +136,5 @@ if (!grupo) {
             window.location.reload();
         }
         });
-    }
+    } */
 </script>
