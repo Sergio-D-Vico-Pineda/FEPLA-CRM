@@ -10,143 +10,111 @@ import Popup from "@comp/Popup.astro";
 
 const { id } = Astro.params;
 
-const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM practica WHERE practica_id = $id;`,
-    args: {
-        id: id,
-    },
-}); 
+let instituto = null;
+try {
+    /* const { rows } = await tursodb.execute({
+        sql: `SELECT * FROM instituto WHERE instituto_id = $id;`,
+        args: {
+            id: id,
+        },
+    });  */
+    let rows = [
+    {
+        instituto_id: 1,
+        nombre: "Instituto 1",
+        descripcion: "Descripción 1",
+        telefono: "123456789",
+        direccion: "Calle 1",
+        sitio_web: "www.instituto1.com",
+        comentarios: "Comentarios 1",
+        fecha_creacion: "2023-01-01",
+        fecha_actualizacion: "2023-01-01",
+    }
+]
 
-const practica = rows[0];
+    instituto = rows[0];
+} catch (error) {
+    console.log(error);
+    instituto = null;
+}
 
-if (!practica) {
+if (!instituto) {
     console.log("No hay registro con ese valor");
     return Astro.redirect("/404");
 }
 
-/* practica structure */
+/* instituto_id, nombre, descripcion, direccion, sitio_web, telefono, comentarios, fecha_creacion, fecha_actualizacion */
 ---
 
-<Layout title="Información de la practica" kind={1}>
+<Layout title="Información de la instituto" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
-        { practica &&
+        { instituto &&
         <div
             class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
         >
             <div class="col-span-2 text-center">
-                {
-                    practica.activo ? (
-                        <h2 class="text-2xl font-semibold mb-2 text-green-500">
-                            Información
-                        </h2>
-                    ) : (
-                        <h2 class="text-2xl font-semibold mb-2 text-red-500">
-                            Información
-                        </h2>
-                    )
-                }
+                <h2 class="text-2xl font-semibold mb-2">
+                    Información
+                </h2>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">Nombre</h2>
-                <p class="text-gray-700">{practica.nombre}</p>
+                <p class="text-gray-700">{instituto.nombre}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
-                <p class="text-gray-700">{practica.apellidos}</p>
+                <h2 class="text-xl font-semibold mb-2">Descripción</h2>
+                <p class="text-gray-700">{instituto.descripcion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Dirección</h2>
+                <p class="text-gray-700">{instituto.direccion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Sitio web</h2>
+                <p class="text-gray-700">{instituto.sitio_web}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">Telefono</h2>
-                <p class="text-gray-700">{practica.telefono}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Fecha de nacimiento</h2>
-                <p class="text-gray-700">{practica.fecha_nacimiento}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Email</h2>
-                <p class="text-gray-700">{practica.email}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">NIF</h2>
-                <p class="text-gray-700">{practica.nif}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">NIA</h2>
-                <p class="text-gray-700">{practica.nia}</p>
-            </div>
-            <div>
-                <h2 class="text-xl font-semibold mb-2">NUSS</h2>
-                <p class="text-gray-700">{practica.nif}</p>
+                <p class="text-gray-700">{instituto.telefono}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
-                <p class="text-gray-700">{practica.comentarios}</p>
+                <p class="text-gray-700">{instituto.comentarios}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
-                <p class="text-gray-700">{practica.fecha_creacion}</p>
+                <p class="text-gray-700">{instituto.fecha_creacion}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">
                     Fecha de Actualización
                 </h2>
-                <p class="text-gray-700">{practica.fecha_actualizacion}</p>
+                <p class="text-gray-700">{instituto.fecha_actualizacion}</p>
             </div>
             <div class="flex justify-center space-x-2 col-span-2 mt-6">
-                {
-                    practica.activo ? (
-                        <a
-                            class="opacity-50 bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300 cursor-not-allowed"
-                        >
-                            Crear practicas (🛠)
-                        </a>
-                        <a
-                            href=`/practica/editar/${practica.practica_id}`
-                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
-                        >
-                            Editar
-                        </a>
-                        <button
-                            id="btnDesactivar"
-                            type="button"
-                            class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300"
-                        >
-                            Desactivar
-                        </button>
-                    ) : (
-                    <button
-                            id="btnActivar"
-                            type="button"
-                            class="bg-green-500 hover:bg-green-600 text-white rounded px-3 py-1 transition-colors duration-300"
-                        >
-                            Activar
-                        </button>
-                    )
-                }
+                <a
+                    href=`/instituto/editar/${instituto.instituto_id}`
+                    class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                >
+                    Editar
+                </a>
                 <BackBtn />
             </div>
-            <span id="practica_id" class="hidden">{practica.practica_id}</span>
+            <span id="instituto_id" class="hidden">{instituto.instituto_id}</span>
         </div>
         }
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        {practica.grupo_id ? <Contacts /> : ""}
-        {practica.instituto_id ? <Contacts /> : ""}
-        <Popup
-            title="¿Está seguro de desactivar la practica?"
-            url=`/practica/desactivar/${practica.practica_id}`
-        />
     </main>
     <Footer />
 </Layout>
 
 <script>
-    let btnDesactivar = document.getElementById("btnDesactivar");
+    /* let btnDesactivar = document.getElementById("btnDesactivar");
     let btnActivar = document.getElementById("btnActivar");
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
-    let pra_id = document.getElementById("practica_id");
-    let url = "http://localhost:4321/api/practica/switch";
+    let pra_id = document.getElementById("instituto_id");
+    let url = "http://localhost:4321/api/instituto/switch";
 
     if (btnDesactivar) {
         btnDesactivar.addEventListener("click", () => {
@@ -159,7 +127,7 @@ if (!practica) {
             popup.style.display = "none";
 
             let data = {
-                practica_id: pra_id.textContent,
+                instituto_id: pra_id.textContent,
                 activo: 0,
             }
 
@@ -179,7 +147,7 @@ if (!practica) {
     if (btnActivar) {
         btnActivar.addEventListener("click", async () => {
             let data = {
-                practica_id: pra_id.textContent,
+                instituto_id: pra_id.textContent,
                 activo: 1,
             }
 
@@ -195,5 +163,5 @@ if (!practica) {
             window.location.reload();
         }
         });
-    }
+    } */
 </script>

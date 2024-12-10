@@ -4,11 +4,9 @@ import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
 import BackBtn from "@comp/BackBtn.astro";
-
-
 ---
 
-<Layout title="Nuevo practica" kind={1}>
+<Layout title="Nuevo instituto" kind={1}>
     <Header />
     <main class="grid place-content-center">
         <form
@@ -18,16 +16,38 @@ import BackBtn from "@comp/BackBtn.astro";
             <fieldset class="grid grid-cols-2 grid-rows gap-2 py-5 px-4">
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
-                    >Nueva practica</legend
+                    >Nuevo instituto</legend
                 >
+                <FormElement
+                    texto="nombre"
+                    placehold="IES El Pla"
+                    isrequired={true}
+                />
+                <FormElement
+                    texto="descripcion"
+                    placehold="..."
+                    type="textarea"
+                />
+                <FormElement
+                    classes="col-span-2 w-full"
+                    texto="direccion"
+                    placehold="Calle 1"
+                />
+                <FormElement texto="sitio_web" placehold="https://fepla.es" />
+                <FormElement texto="telefono" placehold="123456789" />
+                <FormElement
+                    classes="col-span-2 w-full"
+                    texto="comentarios"
+                    placehold="..."
+                    type="textarea"
+                />
             </fieldset>
-            <select name="empresa" id="empresa_id"></select>
             <div class="text-center">
                 <button
                     type="submit"
                     id="btnsubmit"
                     class="mx-auto bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-                    >Crear nueva practica</button
+                    >Crear nuevo instituto</button
                 >
                 <BackBtn />
             </div>
@@ -38,19 +58,16 @@ import BackBtn from "@comp/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/empresa/newpractica";
+    const url = "http://localhost:4321/api/instituto/new";
 
     async function sendData(e: Event) {
         e.preventDefault();
         const data = {
-            nombre: name,
-            apellidos: form.apellidos.value,
+            nombre: form.nombre.value,
+            descripcion: form.descripcion.value,
+            direccion: form.direccion.value,
+            sitio_web: form.sitio_web.value,
             telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
-            nuss: form.nuss.value,
             comentarios: form.comentarios.value,
         };
 
@@ -64,7 +81,7 @@ import BackBtn from "@comp/BackBtn.astro";
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/empresa";
+            window.location.href = "/instituto";
         }
     }
 

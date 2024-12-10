@@ -11,35 +11,30 @@ import BackBtn from "@comp/BackBtn.astro";
 const { id } = Astro.params;
 
 const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM alumno WHERE alumno_id = $id;`,
+    sql: `SELECT * FROM instituto WHERE instituto_id = $id;`,
     args: {
         id: id,
     },
 });
 
-const alumno = rows[0];
+// const instituto = rows[0];
 
-// const alumno = {
-//     alumno_id: id,
-//     nombre: `Alumno ${id}`,
-//     apellidos: `Apellidos ${id}`,
-//     telefono: `6666666${id}`,
-//     fecha_nacimiento: `2000-01-01`,
-//     email: `alumno${id}@alumno.com`,
-//     nif: `B12345678${id}`,
-//     nia: `B12345678${id}`,
-//     nuss: `B12345678${id}`,
-//     comentarios: `comentarios ${id}`,
-//     fecha_creacion: `2000-01-01`,
-//     fecha_actualizacion: `2000-01-01`,
-//     activo: true,
-//     instituto_id: 1,
-//     grupo_id: 1,
-// };
-/* alumno_id, nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, fecha_actualizacion, activo, grupo_id, instituto_id */
+const instituto = {
+    instituto_id: 1,
+    nombre: "Instituto 1",
+    descripcion: "Descripción 1",
+    telefono: "123456789",
+    direccion: "Calle 1",
+    sitio_web: "www.instituto1.com",
+    comentarios: "Comentarios 1",
+    fecha_creacion: "2023-01-01",
+    fecha_actualizacion: "2023-01-01",
+};
+
+/* instituto_id, nombre, descripcion, direccion, sitio_web, telefono, comentarios, fecha_creacion, fecha_actualizacion */
 ---
 
-<Layout title="Modificación del alumno" kind={1}>
+<Layout title="Modificación del instituto" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
         <!-- class="flex flex-col gap-4 m-5" -->
@@ -51,50 +46,41 @@ const alumno = rows[0];
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una alumno
-                    <span id="alumno_id" class="hidden">{alumno.alumno_id}</span
+                    Modificación de un instituto
+                    <span id="instituto_id" class="hidden"
+                        >{instituto.instituto_id}</span
                     >
                 </legend>
                 <FormElement
                     texto="nombre"
-                    placehold={alumno.nombre as string}
-                    value={alumno.nombre as string}
+                    placehold={instituto.nombre as string}
+                    value={instituto.nombre as string}
                     isrequired={true}
                 />
                 <FormElement
-                    texto="apellidos"
-                    placehold={alumno.apellidos as string}
-                    value={alumno.apellidos as string}
+                    texto="descripcion"
+                    placehold={instituto.descripcion as string}
+                    value={instituto.descripcion as string}
+                />
+                <FormElement
+                    texto="direccion"
+                    placehold={instituto.direccion as string}
+                    value={instituto.direccion as string}
+                />
+                <FormElement
+                    texto="sitio_web"
+                    placehold={instituto.sitio_web as string}
+                    value={instituto.sitio_web as string}
                 />
                 <FormElement
                     texto="telefono"
-                    placehold={alumno.telefono as string}
-                    value={alumno.telefono as string}
-                />
-                <FormElement
-                    texto="fecha_nacimiento"
-                    placehold={alumno.fecha_nacimiento as string}
-                    value={alumno.fecha_nacimiento as string}
-                />
-                <FormElement
-                    texto="email"
-                    placehold={alumno.email as string}
-                    value={alumno.email as string}
-                />
-                <FormElement
-                    texto="nif"
-                    placehold={alumno.nif as string}
-                    value={alumno.nif as string}
-                />
-                <FormElement
-                    texto="nia"
-                    placehold={alumno.nia as string}
-                    value={alumno.nia as string}
+                    placehold={instituto.telefono as string}
+                    value={instituto.telefono as string}
                 />
                 <FormElement
                     texto="comentarios"
                     placehold="..."
-                    value={alumno.comentarios as string}
+                    value={instituto.comentarios as string}
                     type="textarea"
                 />
                 <div>
@@ -102,7 +88,7 @@ const alumno = rows[0];
                         Fecha de Creación
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_creacion}
+                        {instituto.fecha_creacion}
                     </p>
                 </div>
                 <div>
@@ -110,7 +96,7 @@ const alumno = rows[0];
                         Fecha de Actualización
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_actualizacion}
+                        {instituto.fecha_actualizacion}
                     </p>
                 </div>
             </fieldset>
@@ -119,30 +105,27 @@ const alumno = rows[0];
                     type="submit"
                     id="btnsubmit"
                     class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors mx-auto"
-                    >Modificar alumno</button
+                    >Modificar instituto</button
                 >
                 <BackBtn title="Los cambios no se guardaran" />
             </div>
         </form>
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        {alumno.instituto_id ? <Contacts /> : ""}
-        {alumno.grupo_id ? <Contacts /> : ""}
     </main>
     <Footer />
 </Layout>
 
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
-    const alu_id = document.querySelector("#alumno_id");
-    const url = "http://localhost:4321/api/alumno/modify";
+    const alu_id = document.querySelector("#instituto_id");
+    const url = "http://localhost:4321/api/instituto/modify";
 
     form.addEventListener("submit", (e) => {
-        // Peticion para modificar el alumno
+        // Peticion para modificar el instituto
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
 
         const data = {
-            alumno_id: alu_id.textContent,
+            instituto_id: alu_id.textContent,
             nombre: form.nombre.value,
             apellidos: form.apellidos.value,
             telefono: form.telefono.value,
@@ -163,7 +146,7 @@ const alumno = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/alumno/${alu_id.textContent}`;
+                window.location.href = `/instituto/${alu_id.textContent}`;
                 /* window.location.reload(); */
             });
     });

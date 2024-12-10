@@ -2,19 +2,31 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
-// import { rows } from "@comp/practicas.js";
+// import { rows } from "@comp/institutos.js";
 
 import { tursodb } from "@r/astro.config.mjs";
 import BackBtn from "@comp/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM practica;"); */
-let rows = []
+const { rows } = await tursodb.execute("SELECT * FROM instituto;");
+/* let rows = [
+    {
+        instituto_id: 1,
+        nombre: "Instituto 1",
+        descripcion: "Descripción 1",
+        direccion: "Calle 1",
+        sitio_web: "www.instituto1.com",
+        telefono: "123456789",
+        comentarios: "Comentarios 1",
+        fecha_creacion: "2023-01-01",
+        fecha_actualizacion: "2023-01-01",
+    }
+] */
 ---
 
-<Layout title="Lista de practicas">
+<Layout title="Lista de institutos">
     <Header />
     <div class="flex justify-between w-full px-5 py-2 h-fit">
-        <h2 class="text-3xl">Listado de practicas</h2>
+        <h2 class="text-3xl">Listado de institutos</h2>
         <div class="flex gap-4">
             { rows.length > 0 && (
                 <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
@@ -37,7 +49,7 @@ let rows = []
             <button
                 id="btnnew"
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-                >Nueva practica</button
+                >Nuevo instituto</button
             >
             <BackBtn />
         </div>
@@ -56,11 +68,11 @@ let rows = []
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >Apellidos</th
+                            >Descripción</th
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >NIF</th
+                            >Dirección</th
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
@@ -74,56 +86,33 @@ let rows = []
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     {
-                        rows.map((practica) => (
-                        practica.activo ? (
+                        rows.map((instituto) => (
                             <tr class="hover:bg-gray-100" data-active="true">
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
-                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{instituto.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{instituto.descripcion}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{instituto.direccion}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{instituto.telefono}</td>
                                 <td class="px-4 py-3 text-sm text-right">
                                     <div class="flex justify-center space-x-2">
                                         <a
-                                            href=`/practica/editar/${practica.practica_id}`
+                                            href=`/instituto/editar/${instituto.instituto_id}`
                                             class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Editar
                                         </a>
                                         <a
-                                        href=`/practica/${practica.practica_id}`
+                                        href=`/instituto/${instituto.instituto_id}`
                                         class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Detalles
                                         </a>
                                     </div>
                                 </td>
                             </tr>
-                        ) : (
-                            <tr class="hover:bg-gray-100 hidden" data-active="false">
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
-                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
-                                <td class="px-4 py-3 text-sm text-right">
-                                    <div class="flex justify-center space-x-2">
-                                        <a
-                                            href=`/practica/editar/${practica.practica_id}`
-                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
-                                            Editar
-                                        </a>
-                                        <a
-                                        href=`/practica/${practica.practica_id}`
-                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
-                                            Detalles
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            )
                         ))
                     }
                 </tbody>
             </table>
             ) : (
-                <h3 class="py-10 text-center text-red-500 text-3xl">No hay practicas registrados</h3>
+                <h3 class="py-10 text-center text-red-500 text-3xl">No hay institutos registrados</h3>
             )}
         </div>
     </main>
@@ -139,7 +128,7 @@ let rows = []
     const activerows = document.querySelectorAll("tr[data-active=true]");
 
     btnnew.addEventListener("click", () => {
-        window.location.href = "/practica/nuevapractica";
+        window.location.href = "/instituto/nuevoinstituto";
     });
     
     if (activeCb) {
