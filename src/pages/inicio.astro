@@ -6,38 +6,46 @@ import Footer from "@comp/Footer.astro";
 
 <Layout title="Inicio de FEPLA-CRM" kind={1}>
     <Header />
-    <main>
-        Hola inicio
-        <a
-            href="/empresa"
-            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+    <main class="flex justify-center items-center flex-row gap-20 h-full">
+        <div class="max-w-[250px] flex flex-col gap-2 p-10 h-full">
+            <p>Listados</p>
+            <a
+                href="/empresa"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+            >
+                Empresas
+            </a>
+            <a
+                href="/alumno"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+            >
+                Alumnos
+            </a>
+            <a
+                href="/practica"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+            >
+                Practicas
+            </a>
+            <a
+                href="/grupo"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+            >
+                Grupos
+            </a>
+            <a
+                href="/instituto"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+            >
+                Institutos
+            </a>
+        </div>
+        <div class="flex-1 h-full p-10">Hola inicio</div>
+        <div
+            class="max-w-[250px] flex flex-col gap-2 p-10 h-full overflow-hidden"
         >
-            Listado de Empresas
-        </a>
-        <a
-            href="/alumno"
-            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-        >
-            Listado de Alumnos
-        </a>
-        <a
-            href="/practica"
-            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-        >
-            Listado de Practicas
-        </a>
-        <a
-            href="/grupo"
-            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-        >
-            Listado de Grupos
-        </a>
-        <a
-            href="/instituto"
-            class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
-        >
-            Listado de Institutos
-        </a>
+            Futuro tutorial
+        </div>
     </main>
     <Footer />
 </Layout>
