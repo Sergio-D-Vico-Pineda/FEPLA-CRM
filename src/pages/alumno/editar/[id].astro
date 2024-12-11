@@ -17,6 +17,9 @@ const { rows } = await tursodb.execute({
     },
 });
 
+const { rows: grows } = await tursodb.execute("SELECT * FROM grupo;");
+const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
+
 const alumno = rows[0];
 
 // const alumno = {
@@ -92,11 +95,46 @@ const alumno = rows[0];
                     value={alumno.nia as string}
                 />
                 <FormElement
+                    texto="nuss"
+                    placehold={alumno.nuss as string}
+                    value={alumno.nuss as string}
+                />
+                <FormElement
                     texto="comentarios"
                     placehold="..."
                     value={alumno.comentarios as string}
                     type="textarea"
                 />
+                <input
+                    type="text"
+                    id="grupo_id"
+                    list="grupos"
+                    value=`${alumno.grupo_id}`
+                />
+                <input
+                    type="text"
+                    id="instituto_id"
+                    list="institutos"
+                    value=`${alumno.instituto_id}`
+                />
+                <datalist id="grupos">
+                    {
+                        grows.map((row) => (
+                            <option value={row.grupo_id as string} >
+                                {row.nombre as string}
+                            </option>
+                        ))
+                    }
+                </datalist>
+                <datalist id="institutos">
+                    {
+                        irows.map((row) => (
+                            <option value={row.instituto_id as string}>
+                                {row.nombre as string}
+                            </option>
+                        ))
+                    }
+                </datalist>
                 <div>
                     <h2 class="text-xl font-semibold mb-2">
                         Fecha de Creación
@@ -134,7 +172,7 @@ const alumno = rows[0];
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
     const alu_id = document.querySelector("#alumno_id");
-    const url = "http://localhost:4321/api/alumno/modify";
+    const url = `http://${window.location.hostname}:${window.location.port}/api/alumno/modify`;
 
     form.addEventListener("submit", (e) => {
         // Peticion para modificar el alumno
@@ -150,7 +188,10 @@ const alumno = rows[0];
             email: form.email.value,
             nif: form.nif.value,
             nia: form.nia.value,
+            nuss: form.nuss.value,
             comentarios: form.comentarios.value,
+            grupo_id: form.grupo_id.value,
+            instituto_id: form.instituto_id.value,
         };
 
         fetch(url, {
