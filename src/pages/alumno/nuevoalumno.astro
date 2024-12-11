@@ -45,30 +45,22 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
                     placehold="..."
                     type="textarea"
                 />
-                <select name="grupo" id="grupo_id" required>
-                    <option value="" selected disabled hidden>
-                        Selecciona un grupo
-                    </option>
+                <input type="text" id="idgrupo" list="grupos" />
+                <input type="text" id="idinstituto" list="institutos" />
+                <datalist id="grupos">
                     {
                         grows.map((row) => (
-                            <option value={row.grupo_id as string}>
-                                {row.nombre}
-                            </option>
+                            <option value={row.nombre as string} />
                         ))
                     }
-                </select>
-                <select name="instituto" id="instituto_id" required>
-                    <option value="" selected disabled hidden>
-                        Selecciona un instituto
-                    </option>
+                </datalist>
+                <datalist id="institutos">
                     {
                         irows.map((row) => (
-                            <option value={row.instituto_id as string}>
-                                {row.nombre}
-                            </option>
+                            <option value={row.nombre as string} />
                         ))
                     }
-                </select>
+                </datalist>
             </fieldset>
             <div class="text-center">
                 <button
