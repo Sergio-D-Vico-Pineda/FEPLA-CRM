@@ -5,3 +5,9 @@ trycatch en la connection a la base de datos
 eliminar cosas
 - alumnos
 - empresas
+
+Usar la URL para la conexión a la base de datos desde otros puntos, aunque la bd es online
+
+En github usar el readme para las instrucciones de como inicializar todo.
+
+Hacer un try catch en la conexión para conectarse a una bd local si turso falla.
