@@ -4,21 +4,19 @@ import Layout from "../../layouts/Layout.astro";
 import { tursodb } from "@r/astro.config.mjs";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
-import Contacts from "@comp/Contacts.astro";
 import BackBtn from "@comp/BackBtn.astro";
-import Popup from "@comp/Popup.astro";
 
 const { id } = Astro.params;
 
 let instituto = null;
 try {
-    /* const { rows } = await tursodb.execute({
+    const { rows } = await tursodb.execute({
         sql: `SELECT * FROM instituto WHERE instituto_id = $id;`,
         args: {
             id: id,
         },
-    });  */
-    let rows = [
+    }); 
+   /*  let rows = [
     {
         instituto_id: 1,
         nombre: "Instituto 1",
@@ -30,7 +28,7 @@ try {
         fecha_creacion: "2023-01-01",
         fecha_actualizacion: "2023-01-01",
     }
-]
+] */
 
     instituto = rows[0];
 } catch (error) {

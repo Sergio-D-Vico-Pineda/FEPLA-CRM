@@ -4,7 +4,6 @@ import Layout from "../../layouts/Layout.astro";
 import { tursodb } from "@r/astro.config.mjs";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
-import Contacts from "@comp/Contacts.astro";
 import BackBtn from "@comp/BackBtn.astro";
 import Popup from "@comp/Popup.astro";
 
@@ -129,9 +128,6 @@ if (!practica) {
             <span id="practica_id" class="hidden">{practica.practica_id}</span>
         </div>
         }
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        {practica.grupo_id ? <Contacts /> : ""}
-        {practica.instituto_id ? <Contacts /> : ""}
         <Popup
             title="¿Está seguro de desactivar la practica?"
             url=`/practica/desactivar/${practica.practica_id}`

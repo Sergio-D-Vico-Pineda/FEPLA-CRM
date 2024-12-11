@@ -5,7 +5,6 @@ import { tursodb } from "@r/astro.config.mjs";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
-import Contacts from "@comp/Contacts.astro";
 import BackBtn from "@comp/BackBtn.astro";
 
 const { id } = Astro.params;
@@ -17,9 +16,9 @@ const { rows } = await tursodb.execute({
     },
 });
 
-// const instituto = rows[0];
+const instituto = rows[0];
 
-const instituto = {
+/* const instituto = {
     instituto_id: 1,
     nombre: "Instituto 1",
     descripcion: "Descripción 1",
@@ -29,7 +28,7 @@ const instituto = {
     comentarios: "Comentarios 1",
     fecha_creacion: "2023-01-01",
     fecha_actualizacion: "2023-01-01",
-};
+}; */
 
 /* instituto_id, nombre, descripcion, direccion, sitio_web, telefono, comentarios, fecha_creacion, fecha_actualizacion */
 ---
@@ -63,11 +62,13 @@ const instituto = {
                     value={instituto.descripcion as string}
                 />
                 <FormElement
+                    classes="col-span-2 w-full"
                     texto="direccion"
                     placehold={instituto.direccion as string}
                     value={instituto.direccion as string}
                 />
                 <FormElement
+                    classes="col-span-2 w-full"
                     texto="sitio_web"
                     placehold={instituto.sitio_web as string}
                     value={instituto.sitio_web as string}
@@ -127,12 +128,10 @@ const instituto = {
         const data = {
             instituto_id: alu_id.textContent,
             nombre: form.nombre.value,
-            apellidos: form.apellidos.value,
+            descripcion: form.descripcion.value,
+            direccion: form.direccion.value,
+            sitio_web: form.sitio_web.value,
             telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
             comentarios: form.comentarios.value,
         };
 

@@ -11,35 +11,18 @@ import BackBtn from "@comp/BackBtn.astro";
 const { id } = Astro.params;
 
 const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM alumno WHERE alumno_id = $id;`,
+    sql: `SELECT * FROM practica WHERE practica_id = $id;`,
     args: {
         id: id,
     },
 });
 
-const alumno = rows[0];
+const practica = rows[0];
 
-// const alumno = {
-//     alumno_id: id,
-//     nombre: `Alumno ${id}`,
-//     apellidos: `Apellidos ${id}`,
-//     telefono: `6666666${id}`,
-//     fecha_nacimiento: `2000-01-01`,
-//     email: `alumno${id}@alumno.com`,
-//     nif: `B12345678${id}`,
-//     nia: `B12345678${id}`,
-//     nuss: `B12345678${id}`,
-//     comentarios: `comentarios ${id}`,
-//     fecha_creacion: `2000-01-01`,
-//     fecha_actualizacion: `2000-01-01`,
-//     activo: true,
-//     instituto_id: 1,
-//     grupo_id: 1,
-// };
-/* alumno_id, nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, fecha_actualizacion, activo, grupo_id, instituto_id */
+/* pro_alu_emp_id, fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, instituto_id, grupo_id, profesor_id, alumno_id */
 ---
 
-<Layout title="Modificación del alumno" kind={1}>
+<Layout title="Modificación del practica" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
         <!-- class="flex flex-col gap-4 m-5" -->
@@ -51,58 +34,75 @@ const alumno = rows[0];
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una alumno
-                    <span id="alumno_id" class="hidden">{alumno.alumno_id}</span
+                    Modificación de una practica
+                    <span id="practica_id" class="hidden"
+                        >{practica.practica_id}</span
                     >
                 </legend>
                 <FormElement
-                    texto="nombre"
-                    placehold={alumno.nombre as string}
-                    value={alumno.nombre as string}
-                    isrequired={true}
+                    texto="pro_alu_emp_id"
+                    placehold={practica.pro_alu_emp_id as string}
+                    value={practica.pro_alu_emp_id as string}
                 />
                 <FormElement
-                    texto="apellidos"
-                    placehold={alumno.apellidos as string}
-                    value={alumno.apellidos as string}
+                    texto="estado"
+                    placehold={practica.estado as string}
+                    value={practica.estado as string}
                 />
                 <FormElement
-                    texto="telefono"
-                    placehold={alumno.telefono as string}
-                    value={alumno.telefono as string}
+                    texto="curso"
+                    placehold={practica.curso as string}
+                    value={practica.curso as string}
                 />
                 <FormElement
-                    texto="fecha_nacimiento"
-                    placehold={alumno.fecha_nacimiento as string}
-                    value={alumno.fecha_nacimiento as string}
-                />
-                <FormElement
-                    texto="email"
-                    placehold={alumno.email as string}
-                    value={alumno.email as string}
-                />
-                <FormElement
-                    texto="nif"
-                    placehold={alumno.nif as string}
-                    value={alumno.nif as string}
-                />
-                <FormElement
-                    texto="nia"
-                    placehold={alumno.nia as string}
-                    value={alumno.nia as string}
+                    texto="tutor_emp"
+                    placehold={practica.tutor_emp as string}
+                    value={practica.tutor_emp as string}
                 />
                 <FormElement
                     texto="comentarios"
-                    placehold="..."
-                    value={alumno.comentarios as string}
-                    type="textarea"
+                    placehold={practica.comentarios as string}
+                    value={practica.comentarios as string}
                 />
-                <div>
+                <FormElement
+                    texto="instituto_id"
+                    placehold={practica.instituto_id as string}
+                    value={practica.instituto_id as string}
+                />
+                <FormElement
+                    texto="grupo_id"
+                    placehold={practica.grupo_id as string}
+                    value={practica.grupo_id as string}
+                />
+                <FormElement
+                    texto="profesor_id"
+                    placehold={practica.profesor_id as string}
+                    value={practica.profesor_id as string}
+                />
+                <FormElement
+                    texto="alumno_id"
+                    placehold={practica.alumno_id as string}
+                    value={practica.alumno_id as string}
+                />
+                <FormElement
+                    texto="fecha_inicio"
+                    placehold={practica.fecha_inicio as string}
+                    value={practica.fecha_inicio as string}
+                    type="date"
+                />
+                <FormElement
+                    texto="fecha_fin"
+                    placehold={practica.fecha_fin as string}
+                    value={practica.fecha_fin as string}
+                    type="date"
+                />
+
+                <!-- <div>
                     <h2 class="text-xl font-semibold mb-2">
                         Fecha de Creación
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_creacion}
+                        {practica.fecha_creacion}
                     </p>
                 </div>
                 <div>
@@ -110,39 +110,36 @@ const alumno = rows[0];
                         Fecha de Actualización
                     </h2>
                     <p class="text-gray-700">
-                        {alumno.fecha_actualizacion}
+                        {practica.fecha_actualizacion}
                     </p>
-                </div>
+                </div> -->
             </fieldset>
             <div class="text-center">
                 <button
                     type="submit"
                     id="btnsubmit"
                     class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors mx-auto"
-                    >Modificar alumno</button
+                    >Modificar practica</button
                 >
                 <BackBtn title="Los cambios no se guardaran" />
             </div>
         </form>
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        {alumno.instituto_id ? <Contacts /> : ""}
-        {alumno.grupo_id ? <Contacts /> : ""}
     </main>
     <Footer />
 </Layout>
 
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
-    const alu_id = document.querySelector("#alumno_id");
-    const url = "http://localhost:4321/api/alumno/modify";
+    const alu_id = document.querySelector("#practica_id");
+    const url = "http://localhost:4321/api/practica/modify";
 
     form.addEventListener("submit", (e) => {
-        // Peticion para modificar el alumno
+        // Peticion para modificar el practica
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
 
         const data = {
-            alumno_id: alu_id.textContent,
+            practica_id: alu_id.textContent,
             nombre: form.nombre.value,
             apellidos: form.apellidos.value,
             telefono: form.telefono.value,
@@ -163,7 +160,7 @@ const alumno = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/alumno/${alu_id.textContent}`;
+                window.location.href = `/practica/${alu_id.textContent}`;
                 /* window.location.reload(); */
             });
     });
