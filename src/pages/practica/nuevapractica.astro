@@ -4,8 +4,12 @@ import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
 import BackBtn from "@comp/BackBtn.astro";
+import { tursodb } from "@r/astro.config.mjs";
 
+const { rows: erows } = await tursodb.execute("SELECT * FROM empresa;");
+const { rows: arows } = await tursodb.execute("SELECT * FROM alumno;");
 
+/* pro_alu_emp_id, fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, instituto_id, grupo_id, fk profesor_id, alumno_id, empresa_id */
 ---
 
 <Layout title="Nueva practica" kind={1}>
@@ -21,8 +25,60 @@ import BackBtn from "@comp/BackBtn.astro";
                     >Nueva practica</legend
                 >
             </fieldset>
-            <select name="empresa" id="empresa_id"></select>
-            <select name="alumno" id="alumno_id"></select>
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="fecha_inicio"
+                type="date"
+            />
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="fecha_fin"
+                type="date"
+            />
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="estado"
+                type="text"
+            />
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="curso"
+                type="text"
+            />
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="tutor_emp"
+                type="text"
+            />
+            <FormElement
+                classes="col-span-2 w-full"
+                texto="comentarios"
+                placehold="..."
+                type="textarea"
+            />
+            empresas
+            <input type="text" id="empresa_id" list="empresas" />
+            alumnos
+            <input type="text" id="alumno_id" list="alumnos" />
+            <datalist id="empresas">
+                {
+                    erows.map((row) => (
+                        <option value={row.empresa_id as string}>
+                            {row.nombre}
+                        </option>
+                    ))
+                }
+            </datalist>
+            <datalist id="alumnos">
+                {
+                    arows.map((row) => (
+                        <option value={row.alumno_id as string}>
+                            {row.nombre}
+                        </option>
+                    ))
+                }
+            </datalist>
+
             <div class="text-center">
                 <button
                     type="submit"
@@ -43,17 +99,7 @@ import BackBtn from "@comp/BackBtn.astro";
 
     async function sendData(e: Event) {
         e.preventDefault();
-        const data = {
-            nombre: name,
-            apellidos: form.apellidos.value,
-            telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
-            nuss: form.nuss.value,
-            comentarios: form.comentarios.value,
-        };
+        const data = {};
 
         console.log(data);
         const response = await fetch(url, {
