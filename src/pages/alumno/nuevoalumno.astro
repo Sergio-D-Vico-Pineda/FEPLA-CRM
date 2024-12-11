@@ -45,19 +45,23 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
                     placehold="..."
                     type="textarea"
                 />
-                <input type="text" id="idgrupo" list="grupos" />
-                <input type="text" id="idinstituto" list="institutos" />
+                <input type="text" id="grupo_id" list="grupos" />
+                <input type="text" id="instituto_id" list="institutos" />
                 <datalist id="grupos">
                     {
                         grows.map((row) => (
-                            <option value={row.nombre as string} />
+                            <option value={row.grupo_id as string}>
+                                {row.nombre as string}
+                            </option>
                         ))
                     }
                 </datalist>
                 <datalist id="institutos">
                     {
                         irows.map((row) => (
-                            <option value={row.nombre as string} />
+                            <option value={row.instituto_id as string}>
+                                {row.nombre as string}
+                            </option>
                         ))
                     }
                 </datalist>
@@ -78,12 +82,11 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/alumno/new";
+    const url = `http://${window.location.hostname}:${window.location.port}/api/alumno/new`;
 
     async function sendData(e: Event) {
         e.preventDefault();
         let name = form.nombre.value;
-        console.log(form.nombre);
         if (!name) {
             alert("El nombre del alumno es obligatorio.");
             return;
@@ -98,6 +101,8 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
             nia: form.nia.value,
             nuss: form.nuss.value,
             comentarios: form.comentarios.value,
+            grupo_id: form.grupo_id.value,
+            instituto_id: form.instituto_id.value,
         };
 
         console.log(data);
