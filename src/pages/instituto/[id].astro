@@ -112,7 +112,7 @@ if (!instituto) {
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
     let pra_id = document.getElementById("instituto_id");
-    let url = "http://localhost:4321/api/instituto/switch";
+    let url = `http://${window.location.hostname}:${window.location.port}/api/instituto/switch`;
 
     if (btnDesactivar) {
         btnDesactivar.addEventListener("click", () => {

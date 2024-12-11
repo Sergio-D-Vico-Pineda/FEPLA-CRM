@@ -85,7 +85,7 @@ if (!grupo) {
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
     let grupo_id = document.getElementById("grupo_id");
-    let url = "http://localhost:4321/api/grupo/switch";
+    let url = `http://${window.location.hostname}:${window.location.port}/api/grupo/switch`;
 
     if (btnDesactivar) {
         btnDesactivar.addEventListener("click", () => {

@@ -150,7 +150,7 @@ if (!empresa) {
     let popup = document.getElementById("popup");
     let btnAceptar = document.getElementById("btnconfirm");
     let emp_id = document.getElementById("empresa_id");
-    let url = "http://localhost:4321/api/empresa/switch";
+    let url = `http://${window.location.hostname}:${window.location.port}/api/empresa/switch`;
 
     if (btnDesactivar) {
         btnDesactivar.addEventListener("click", () => {

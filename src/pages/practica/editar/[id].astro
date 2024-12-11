@@ -131,7 +131,7 @@ const practica = rows[0];
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
     const alu_id = document.querySelector("#practica_id");
-    const url = "http://localhost:4321/api/practica/modify";
+    const url = `http://${window.location.hostname}:${window.location.port}/api/practica/modify`;
 
     form.addEventListener("submit", (e) => {
         // Peticion para modificar el practica

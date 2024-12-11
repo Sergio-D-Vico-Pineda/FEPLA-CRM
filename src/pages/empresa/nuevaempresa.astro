@@ -51,7 +51,7 @@ import BackBtn from "@comp/BackBtn.astro";
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = "http://localhost:4321/api/empresa/new";
+    const url = `http://${window.location.hostname}:${window.location.port}/api/empresa/new`;
 
     async function sendData(e: Event) {
         e.preventDefault();

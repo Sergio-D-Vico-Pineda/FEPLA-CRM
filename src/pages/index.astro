@@ -44,7 +44,7 @@ import Footer from "@comp/Footer.astro";
 
 <script>
 	const form = document.querySelector("#formlogin") as HTMLFormElement;
-	const url = "http://localhost:4321/api/login";
+	const url = `http://${window.location.hostname}:${window.location.port}/api/login`;
 	const loginfail = document.querySelector("#loginfail");
 
 	async function sendData(e: Event) {

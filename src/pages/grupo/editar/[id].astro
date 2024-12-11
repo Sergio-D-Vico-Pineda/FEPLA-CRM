@@ -93,7 +93,7 @@ const grupo = rows[0];
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
     const gru_id = document.querySelector("#grupo_id");
-    const url = "http://localhost:4321/api/grupo/modify";
+    const url = `http://${window.location.hostname}:${window.location.port}/api/grupo/modify`;
 
     form.addEventListener("submit", (e) => {
         // Peticion para modificar el grupo
