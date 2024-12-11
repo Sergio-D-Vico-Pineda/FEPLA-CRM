@@ -1,7 +1,7 @@
 import { formatDate } from "../funcs.js";
 
 import {
-tursodb
+    tursodb
 }
     from "@r/astro.config.mjs";
 
@@ -16,7 +16,6 @@ export async function POST(
         request
     }) {
     const data = await request.json();
-    console.log(data)
 
     if (!data.nombre) {
         return new Response(JSON.stringify(
@@ -35,24 +34,20 @@ export async function POST(
     try {
         let resp = await tursodb.execute(
             {
-                sql: `UPDATE alumno 
-                SET nombre = $nombre, apellidos = $apellidos, telefono = $telefono, fecha_nacimiento = $fecha_nacimiento, email = $email, nif = $nif, nia = $nia, nuss = $nuss, comentarios = $comentarios, fecha_actualizacion = $fecha_actualizacion
-                WHERE alumno_id = $alumno_id`,
+                sql: `UPDATE instituto 
+                SET nombre = $nombre, descripcion = $descripcion, direccion = $direccion, sitio_web = $sitio_web, telefono = $telefono, comentarios = $comentarios, fecha_actualizacion = $fecha_actualizacion
+                WHERE instituto_id = $instituto_id`,
                 args:
                 {
-                    alumno_id: data.alumno_id,
+                    instituto_id: data.instituto_id,
                     nombre: data.nombre,
-                    apellidos: data.apellidos,
+                    descripcion: data.descripcion,
+                    direccion: data.direccion,
+                    sitio_web: data.sitio_web,
                     telefono: data.telefono,
-                    fecha_nacimiento: data.fecha_nacimiento,
-                    email: data.email,
-                    nif: data.nif,
-                    nia: data.nia,
-                    nuss: data.nuss,
                     comentarios: data.comentarios,
-                    fecha_actualizacion: formatDate(new Date()),
+                    fecha_actualizacion: formatDate(new Date())
                 }
-
             });
 
         return new Response(JSON.stringify(
