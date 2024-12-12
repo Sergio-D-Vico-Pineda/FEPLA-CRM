@@ -6,8 +6,12 @@ import FormElement from "@comp/FormElement.astro";
 import BackBtn from "@comp/BackBtn.astro";
 import { tursodb } from "@r/astro.config.mjs";
 
-const { rows: erows } = await tursodb.execute("SELECT * FROM empresa;");
-const { rows: arows } = await tursodb.execute("SELECT * FROM alumno;");
+const { rows: erows } = await tursodb.execute(
+    "SELECT * FROM empresa WHERE activo = 1",
+);
+const { rows: arows } = await tursodb.execute(
+    "SELECT * FROM alumno WHERE activo = 1",
+);
 
 /* pro_alu_emp_id, fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, instituto_id, grupo_id, fk profesor_id, alumno_id, empresa_id */
 ---
@@ -24,61 +28,40 @@ const { rows: arows } = await tursodb.execute("SELECT * FROM alumno;");
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                     >Nueva practica</legend
                 >
+                <FormElement classes="" texto="fecha_inicio" type="date" />
+                <FormElement classes="" texto="fecha_fin" type="date" />
+                <FormElement classes="" texto="estado" type="text" />
+                <FormElement classes="" texto="curso" type="text" />
+                <FormElement classes="" texto="tutor_emp" type="text" />
+                <FormElement
+                    classes=""
+                    texto="comentarios"
+                    placehold="..."
+                    type="textarea"
+                />
+                empresas
+                <input type="text" id="empresa_id" list="empresas" />
+                alumnos
+                <input type="text" id="alumno_id" list="alumnos" />
+                <datalist id="empresas">
+                    {
+                        erows.map((row) => (
+                            <option value={row.empresa_id as string}>
+                                {row.nombre}
+                            </option>
+                        ))
+                    }
+                </datalist>
+                <datalist id="alumnos">
+                    {
+                        arows.map((row) => (
+                            <option value={row.alumno_id as string}>
+                                {row.nombre}
+                            </option>
+                        ))
+                    }
+                </datalist>
             </fieldset>
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="fecha_inicio"
-                type="date"
-            />
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="fecha_fin"
-                type="date"
-            />
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="estado"
-                type="text"
-            />
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="curso"
-                type="text"
-            />
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="tutor_emp"
-                type="text"
-            />
-            <FormElement
-                classes="col-span-2 w-full"
-                texto="comentarios"
-                placehold="..."
-                type="textarea"
-            />
-            empresas
-            <input type="text" id="empresa_id" list="empresas" />
-            alumnos
-            <input type="text" id="alumno_id" list="alumnos" />
-            <datalist id="empresas">
-                {
-                    erows.map((row) => (
-                        <option value={row.empresa_id as string}>
-                            {row.nombre}
-                        </option>
-                    ))
-                }
-            </datalist>
-            <datalist id="alumnos">
-                {
-                    arows.map((row) => (
-                        <option value={row.alumno_id as string}>
-                            {row.nombre}
-                        </option>
-                    ))
-                }
-            </datalist>
-
             <div class="text-center">
                 <button
                     type="submit"
@@ -111,7 +94,7 @@ const { rows: arows } = await tursodb.execute("SELECT * FROM alumno;");
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/empresa";
+            window.location.href = "/practica";
         }
     }
 

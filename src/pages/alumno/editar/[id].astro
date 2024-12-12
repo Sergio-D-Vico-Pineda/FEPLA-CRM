@@ -17,10 +17,14 @@ const { rows } = await tursodb.execute({
     },
 });
 
+const alumno = rows[0];
+
+if (!alumno.activo) {
+    return Astro.redirect(`/alumno/${alumno.alumno_id}`);
+}
+
 const { rows: grows } = await tursodb.execute("SELECT * FROM grupo;");
 const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
-
-const alumno = rows[0];
 
 // const alumno = {
 //     alumno_id: id,
@@ -54,7 +58,7 @@ const alumno = rows[0];
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una alumno
+                    Modificación de un alumno
                     <span id="alumno_id" class="hidden">{alumno.alumno_id}</span
                     >
                 </legend>
@@ -100,6 +104,7 @@ const alumno = rows[0];
                     value={alumno.nuss as string}
                 />
                 <FormElement
+                    classes="col-span-2 w-full"
                     texto="comentarios"
                     placehold="..."
                     value={alumno.comentarios as string}
@@ -120,7 +125,7 @@ const alumno = rows[0];
                 <datalist id="grupos">
                     {
                         grows.map((row) => (
-                            <option value={row.grupo_id as string} >
+                            <option value={row.grupo_id as string}>
                                 {row.nombre as string}
                             </option>
                         ))
@@ -163,8 +168,6 @@ const alumno = rows[0];
             </div>
         </form>
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {alumno.instituto_id ? <Contacts /> : ""}
-        {alumno.grupo_id ? <Contacts /> : ""}
     </main>
     <Footer />
 </Layout>

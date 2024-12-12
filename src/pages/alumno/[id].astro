@@ -96,7 +96,7 @@ if (!alumno) {
                 <h2 class="text-xl font-semibold mb-2">NUSS</h2>
                 <p class="text-gray-700">{alumno.nif}</p>
             </div>
-            <div>
+            <div class="col-span-2">
                 <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
                 <p class="text-gray-700">{alumno.comentarios}</p>
             </div>
@@ -147,8 +147,8 @@ if (!alumno) {
         </div>
         }
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {alumno.grupo_id ? <Contacts /> : ""}
-        {alumno.instituto_id ? <Contacts /> : ""}
+        <!-- {alumno.grupo_id ? <Contacts /> : ""}
+        {alumno.instituto_id ? <Contacts /> : ""} -->
         <Popup
             title="¿Está seguro de desactivar el alumno?"
             url=`/alumno/desactivar/${alumno.alumno_id}`
