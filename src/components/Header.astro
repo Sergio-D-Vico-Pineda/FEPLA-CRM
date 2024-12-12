@@ -43,6 +43,7 @@ const { admin } = Astro.props;
 
     logout.addEventListener("click", () => {
         localStorage.removeItem("user");
+        localStorage.removeItem("profesor_id");
         window.location.href = "/";
     });
 
