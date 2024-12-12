@@ -30,7 +30,21 @@ const { rows: arows } = await tursodb.execute(
                 >
                 <FormElement classes="" texto="fecha_inicio" type="date" />
                 <FormElement classes="" texto="fecha_fin" type="date" />
-                <FormElement classes="" texto="estado" type="text" />
+                <div
+                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+                >
+                    Estado
+                    <select
+                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                        name="estado"
+                        id="estado"
+                    >
+                        <option value="pendiente" selected>Pendiente</option>
+                        <option value="en curso">En curso</option>
+                        <option value="cancelada">Cancelada</option>
+                        <option value="finalizada">Finalizada</option>
+                    </select>
+                </div>
                 <FormElement classes="" texto="curso" type="text" />
                 <FormElement classes="" texto="tutor_emp" type="text" />
                 <FormElement
