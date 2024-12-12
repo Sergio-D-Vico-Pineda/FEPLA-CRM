@@ -7,7 +7,6 @@ import Footer from "@comp/Footer.astro";
 	<div class="flex justify-center">
 		<img src="/logo2.png" alt="Logo FEPLA-CRM" class="w-[125px]" />
 	</div>
-</Layout>
 	<main class="grid place-items-center">
 		<form
 			id="formlogin"
@@ -67,15 +66,26 @@ import Footer from "@comp/Footer.astro";
 		if (response.ok) {
 			let json = await response.json();
 			alert(json.message);
-			localStorage.setItem("user", json.user);
-			window.location.href = "/inicio";
+			if (json.rol == "Prof") {
+				window.location.href = "/inicio";
+				localStorage.setItem(
+					"user",
+					json.user == "prof" ? "lupastance" : json.user,
+				);
+				localStorage.setItem(
+					"profesor_id",
+					json.profesor_id == 0 ? 1 : json.profesor_id,
+				);
+				return;
+			}
+			window.location.href = "/admin";
 		} else {
 			loginfail.classList.remove("hidden");
 		}
 	}
 
-	/* form.addEventListener("submit", sendData); */
-	form.addEventListener("submit", (e) => {
+	form.addEventListener("submit", sendData);
+	/* form.addEventListener("submit", (e) => {
 		e.preventDefault();
 		loginfail.classList.add("hidden");
 		if (form.emailusuario.value == "admin") {
@@ -86,5 +96,5 @@ import Footer from "@comp/Footer.astro";
 		} else {
 			loginfail.classList.remove("hidden");
 		}
-	});
+	}); */
 </script>
