@@ -10,90 +10,84 @@ import BackBtn from "@comp/BackBtn.astro";
 const { id } = Astro.params;
 
 const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM empresa WHERE empresa_id = $id;`,
+    sql: `SELECT * FROM alumno WHERE alumno_id = $id;`,
     args: {
         id: id,
     },
 });
 
-const empresa = rows[0];
-/* empresa_id, nombre, nombre_oficial, direccion, cif, sitio_web, sector, tecnologias, comentarios, fecha_creacion, fecha_actualizacion, contacto_id */
+const alumno = rows[0];
+/* alumno_id, nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, fecha_actualizacion, activo, grupo_id, instituto_id */
 ---
 
-<Layout title="Confirmar eliminación de la empresa" kind={1}>
+<Layout title="Confirmar eliminación del alumno" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
         <div
             class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
         >
             <div class="col-span-2 text-center">
-                <h2 class="text-2xl font-semibold">Confirmar eliminación de la empresa</h2>
+                <h2 class="text-2xl font-semibold text-red-500">
+                    Confirmar eliminación del alumno
+                </h2>
             </div>
-            <!-- <div>
-                <h2 class="text-xl font-semibold mb-2">ID de la Empresa</h2>
-                <p class="text-gray-700">{empresa.empresa_id}</p>
-            </div> -->
             <div>
                 <h2 class="text-xl font-semibold mb-2">Nombre</h2>
-                <p class="text-gray-700">{empresa.nombre}</p>
+                <p class="text-gray-700">{alumno.nombre}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Nombre Oficial</h2>
-                <p class="text-gray-700">{empresa.nombre_oficial}</p>
+                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
+                <p class="text-gray-700">{alumno.apellidos}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Dirección</h2>
-                <p class="text-gray-700">{empresa.direccion}</p>
+                <h2 class="text-xl font-semibold mb-2">Telefono</h2>
+                <p class="text-gray-700">{alumno.telefono}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">CIF</h2>
-                <p class="text-gray-700">{empresa.cif}</p>
+                <h2 class="text-xl font-semibold mb-2">Fecha de nacimiento</h2>
+                <p class="text-gray-700">{alumno.fecha_nacimiento}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Sitio Web</h2>
-                <p class="text-blue-500 hover:underline">
-                    <a
-                        href={`https://${empresa.sitio_web}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {empresa.sitio_web}
-                    </a>
-                </p>
+                <h2 class="text-xl font-semibold mb-2">Email</h2>
+                <p class="text-gray-700">{alumno.email}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Sector</h2>
-                <p class="text-gray-700">{empresa.sector}</p>
+                <h2 class="text-xl font-semibold mb-2">NIF</h2>
+                <p class="text-gray-700">{alumno.nif}</p>
             </div>
             <div>
-                <h2 class="text-xl font-semibold mb-2">Tecnologías</h2>
-                <p class="text-gray-700">{empresa.tecnologias}</p>
+                <h2 class="text-xl font-semibold mb-2">NIA</h2>
+                <p class="text-gray-700">{alumno.nia}</p>
             </div>
             <div>
+                <h2 class="text-xl font-semibold mb-2">NUSS</h2>
+                <p class="text-gray-700">{alumno.nif}</p>
+            </div>
+            <div class="col-span-2">
                 <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
-                <p class="text-gray-700">{empresa.comentarios}</p>
+                <p class="text-gray-700">{alumno.comentarios}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
-                <p class="text-gray-700">{empresa.fecha_creacion}</p>
+                <p class="text-gray-700">{alumno.fecha_creacion}</p>
             </div>
             <div>
                 <h2 class="text-xl font-semibold mb-2">
                     Fecha de Actualización
                 </h2>
-                <p class="text-gray-700">{empresa.fecha_actualizacion}</p>
+                <p class="text-gray-700">{alumno.fecha_actualizacion}</p>
             </div>
             <div class="flex justify-center space-x-2 col-span-2 mt-6">
                 <a
-                    class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                    class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300 cursor-pointer"
                 >
-                    Confirmar eliminación de la empresa
+                    Confirmar eliminación del alumno
                 </a>
                 <BackBtn />
             </div>
         </div>
         <!-- grid grid-cols-2 grid-rows-5 -->
-        {empresa.contacto_id && <Contacts />}
+        <!-- {empresa.contacto_id && <Contacts />} -->
     </main>
     <Footer />
 </Layout>
