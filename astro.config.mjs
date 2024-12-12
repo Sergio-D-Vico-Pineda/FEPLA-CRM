@@ -1,34 +1,30 @@
-import
-{
+import {
     defineConfig
 }
-from 'astro/config';
-import
-{
+    from 'astro/config';
+import {
     createClient
 }
-from '@libsql/client/web';
+    from '@libsql/client/web';
 import tailwind from '@astrojs/tailwind';
-import dotenv from 'dotenv';
 
-function log(text)
-{
+function log(text) {
     console.log('SERVER: ' + text);
 }
 
-dotenv.config();
+process.loadEnvFile();
 
 export default defineConfig(
-{
-    output: 'server',
-    integrations: [tailwind()]
-});
+    {
+        output: 'server',
+        integrations: [tailwind()]
+    });
 
 export const tursodb = createClient(
-{
-    url: process.env.TURSO_DATABASE_URL,
-    authToken: process.env.TURSO_AUTH_TOKEN
-});
+    {
+        url: process.env.TURSO_DATABASE_URL,
+        authToken: process.env.TURSO_AUTH_TOKEN
+    });
 
 const queries = [
     `CREATE TABLE IF NOT EXISTS contacto (
@@ -152,11 +148,31 @@ const queries = [
 );`
 ];
 
-for (const query of queries)
-{
+for (const query of queries) {
     await tursodb.execute(query);
 }
 
-// https://astro.build/config
+/* 
+await tursodb.execute(
+    {
+        sql: `INSERT INTO usuario (usuario_id ,usuario, email, contrasena, rol, activo)
+        VALUES ($usuario_id, $usuario, $email, $contrasena, $rol, $activo);`,
+        args:
+        {
+            usuario_id: 0,
+            usuario: 'admin',
+            email: 'admin@admin.com',
+            contrasena: '1234', // generate a random password
+            rol: 'Admin',
+            activo: 1
+        }
+    }
+).then(() => {
+    log("Admin user created");
+}).catch(() => {
+    log("Admin user already exists");
+});
+*/
 
+log("Admin user already exists");
 log('Server and DB ready');
