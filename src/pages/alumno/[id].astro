@@ -7,6 +7,8 @@ import Footer from "@comp/Footer.astro";
 import Contacts from "@comp/Contacts.astro";
 import BackBtn from "@comp/BackBtn.astro";
 import Popup from "@comp/Popup.astro";
+import Instituto from "@comp/Cards/Instituto.astro";
+import Grupo from "@comp/Cards/Grupo.astro";
 
 const { id } = Astro.params;
 
@@ -146,9 +148,10 @@ if (!alumno) {
             <span id="alumno_id" class="hidden">{alumno.alumno_id}</span>
         </div>
         }
-        <!-- grid grid-cols-2 grid-rows-5 -->
-        <!-- {alumno.grupo_id ? <Contacts /> : ""}
-        {alumno.instituto_id ? <Contacts /> : ""} -->
+        <div class="flex flex-col gap-2">
+            <Instituto instituto_id={alumno.instituto_id} />
+            <Grupo grupo_id={alumno.grupo_id} />
+        </div>
         <Popup
             title="¿Está seguro de desactivar el alumno?"
             url=`/alumno/desactivar/${alumno.alumno_id}`
