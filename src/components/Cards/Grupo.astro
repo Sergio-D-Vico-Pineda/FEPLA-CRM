@@ -1,0 +1,29 @@
+---
+interface Props {
+    grupo_id: any;
+}
+
+import { tursodb } from "@r/astro.config.mjs";
+
+const { grupo_id: grupo_id } = Astro.props;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM grupo WHERE grupo_id = $id;`,
+    args: {
+        id: grupo_id,
+    },
+});
+
+const grupo = rows[0];
+---
+
+<div class="gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit">
+    <h2 class="text-xl font-semibold mb-2">Grupo</h2>
+    <p class="text-gray-700">
+        <a
+            href=`/grupo/${grupo.grupo_id}`
+            class="hover:underline cursor-pointer text-blue-600"
+            >{grupo.nombre}</a
+        >
+    </p>
+</div>

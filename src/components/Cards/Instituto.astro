@@ -1,0 +1,27 @@
+---
+interface Props {
+    instituto_id: any;
+}
+
+import { tursodb } from "@r/astro.config.mjs";
+
+const { instituto_id } = Astro.props;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM instituto WHERE instituto_id = $id;`,
+    args: {
+        id: instituto_id,
+    },
+});
+
+const instituto = rows[0];
+---
+
+<div class="gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit">
+    <h2 class="text-xl font-semibold mb-2">Instituto</h2>
+    <p class="text-gray-700">
+        <a href=`/instituto/${instituto.instituto_id}`
+        class="hover:underline cursor-pointer text-blue-600"
+        >{instituto.nombre}</a>
+    </p>
+</div>
