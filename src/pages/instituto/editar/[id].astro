@@ -145,8 +145,8 @@ const instituto = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/instituto/${alu_id.textContent}`;
-                /* window.location.reload(); */
+                // window.location.href = `/instituto/${alu_id.textContent}`;
+                window.location.reload();
             });
     });
 </script>

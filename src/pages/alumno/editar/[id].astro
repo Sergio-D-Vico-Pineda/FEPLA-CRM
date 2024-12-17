@@ -207,8 +207,8 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/alumno/${alu_id.textContent}`;
-                /* window.location.reload(); */
+                // window.location.href = `/alumno/${alu_id.textContent}`;
+                window.location.reload();
             });
     });
 </script>

@@ -118,8 +118,8 @@ const grupo = rows[0];
             .then((response) => response.json())
             .then((json) => {
                 console.log(json.message);
-                window.location.href = `/grupo/${gru_id.textContent}`;
-                /* window.location.reload(); */
+                // window.location.href = `/grupo/${gru_id.textContent}`;
+                window.location.reload();
             });
     });
 </script>
