@@ -30,13 +30,24 @@ export async function POST(
                 }
             });
     }
+
+    const { rows: arows } = await tursodb.execute(
+        {
+            sql: `SELECT * FROM alumno WHERE alumno_id = $alumno_id;`,
+            args: {
+                alumno_id: data.alumno_id
+            }
+        }
+    );
+
+
     try {
-        let resp = await tursodb.execute(
+        const resp = await tursodb.execute(
             {
                 sql: `INSERT INTO pro_alu_emp(
-                    fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, instituto_id, grupo_id, profesor_id, alumno_id, empresa_id
+                    fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, fecha_creacion, instituto_id, grupo_id, profesor_id, alumno_id, empresa_id
                 ) VALUES(
-                    $fecha_inicio, $fecha_fin, $estado, $curso, $tutor_emp, $comentarios, $instituto_id, $grupo_id, $profesor_id, $alumno_id, $empresa_id
+                    $fecha_inicio, $fecha_fin, $estado, $curso, $tutor_emp, $comentarios, $fecha_creacion, $instituto_id, $grupo_id, $profesor_id, $alumno_id, $empresa_id
                 );`,
                 args: {
                     fecha_inicio: data.fecha_inicio,
@@ -45,11 +56,12 @@ export async function POST(
                     curso: data.curso,
                     tutor_emp: data.tutor_emp,
                     comentarios: data.comentarios,
-                    instituto_id: data.instituto_id,
-                    grupo_id: data.grupo_id,
+                    instituto_id: arows[0].instituto_id, // from alumno
+                    grupo_id: arows[0].grupo_id, // from alumno
                     profesor_id: data.profesor_id,
                     alumno_id: data.alumno_id,
-                    empresa_id: data.empresa_id
+                    empresa_id: data.empresa_id,
+                    fecha_creacion: formatDate(new Date())
                 }
             });
 
@@ -68,6 +80,7 @@ export async function POST(
             });
     }
     catch (error) {
+        console.log(error);
         return new Response(JSON.stringify(
             {
                 message: "SERVER: Error al recibir los datos."
