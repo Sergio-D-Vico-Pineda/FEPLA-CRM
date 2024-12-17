@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
+import FormElementSelect from "@comp/FormElementSelect.astro";
 import BackBtn from "@comp/BackBtn.astro";
 import { tursodb } from "@r/astro.config.mjs";
 
@@ -30,22 +31,9 @@ const { rows: arows } = await tursodb.execute(
                 >
                 <FormElement classes="" texto="fecha_inicio" type="date" />
                 <FormElement classes="" texto="fecha_fin" type="date" />
-                <div
-                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
-                >
-                    Estado
-                    <select
-                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
-                        name="estado"
-                        id="estado"
-                    >
-                        <option value="pendiente" selected>Pendiente</option>
-                        <option value="en curso">En curso</option>
-                        <option value="cancelada">Cancelada</option>
-                        <option value="finalizada">Finalizada</option>
-                    </select>
-                </div>
+                <FormElementSelect />
                 <FormElement classes="" texto="curso" type="text" />
+                <!-- ?? sacar de grupo -->
                 <FormElement classes="" texto="tutor_emp" type="text" />
                 <FormElement
                     classes=""
@@ -53,10 +41,28 @@ const { rows: arows } = await tursodb.execute(
                     placehold="..."
                     type="textarea"
                 />
-                empresas
-                <input type="text" id="empresa_id" list="empresas" />
-                alumnos
-                <input type="text" id="alumno_id" list="alumnos" />
+                <div
+                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+                >
+                    Empresa *
+                    <input
+                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                        type="text"
+                        id="empresa_id"
+                        list="empresas"
+                    />
+                </div>
+                <div
+                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+                >
+                    Alumno *
+                    <input
+                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                        type="text"
+                        id="alumno_id"
+                        list="alumnos"
+                    />
+                </div>
                 <datalist id="empresas">
                     {
                         erows.map((row) => (
@@ -92,13 +98,31 @@ const { rows: arows } = await tursodb.execute(
 
 <script>
     const form = document.querySelector("#formnew") as HTMLFormElement;
-    const url = `http://${window.location.hostname}:${window.location.port}/api/empresa/newpractica`;
+    const url = `http://${window.location.hostname}:${window.location.port}/api/practica/new`;
 
     async function sendData(e: Event) {
         e.preventDefault();
-        const data = {};
 
-        console.log(data);
+        let profesor_id = localStorage.getItem("profesor_id");
+
+        if (!profesor_id) {
+            alert("No has iniciado sesión");
+            return;
+        }
+
+        const data = {
+            fecha_inicio: form.fecha_inicio.value,
+            fecha_fin: form.fecha_fin.value,
+            estado: form.estado.value,
+            curso: form.curso.value,
+            tutor_emp: form.tutor_emp.value,
+            comentarios: form.comentarios.value,
+            empresa_id: form.empresa_id.value,
+            alumno_id: form.alumno_id.value,
+            profesor_id,
+        };
+
+        // console.log(data);
         const response = await fetch(url, {
             method: "POST",
             headers: {

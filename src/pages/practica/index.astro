@@ -7,8 +7,8 @@ import Footer from "@comp/Footer.astro";
 import { tursodb } from "@r/astro.config.mjs";
 import BackBtn from "@comp/BackBtn.astro";
 
-/* const { rows } = await tursodb.execute("SELECT * FROM practica;"); */
-let rows = []
+const { rows } = await tursodb.execute("SELECT pae.pro_alu_emp_id, pae.fecha_inicio, pae.estado, a.nombre as anombre, e.nombre as enombre FROM pro_alu_emp pae, alumno a, empresa e WHERE pae.alumno_id = a.alumno_id AND pae.empresa_id = e.empresa_id;");
+
 ---
 
 <Layout title="Lista de practicas">
@@ -16,7 +16,7 @@ let rows = []
     <div class="flex justify-between w-full px-5 py-2 h-fit">
         <h2 class="text-3xl">Listado de practicas</h2>
         <div class="flex gap-4">
-            { rows.length > 0 && (
+            {/* 
                 <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
                 <span>Activo</span>
                 <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
@@ -33,7 +33,7 @@ let rows = []
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
                 >Buscar</button
             >
-            )}
+            */}
             <button
                 id="btnnew"
                 class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
@@ -52,19 +52,19 @@ let rows = []
                     <tr class="border-b-2 border-black border-solid">
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >Nombre</th
+                            >Alumno</th
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >Apellidos</th
+                            >Empresa</th
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >NIF</th
+                            >Estado</th
                         >
                         <th
                             class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
-                            >Teléfono</th
+                            >Fecha de Inicio</th
                         >
                         <th
                             class="px-4 py-3 text-center text-sm font-semibold text-gray-600"
@@ -75,49 +75,26 @@ let rows = []
                 <tbody class="divide-y divide-gray-200">
                     {
                         rows.map((practica) => (
-                        practica.activo ? (
-                            <tr class="hover:bg-gray-100" data-active="true">
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
-                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.anombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{practica.enombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{practica.estado}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{practica.fecha_inicio}</td>
                                 <td class="px-4 py-3 text-sm text-right">
                                     <div class="flex justify-center space-x-2">
                                         <a
-                                            href=`/practica/editar/${practica.practica_id}`
+                                            href=`/practica/editar/${practica.pro_alu_emp_id}`
                                             class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Editar
                                         </a>
                                         <a
-                                        href=`/practica/${practica.practica_id}`
+                                        href=`/practica/${practica.pro_alu_emp_id}`
                                         class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Detalles
                                         </a>
                                     </div>
                                 </td>
                             </tr>
-                        ) : (
-                            <tr class="hover:bg-gray-100 hidden" data-active="false">
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.nombre}</td>
-                                <td class="px-4 py-3 text-sm text-gray-900">{practica.apellidos}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">{practica.nif}</td>
-                                <td class="px-4 py-3 text-sm text-blue-500">{practica.telefono}</td>
-                                <td class="px-4 py-3 text-sm text-right">
-                                    <div class="flex justify-center space-x-2">
-                                        <a
-                                            href=`/practica/editar/${practica.practica_id}`
-                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
-                                            Editar
-                                        </a>
-                                        <a
-                                        href=`/practica/${practica.practica_id}`
-                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
-                                            Detalles
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            )
                         ))
                     }
                 </tbody>

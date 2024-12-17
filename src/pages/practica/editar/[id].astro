@@ -5,13 +5,13 @@ import { tursodb } from "@r/astro.config.mjs";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
-import Contacts from "@comp/Contacts.astro";
+import FormElementSelect from "@comp/FormElementSelect.astro";
 import BackBtn from "@comp/BackBtn.astro";
 
 const { id } = Astro.params;
 
 const { rows } = await tursodb.execute({
-    sql: `SELECT * FROM practica WHERE practica_id = $id;`,
+    sql: `SELECT * FROM pro_alu_emp WHERE pro_alu_emp_id = $id;`,
     args: {
         id: id,
     },
@@ -19,10 +19,15 @@ const { rows } = await tursodb.execute({
 
 const practica = rows[0];
 
+if (!practica) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
 /* pro_alu_emp_id, fecha_inicio, fecha_fin, estado, curso, tutor_emp, comentarios, instituto_id, grupo_id, profesor_id, alumno_id */
 ---
 
-<Layout title="Modificación del practica" kind={1}>
+<Layout title="Modificación de la practica" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
         <!-- class="flex flex-col gap-4 m-5" -->
@@ -34,21 +39,12 @@ const practica = rows[0];
                 <legend
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                 >
-                    Modificación de una practica
-                    <span id="practica_id" class="hidden"
-                        >{practica.practica_id}</span
+                    Modificación de la practica
+                    <span id="pro_alu_emp_id" class="hidden"
+                        >{practica.pro_alu_emp_id}</span
                     >
                 </legend>
-                <FormElement
-                    texto="pro_alu_emp_id"
-                    placehold={practica.pro_alu_emp_id as string}
-                    value={practica.pro_alu_emp_id as string}
-                />
-                <FormElement
-                    texto="estado"
-                    placehold={practica.estado as string}
-                    value={practica.estado as string}
-                />
+                <FormElementSelect checked={practica.estado as string} />
                 <FormElement
                     texto="curso"
                     placehold={practica.curso as string}
@@ -75,14 +71,14 @@ const practica = rows[0];
                     value={practica.grupo_id as string}
                 />
                 <FormElement
-                    texto="profesor_id"
-                    placehold={practica.profesor_id as string}
-                    value={practica.profesor_id as string}
-                />
-                <FormElement
                     texto="alumno_id"
                     placehold={practica.alumno_id as string}
                     value={practica.alumno_id as string}
+                />
+                <FormElement
+                    texto="empresa_id"
+                    placehold={practica.empresa_id as string}
+                    value={practica.empresa_id as string}
                 />
                 <FormElement
                     texto="fecha_inicio"
@@ -130,27 +126,30 @@ const practica = rows[0];
 
 <script>
     const form = document.querySelector("#formedit") as HTMLFormElement;
-    const alu_id = document.querySelector("#practica_id");
+    const pae_id = document.querySelector("#pro_alu_emp_id");
     const url = `http://${window.location.hostname}:${window.location.port}/api/practica/modify`;
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         // Peticion para modificar el practica
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
 
+        let profesor_id = localStorage.getItem("profesor_id");
+
         const data = {
-            practica_id: alu_id.textContent,
-            nombre: form.nombre.value,
-            apellidos: form.apellidos.value,
-            telefono: form.telefono.value,
-            fecha_nacimiento: form.fecha_nacimiento.value,
-            email: form.email.value,
-            nif: form.nif.value,
-            nia: form.nia.value,
+            pro_alu_emp_id: pae_id.textContent,
+            fecha_inicio: form.fecha_inicio.value,
+            fecha_fin: form.fecha_fin.value,
+            estado: form.estado.value,
+            curso: form.curso.value,
+            tutor_emp: form.tutor_emp.value,
             comentarios: form.comentarios.value,
+            empresa_id: form.empresa_id.value,
+            alumno_id: form.alumno_id.value,
+            profesor_id,
         };
 
-        fetch(url, {
+        await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -159,9 +158,9 @@ const practica = rows[0];
         })
             .then((response) => response.json())
             .then((json) => {
-                console.log(json.message);
+                alert(json.message);
                 // window.location.href = `/practica/${alu_id.textContent}`;
-                window.location.reload();
+                /* window.location.reload(); */
             });
     });
 </script>
