@@ -1,0 +1,28 @@
+---
+interface Props {
+    checked?: string;
+}
+
+const { checked = "pendiente" } = Astro.props;
+
+const options = ["pendiente", "en curso", "cancelada", "finalizada"];
+---
+
+<div
+    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+>
+    Estado
+    <select
+        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+        name="estado"
+        id="estado"
+    >
+        {
+            options.map((option) => (
+                <option value={option} selected={option === checked}>
+                    {option[0].toUpperCase() + option.slice(1)}
+                </option>
+            ))
+        }
+    </select>
+</div>
