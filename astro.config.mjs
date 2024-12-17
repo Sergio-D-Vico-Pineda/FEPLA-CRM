@@ -124,8 +124,8 @@ const queries = [
     FOREIGN KEY (instituto_id) REFERENCES instituto (instituto_id) ON DELETE RESTRICT
 );`, `CREATE TABLE IF NOT EXISTS pro_alu_emp (
     pro_alu_emp_id INTEGER PRIMARY KEY,
-    fecha_inicio DATETIME NOT NULL,
-    fecha_fin DATETIME,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE,
     estado VARCHAR(255),
     curso VARCHAR(255),
     tutor_emp VARCHAR(255),
@@ -135,6 +135,8 @@ const queries = [
     profesor_id INT NOT NULL,
     alumno_id INT NOT NULL,
     empresa_id INT NOT NULL,
+    fecha_actualizacion DATETIME,
+    fecha_creacion DATETIME NOT NULL,
     FOREIGN KEY (profesor_id) REFERENCES profesor (profesor_id) ON DELETE RESTRICT,
     FOREIGN KEY (alumno_id) REFERENCES alumno (alumno_id) ON DELETE RESTRICT,
     FOREIGN KEY (empresa_id) REFERENCES empresa (empresa_id) ON DELETE RESTRICT
