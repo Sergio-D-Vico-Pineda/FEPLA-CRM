@@ -29,15 +29,11 @@ const { rows } = await tursodb.execute("SELECT * FROM instituto;");
         <h2 class="text-3xl">Listado de institutos</h2>
         <div class="flex gap-4">
             { rows.length > 0 && (
-                <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
-                <span>Activo</span>
-                <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
-            </label>
             <input
                 id="busqueda"
                 class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
                 type="text"
-                placeholder="Nombre de la alumno"
+                placeholder="Nombre del instituto"
             />
             <button
                 id="btnbuscar"
@@ -119,28 +115,14 @@ const { rows } = await tursodb.execute("SELECT * FROM instituto;");
     <Footer />
 </Layout>
 <script>
-    const activeCb = document.querySelector("#activo-checkbox") as HTMLInputElement;
     const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
     const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
     const btnnew = document.getElementById("btnnew") as HTMLButtonElement;
-    const rows = document.querySelectorAll("tr[data-active=false]");
     const allrows = document.querySelectorAll("tr[data-active]");
-    const activerows = document.querySelectorAll("tr[data-active=true]");
 
     btnnew.addEventListener("click", () => {
         window.location.href = "/instituto/nuevoinstituto";
     });
-    
-    if (activeCb) {
-        activeCb.addEventListener("change", () => {
-            activerows.forEach(row => {
-                row.classList.toggle("hidden");
-            })
-            rows.forEach(row => {
-                row.classList.toggle("hidden");
-            });
-        });
-    }
 
     if (btnBusqueda) {
         btnBusqueda.addEventListener("click", () => {
