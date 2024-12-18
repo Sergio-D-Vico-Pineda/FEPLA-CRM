@@ -70,18 +70,14 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
                 <datalist id="grupos">
                     {
                         grows.map((row) => (
-                            <option value={row.grupo_id as string}>
-                                {row.nombre as string}
-                            </option>
+                            <option value=`${row.nombre} (${row.grupo_id})` />
                         ))
                     }
                 </datalist>
                 <datalist id="institutos">
                     {
                         irows.map((row) => (
-                            <option value={row.instituto_id as string}>
-                                {row.nombre as string}
-                            </option>
+                            <option value=`${row.nombre} (${row.instituto_id})` />
                         ))
                     }
                 </datalist>
@@ -135,7 +131,8 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/empresa";
+            /* window.location.href = "/alumno"; */
+            window.location.reload();
         }
     }
 
