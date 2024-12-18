@@ -132,7 +132,8 @@ const { rows: arows } = await tursodb.execute(
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/practica";
+            /* window.location.href = "/practica"; */
+            window.location.reload();
         }
     }
 
