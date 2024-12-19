@@ -5,7 +5,6 @@ import { tursodb } from "@r/astro.config.mjs";
 import Header from "@comp/Header.astro";
 import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
-import Contacts from "@comp/Contacts.astro";
 import BackBtn from "@comp/BackBtn.astro";
 
 const { id } = Astro.params;
@@ -25,6 +24,9 @@ if (!alumno.activo) {
 
 const { rows: grows } = await tursodb.execute("SELECT * FROM grupo;");
 const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
+
+const grupo_alumno = grows.filter((row) => row.grupo_id == alumno.grupo_id)[0];
+const instituto_alumno = irows.filter((row) => row.instituto_id == alumno.instituto_id)[0];
 
 // const alumno = {
 //     alumno_id: id,
@@ -49,7 +51,6 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
 <Layout title="Modificación del alumno" kind={1}>
     <Header />
     <main class="flex justify-center items-center grid-flow-col gap-10">
-        <!-- class="flex flex-col gap-4 m-5" -->
         <form
             class="bg-gray-300 rounded-lg shadow-md w-fit py-10 px-8 flex flex-col"
             id="formedit"
@@ -80,11 +81,13 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
                 />
                 <FormElement
                     texto="fecha_nacimiento"
+                    type="date"
                     placehold={alumno.fecha_nacimiento as string}
                     value={alumno.fecha_nacimiento as string}
                 />
                 <FormElement
                     texto="email"
+                    type="email"
                     placehold={alumno.email as string}
                     value={alumno.email as string}
                 />
@@ -110,33 +113,42 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
                     value={alumno.comentarios as string}
                     type="textarea"
                 />
-                <input
-                    type="text"
-                    id="grupo_id"
-                    list="grupos"
-                    value=`${alumno.grupo_id}`
-                />
-                <input
-                    type="text"
-                    id="instituto_id"
-                    list="institutos"
-                    value=`${alumno.instituto_id}`
-                />
+
+                <div
+                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+                >
+                    Grupo *
+                    <input
+                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                        type="text"
+                        id="grupo_id"
+                        list="grupos"
+                        value=`${grupo_alumno.nombre} (${alumno.grupo_id})`
+                    />
+                </div>
+                <div
+                    class="flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md"
+                >
+                    Instituto *
+                    <input
+                        class="bg-gray-700 border border-gray-400 text-white text-sm rounded-lg p-1.5"
+                        type="text"
+                        id="instituto_id"
+                        list="institutos"
+                        value=`${instituto_alumno.nombre} (${alumno.instituto_id})`
+                    />
+                </div>
                 <datalist id="grupos">
                     {
                         grows.map((row) => (
-                            <option value={row.grupo_id as string}>
-                                {row.nombre as string}
-                            </option>
+                            <option value=`${row.nombre} (${row.grupo_id})` />
                         ))
                     }
                 </datalist>
                 <datalist id="institutos">
                     {
                         irows.map((row) => (
-                            <option value={row.instituto_id as string}>
-                                {row.nombre as string}
-                            </option>
+                            <option value=`${row.nombre} (${row.instituto_id})` />
                         ))
                     }
                 </datalist>
