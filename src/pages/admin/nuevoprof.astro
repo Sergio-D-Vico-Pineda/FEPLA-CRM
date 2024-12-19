@@ -1,0 +1,114 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+import FormElement from "@comp/FormElement.astro";
+import BackBtn from "@comp/BackBtn.astro";
+
+/* Profesor: profesor_id, nombre, apellidos, telefono, email, nif, nip, comentarios, fecha_creacion, fecha_actualizacion */
+/* Usuario: usuario_id, usuario, email, contrasena, rol, activo */
+---
+
+<Layout title="Nuevo Profesor" kind={1}>
+    <Header admin={true} />
+    <main class="grid place-content-center">
+        <form
+            class="bg-gray-300 rounded-lg shadow-md py-10 px-8 flex flex-col min-w-fit w-[500px]"
+            id="formnew"
+        >
+            <fieldset
+                class="grid justify-center grid-cols-2 grid-rows gap-2 py-5 px-4"
+            >
+                <legend
+                    class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
+                    >Añade un nuevo profesor</legend
+                >
+                <FormElement
+                    texto="nombre"
+                    placehold="David"
+                    isrequired={true}
+                />
+                <FormElement
+                    texto="email"
+                    placehold="d.perezpastor@edu.gva.es"
+                    isrequired={true}
+                />
+                <FormElement
+                    texto="usuario"
+                    placehold="dperpas"
+                    isrequired={true}
+                />
+                <FormElement
+                    texto="contraseña"
+                    placehold="********"
+                    type="password"
+                    isrequired={true}
+                />
+                <details class="col-span-2 w-full">
+                    <summary class="w-full text-center text-xl font-semibold"
+                        >Información adicional</summary
+                    >
+                    <div class="grid grid-cols-2 grid-rows gap-2">
+                        <FormElement
+                            texto="apellidos"
+                            placehold="Pérez Pastor"
+                            type="textarea"
+                        />
+                        <FormElement texto="telefono" placehold="123456789" />
+                        <FormElement
+                            classes="col-span-2 w-full"
+                            texto="comentarios"
+                            placehold="..."
+                            type="textarea"
+                        />
+                    </div>
+                </details>
+            </fieldset>
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="btnsubmit"
+                    class="mx-auto bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                    >Añadir nuevo profesor</button
+                >
+                <BackBtn title="Los cambios no se guardaran" />
+            </div>
+        </form>
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    const form = document.querySelector("#formnew") as HTMLFormElement;
+    const url = `http://${window.location.hostname}:${window.location.port}/api/admin/newprof`;
+
+    async function sendData(e: Event) {
+        e.preventDefault();
+        const data = {
+            nombre: form.nombre.value,
+            apellidos: form.apellidos.value,
+            telefono: form.telefono.value,
+            email: form.email.value,
+            nif: form.nif.value,
+            nip: form.nip.value,
+            comentarios: form.comentarios.value,
+        };
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        alert((await response.json()).message);
+
+        if (response.ok) {
+            window.location.href = "/admin";
+        }
+    }
+
+    form.addEventListener("submit", sendData);
+    /* alert("Alta de profesor"); */
+</script>

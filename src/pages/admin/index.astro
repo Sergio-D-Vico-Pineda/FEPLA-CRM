@@ -14,15 +14,16 @@ import FichaProf from "@comp/FichaProf.astro";
             <h1 class="text-3xl font-semibold">Página de administración</h1>
             <hr class="border-black border-solid border-2 m-4" />
             <div class="flex flex-col gap-3 justify-center items-center">
-                <button
+                <a
+                    href="/admin/nuevoprof"
                     class="rounded-md shadow-md p-2 w-fit text-white bg-blue-500 hover:bg-blue-700 transition-colors"
                 >
                     Nuevo Profesor
-                </button>
+                </a>
                 <div>
                     <input
                         type="text"
-                        placeholder="Buscar Profesor"
+                        placeholder="12345678A"
                         class="w-40 p-2 border border-black rounded-md"
                     />
                     <button
@@ -31,11 +32,12 @@ import FichaProf from "@comp/FichaProf.astro";
                         Buscar Profesor
                     </button>
                 </div>
-                <button
+                <a
+                    href="/admin/listaprof"
                     class="rounded-md shadow-md p-2 w-fit text-white bg-blue-500 hover:bg-blue-700 transition-colors"
                 >
                     Lista de profesores
-                </button>
+                </a>
             </div>
         </div>
     </main>
