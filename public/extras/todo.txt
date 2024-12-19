@@ -6,8 +6,11 @@ eliminar cosas
 - alumnos
 - empresas
 
+listo
 Usar la URL para la conexión a la base de datos desde otros puntos, aunque la bd es online
 
-En github usar el readme para las instrucciones de como inicializar todo.
+----
 
+En github usar el readme para las instrucciones de como inicializar todo.
 Hacer un try catch en la conexión para conectarse a una bd local si turso falla.
+usar window.location.history para cambiar el historial y que le boton de volver funcione bien
