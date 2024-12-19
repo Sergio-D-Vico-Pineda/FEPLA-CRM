@@ -22,7 +22,7 @@ let textCapital = texto[0].toUpperCase() + texto.slice(1);
 
 <label
     class=`flex flex-col p-2 gap-1.5 bg-gray-400 rounded-lg shadow-md drop-shadow-md ${classes}`
-    ><span>{textCapital}</span>
+    ><span>{textCapital} {isrequired ? "*" : ""}</span>
 
     {
         !isrequired && (
