@@ -1,7 +1,7 @@
 import { formatDate, extractNumber } from "../funcs.js";
 
 import {
-tursodb
+    tursodb
 }
     from "@r/astro.config.mjs";
 

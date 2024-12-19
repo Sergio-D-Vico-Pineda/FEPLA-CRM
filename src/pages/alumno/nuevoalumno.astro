@@ -102,11 +102,14 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
 
     async function sendData(e: Event) {
         e.preventDefault();
+
         let name = form.nombre.value;
+        
         if (!name) {
             alert("El nombre del alumno es obligatorio.");
             return;
         }
+
         const data = {
             nombre: name,
             apellidos: form.apellidos.value,
@@ -121,7 +124,6 @@ const { rows: irows } = await tursodb.execute("SELECT * FROM instituto;");
             instituto_id: form.instituto_id.value,
         };
 
-        console.log(data);
         const response = await fetch(url, {
             method: "POST",
             headers: {
