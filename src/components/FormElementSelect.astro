@@ -1,11 +1,15 @@
 ---
 interface Props {
     checked?: string;
+    pra?: boolean;
 }
 
-const { checked = "pendiente" } = Astro.props;
+const { checked = "pendiente", pra = false } = Astro.props;
 
-const options = ["pendiente", "en curso", "cancelada", "finalizada"];
+const roles = ["Prof", "Admin"];
+const states = ["pendiente", "en curso", "cancelada", "finalizada"];
+
+const options = pra ? roles : states;
 ---
 
 <div
