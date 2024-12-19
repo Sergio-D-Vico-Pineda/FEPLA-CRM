@@ -29,14 +29,13 @@ const { rows: arows } = await tursodb.execute(
                     class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
                     >Nueva practica</legend
                 >
-                <FormElement classes="" texto="fecha_inicio" type="date" />
-                <FormElement classes="" texto="fecha_fin" type="date" />
+                <FormElement texto="fecha_inicio" type="date" />
+                <FormElement texto="fecha_fin" type="date" />
                 <FormElementSelect />
-                <FormElement classes="" texto="curso" type="text" />
+                <!-- <FormElement texto="curso" type="text" /> -->
                 <!-- ?? sacar de grupo -->
-                <FormElement classes="" texto="tutor_emp" type="text" />
+                <FormElement texto="tutor_emp" type="text" />
                 <FormElement
-                    classes=""
                     texto="comentarios"
                     placehold="..."
                     type="textarea"
@@ -132,7 +131,8 @@ const { rows: arows } = await tursodb.execute(
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/practica";
+            /* window.location.href = "/practica"; */
+            window.location.reload();
         }
     }
 

@@ -76,7 +76,8 @@ import BackBtn from "@comp/BackBtn.astro";
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/grupo";
+            /* window.location.href = "/grupo"; */
+            window.location.reload();
         }
     }
 

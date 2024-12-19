@@ -80,7 +80,8 @@ import BackBtn from "@comp/BackBtn.astro";
         });
         alert((await response.json()).message);
         if (response.ok) {
-            window.location.href = "/empresa";
+            /* window.location.href = "/empresa"; */
+            window.location.reload();
         }
     }
 
