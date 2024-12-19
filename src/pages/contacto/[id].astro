@@ -1,0 +1,180 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import { tursodb } from "@r/astro.config.mjs";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+import BackBtn from "@comp/BackBtn.astro";
+import Popup from "@comp/Popup.astro";
+import Instituto from "@comp/Cards/Instituto.astro";
+import Grupo from "@comp/Cards/Grupo.astro";
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM contacto WHERE contacto_id = $id;`,
+    args: {
+        id: id,
+    },
+}); 
+
+const contacto = rows[0];
+
+if (!contacto) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
+// const contacto = {
+//     contacto_id: id,
+//     nombre: `contacto ${id}`,
+//     apellidos: `Apellidos ${id}`,
+//     telefono: `6666666${id}`,
+//     fecha_nacimiento: `2000-01-01`,
+//     email: `contacto${id}@contacto.com`,
+//     nif: `B12345678${id}`,
+//     nia: `B12345678${id}`,
+//     nuss: `B12345678${id}`,
+//     comentarios: `comentarios ${id}`,
+//     fecha_creacion: `2000-01-01`,
+//     fecha_actualizacion: `2000-01-01`,
+//     activo: true,
+//     grupo_id: 1,
+//     instituto_id: 0,
+// };
+/* contacto_id, nombre, apellidos, telefono, fecha_nacimiento, email, nif, nia, nuss, comentarios, fecha_creacion, fecha_actualizacion, activo, grupo_id, instituto_id */
+---
+
+<Layout title="Información de la contacto" kind={1}>
+    <Header />
+    <main class="flex justify-center items-center grid-flow-col gap-10">
+        { contacto &&
+        <div
+            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
+        >
+            <div class="col-span-2 text-center">
+                {
+                    contacto.activo ? (
+                        <h2 class="text-2xl font-semibold mb-2 text-green-500">
+                            Información
+                        </h2>
+                    ) : (
+                        <h2 class="text-2xl font-semibold mb-2 text-red-500">
+                            Información
+                        </h2>
+                    )
+                }
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
+                <p class="text-gray-700">{contacto.nombre}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
+                <p class="text-gray-700">{contacto.apellidos}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Telefono</h2>
+                <p class="text-gray-700">{contacto.telefono}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Email</h2>
+                <p class="text-gray-700">{contacto.email}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Puesto</h2>
+                <p class="text-gray-700">{contacto.puesto}</p>
+            </div>
+            <div class="col-span-2">
+                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">{contacto.comentarios}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
+                <p class="text-gray-700">{contacto.fecha_creacion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">
+                    Fecha de Actualización
+                </h2>
+                <p class="text-gray-700">{contacto.fecha_actualizacion}</p>
+            </div>
+            <div class="flex justify-center space-x-2 col-span-2 mt-6">
+                {
+                    <a
+                        href=`/contacto/editar/${contacto.contacto_id}`
+                        class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                    >
+                        Editar
+                    </a>
+                }
+                <BackBtn />
+            </div>
+            <span id="contacto_id" class="hidden">{contacto.contacto_id}</span>
+        </div>
+        }
+        <Popup
+            title="¿Está seguro de desactivar el contacto?"
+            url=`/contacto/desactivar/${contacto.contacto_id}`
+        />
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    let btnDesactivar = document.getElementById("btnDesactivar");
+    let btnActivar = document.getElementById("btnActivar");
+    let popup = document.getElementById("popup");
+    let btnAceptar = document.getElementById("btnconfirm");
+    let alu_id = document.getElementById("contacto_id");
+    let url = `http://${window.location.hostname}:${window.location.port}/api/contacto/switch`;
+
+    if (btnDesactivar) {
+        btnDesactivar.addEventListener("click", () => {
+            popup.style.display = "grid";
+        });
+    }
+
+    if (btnAceptar) {
+        btnAceptar.addEventListener("click", async () => {
+            popup.style.display = "none";
+
+            let data = {
+                contacto_id: alu_id.textContent,
+                activo: 0,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+    if (btnActivar) {
+        btnActivar.addEventListener("click", async () => {
+            let data = {
+                contacto_id: alu_id.textContent,
+                activo: 1,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+</script>

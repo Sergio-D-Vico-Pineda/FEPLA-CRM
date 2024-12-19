@@ -1,0 +1,158 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+
+import { tursodb } from "@r/astro.config.mjs";
+import BackBtn from "@comp/BackBtn.astro";
+
+// import { rows } from "@comp/contactos.js";
+const { rows } = await tursodb.execute("SELECT * FROM contacto;");
+
+/* const rows = Array.from(
+{
+    length: 9
+}, (_, i = 0) =>
+{
+    return {
+        contacto_id: i + 1,
+        nombre: `Alumno ${i + 1}`,
+        apellidos: `Apellidos ${i + 1}`,
+        telefono: `6666666${i + 1}`,
+        email: `alumno${i + 1}@alumno.com`,
+        puesto: `Puesto ${i + 1}`,
+        comentarios: `comentarios ${i + 1}`,
+        fecha_creacion: `2000-01-01`,
+        fecha_actualizacion: `2000-01-01`,
+    };
+}); */
+
+/* contacto_id, nombre, apellidos, telefono, email, puesto, comentarios, fecha_creacion*, fecha_actualizacion */
+---
+
+<Layout title="Lista de contactos">
+    <Header />
+    <div class="flex justify-between w-full px-5 py-2 h-fit">
+        <h2 class="text-3xl">Listado de contactos</h2>
+        <div class="flex gap-4">
+            { rows.length > 0 && (
+            <input
+                id="busqueda"
+                class="bg-gray-700 border border-gray-300 text-white text-sm rounded-lg p-1.5"
+                type="text"
+                placeholder="Nombre del contacto"
+            />
+            <button
+                id="btnbuscar"
+                type="button"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                >Buscar</button
+            >
+            )}
+            <button
+                id="btnnew"
+                class="bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                >Nuevo contacto</button
+            >
+            <BackBtn />
+        </div>
+    </div>
+    <main class="px-20 py-5">
+        <div
+            class="max-h-[68vh] overflow-y-auto shadow-md rounded-lg"
+        >
+        { rows.length > 0 ? (
+            <table class="min-w-full bg-white overflow-y-auto">
+                <thead class="bg-gray-100">
+                    <tr class="border-b-2 border-black border-solid">
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Nombre</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Apellidos</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Email</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Teléfono</th
+                        >
+                        <th
+                            class="px-4 py-3 text-center text-sm font-semibold text-gray-600"
+                            >Acciones</th
+                        >
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {
+                        rows.map((contacto) => (
+                            <tr class="hover:bg-gray-100" data-active="true">
+                                <td class="px-4 py-3 text-sm text-gray-900">{contacto.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{contacto.apellidos}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{contacto.email}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{contacto.telefono}</td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/contacto/editar/${contacto.contacto_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/contacto/${contacto.contacto_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+            ) : (
+                <h3 class="py-10 text-center text-red-500 text-3xl">No hay contactos registrados</h3>
+            )}
+        </div>
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    const inputBusqueda = document.querySelector("#busqueda") as HTMLInputElement;
+    const btnBusqueda = document.querySelector("#btnbuscar") as HTMLButtonElement;
+    const btnnew = document.getElementById("btnnew") as HTMLButtonElement;
+    const allrows = document.querySelectorAll("tr[data-active]");
+
+    btnnew.addEventListener("click", () => {
+        window.location.href = "/contacto/nuevocontacto";
+    });
+    
+
+    if (btnBusqueda) {
+        btnBusqueda.addEventListener("click", () => {
+            const textoBusqueda = inputBusqueda.value.toLowerCase();
+            allrows.forEach(row => {
+                let textoCelda = row.querySelector("td").textContent.toLowerCase();
+                if (textoCelda.includes(textoBusqueda)) {
+                    row.classList.remove("hidden");
+                } else {
+                    row.classList.add("hidden");
+                }
+            });
+        });
+    }
+
+    if (inputBusqueda) {   
+        inputBusqueda.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                btnBusqueda.click();
+            }
+        });
+    }
+
+</script>

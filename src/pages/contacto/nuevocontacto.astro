@@ -1,0 +1,95 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+import FormElement from "@comp/FormElement.astro";
+import BackBtn from "@comp/BackBtn.astro";
+
+/* contacto_id, nombre, apellidos, telefono, email, puesto, comentarios, fecha_creacion*, fecha_actualizacion */
+---
+
+<Layout title="Nuevo contacto" kind={1}>
+    <Header />
+    <main class="grid place-content-center">
+        <form
+            class="bg-gray-300 rounded-lg shadow-md w-fit py-10 px-8 flex flex-col"
+            id="formnew"
+        >
+            <fieldset class="grid grid-cols-2 grid-rows gap-2 py-5 px-4">
+                <legend
+                    class="px-1.5 bg-[#476683] rounded-md text-white text-center text-2xl font-semibold"
+                    >Añade un nuevo contacto</legend
+                >
+                <FormElement
+                    texto="nombre"
+                    placehold="Alberto"
+                    isrequired={true}
+                />
+                <FormElement texto="apellidos" placehold="Garcia" />
+                <FormElement texto="telefono" placehold="123456789" />
+                <FormElement
+                    texto="email"
+                    placehold="albgarcia@alu.edu.gva.es"
+                    type="email"
+                />
+                <FormElement texto="puesto" placehold="RRHH" />
+                <FormElement
+                    classes="col-span-2 w-full"
+                    texto="comentarios"
+                    placehold="..."
+                    type="textarea"
+                />
+            </fieldset>
+            <div class="text-center">
+                <button
+                    type="submit"
+                    id="btnsubmit"
+                    class="mx-auto bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm px-2 py-2 transition-colors"
+                    >Añadir nuevo contacto</button
+                >
+                <BackBtn />
+            </div>
+        </form>
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    const form = document.querySelector("#formnew") as HTMLFormElement;
+    const url = `http://${window.location.hostname}:${window.location.port}/api/contacto/new`;
+
+    async function sendData(e: Event) {
+        e.preventDefault();
+
+        let name = form.nombre.value;
+
+        if (!name) {
+            alert("El nombre del contacto es obligatorio.");
+            return;
+        }
+
+        const data = {
+            nombre: name,
+            apellidos: form.apellidos.value,
+            telefono: form.telefono.value,
+            email: form.email.value,
+            puesto: form.puesto.value,
+            comentarios: form.comentarios.value,
+        };
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            /* window.location.href = "/contacto"; */
+            window.location.reload();
+        }
+    }
+
+    document.getElementById("btnsubmit").addEventListener("click", sendData);
+</script>
