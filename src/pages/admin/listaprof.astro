@@ -37,12 +37,12 @@ let profesores = rows.map((row) => {
     <div class="flex justify-between w-full px-5 py-2 h-fit">
         <h2 class="text-3xl">Listado de profesores</h2>
         <div class="flex gap-4">
-            { rows.length > 0 && (
+            <!-- { rows.length > 0 && (
                 <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
                 <span>Activo</span>
                 <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
             </label>
-            )}
+            )} -->
             <BackBtn />
         </div>
     </div>
@@ -88,12 +88,12 @@ let profesores = rows.map((row) => {
                                 <td class="px-4 py-3 text-sm text-right">
                                     <div class="flex justify-center space-x-2">
                                         <a
-                                            href=`/profesor/editar/${profesor.profesor_id}`
+                                            href=`/admin/profesor/editar/${profesor.profesor_id}`
                                             class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Editar
                                         </a>
                                         <a
-                                        href=`/profesor/${profesor.profesor_id}`
+                                        href=`/admin/profesor/${profesor.profesor_id}`
                                         class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
                                             Detalles
                                         </a>
