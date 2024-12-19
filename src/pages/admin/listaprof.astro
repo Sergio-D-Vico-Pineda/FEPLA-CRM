@@ -1,9 +1,135 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+import BackBtn from "@comp/BackBtn.astro";
+import { tursodb } from "@r/astro.config.mjs";
+
+const { rows } = await tursodb.execute("SELECT * FROM profesor;");
+const { rows: urows } = await tursodb.execute("SELECT * FROM usuario;");
+
+let profesores = rows.map((row) => {
+    let usuario = urows.filter((urow) => urow.usuario_id == row.usuario_id)[0];
+    let profesor = {
+        profesor_id: row.profesor_id,
+        nombre: row.nombre,
+        apellidos: row.apellidos,
+        nif: row.nif,
+        telefono: row.telefono,
+        email: usuario.email,
+        nip: row.nip,
+        comentarios: row.comentarios,
+        fecha_creacion: row.fecha_creacion,
+        fecha_actualizacion: row.fecha_actualizacion,
+        usuario_id: row.usuario_id,
+        usuario: usuario.usuario,
+        activo: usuario.activo,
+    }
+    return profesor;
+});
+
+/* Profesor: profesor_id, nombre*, apellidos, telefono, email*, nif, nip, comentarios, fecha_creacion*, fecha_actualizacion, usuario_id* */
+/* Usuario: usuario_id, usuario*, email*, contrasena*, rol*, activo* */
 ---
 
 <Layout title="Lista de Profesores">
     <Header admin={true} />
-    Lista de profesores
+    <div class="flex justify-between w-full px-5 py-2 h-fit">
+        <h2 class="text-3xl">Listado de profesores</h2>
+        <div class="flex gap-4">
+            { rows.length > 0 && (
+                <label class="flex items-center border px-3 gap-3 rounded border-gray-700 text-sm font-medium">
+                <span>Activo</span>
+                <input id="activo-checkbox" type="checkbox" class="text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+            </label>
+            )}
+            <BackBtn />
+        </div>
+    </div>
+    <main class="px-20 py-5">
+        <div
+            class="max-h-[68vh] overflow-y-auto shadow-md rounded-lg"
+        >
+        { rows.length > 0 ? (
+            <table class="min-w-full bg-white overflow-y-auto">
+                <thead class="bg-gray-100">
+                    <tr class="border-b-2 border-black border-solid">
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Nombre</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Apellidos</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Usuario</th
+                        >
+                        <th
+                            class="px-4 py-3 text-left text-sm font-semibold text-gray-600"
+                            >Email</th
+                        >
+                        <th
+                            class="px-4 py-3 text-center text-sm font-semibold text-gray-600"
+                            >Acciones</th
+                        >
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {
+                        profesores.map((profesor) => (
+                        profesor.activo ? (
+                            <tr class="hover:bg-gray-100" data-active="true">
+                                <td class="px-4 py-3 text-sm text-gray-900">{profesor.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{profesor.apellidos}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{profesor.usuario}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{profesor.email}</td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/profesor/editar/${profesor.profesor_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/profesor/${profesor.profesor_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (
+                            <tr class="hover:bg-gray-100 hidden" data-active="false">
+                                <td class="px-4 py-3 text-sm text-gray-900">{profesor.nombre}</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">{profesor.apellidos}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{profesor.usuario}</td>
+                                <td class="px-4 py-3 text-sm text-blue-500">{profesor.email}</td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <div class="flex justify-center space-x-2">
+                                        <a
+                                            href=`/profesor/editar/${profesor.profesor_id}`
+                                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Editar
+                                        </a>
+                                        <a
+                                        href=`/profesor/${profesor.profesor_id}`
+                                        class="bg-gray-500 hover:bg-gray-600 text-white rounded px-3 py-1 transition-colors duration-300">
+                                            Detalles
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            )
+                        ))
+                    }
+                </tbody>
+            </table>
+            ) : (
+                <h3 class="py-10 text-center text-red-500 text-3xl">No hay profesores registrados</h3>
+            )}
+        </div>
+    </main>
+    <Footer />
 </Layout>
