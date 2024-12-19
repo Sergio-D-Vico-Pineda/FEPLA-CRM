@@ -1,0 +1,204 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+import { tursodb } from "@r/astro.config.mjs";
+import Header from "@comp/Header.astro";
+import Footer from "@comp/Footer.astro";
+import BackBtn from "@comp/BackBtn.astro";
+import Popup from "@comp/Popup.astro";
+/* import Instituto from "@comp/Cards/Instituto.astro";
+import Grupo from "@comp/Cards/Grupo.astro"; */
+
+const { id } = Astro.params;
+
+const { rows } = await tursodb.execute({
+    sql: `SELECT * FROM profesor WHERE profesor_id = $id;`,
+    args: {
+        id: id,
+    },
+}); 
+
+let profesor = rows[0];
+
+if (!profesor) {
+    console.log("No hay registro con ese valor");
+    return Astro.redirect("/404");
+}
+
+const { rows: urows } = await tursodb.execute({
+    sql:"SELECT * FROM usuario WHERE usuario_id = $id;",
+    args: {
+        id: profesor.usuario_id,
+    },
+});
+
+profesor.activo = urows[0].activo;
+profesor.usuario = urows[0].usuario;
+---
+
+<Layout title="Información de la profesor" kind={1}>
+    <Header />
+    <main class="flex justify-center items-center grid-flow-col gap-10">
+        { profesor &&
+        <div
+            class="grid grid-cols-2 grid-rows-5 gap-2 py-10 px-8 bg-gray-300 rounded-lg shadow-md w-fit"
+        >
+            <div class="col-span-2 text-center">
+                {
+                    profesor.activo ? (
+                        <h2 class="text-2xl font-semibold mb-2 text-green-500">
+                            Información
+                        </h2>
+                    ) : (
+                        <h2 class="text-2xl font-semibold mb-2 text-red-500">
+                            Información
+                        </h2>
+                    )
+                }
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Nombre</h2>
+                <p class="text-gray-700">{profesor.nombre}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Apellidos</h2>
+                <p class="text-gray-700">{profesor.apellidos}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Telefono</h2>
+                <p class="text-gray-700">{profesor.telefono}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de nacimiento</h2>
+                <p class="text-gray-700">{profesor.fecha_nacimiento}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Email</h2>
+                <p class="text-gray-700">{profesor.email}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIF</h2>
+                <p class="text-gray-700">{profesor.nif}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NIA</h2>
+                <p class="text-gray-700">{profesor.nia}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">NUSS</h2>
+                <p class="text-gray-700">{profesor.nif}</p>
+            </div>
+            <div class="col-span-2">
+                <h2 class="text-xl font-semibold mb-2">Comentarios</h2>
+                <p class="text-gray-700">{profesor.comentarios}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Fecha de Creación</h2>
+                <p class="text-gray-700">{profesor.fecha_creacion}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">
+                    Fecha de Actualización
+                </h2>
+                <p class="text-gray-700">{profesor.fecha_actualizacion}</p>
+            </div>
+            <div class="flex justify-center space-x-2 col-span-2 mt-6">
+                {
+                    profesor.activo ? (
+                        <a
+                            href=`/profesor/editar/${profesor.profesor_id}`
+                            class="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Editar
+                        </a>
+                        <button
+                            id="btnDesactivar"
+                            type="button"
+                            class="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Desactivar
+                        </button>
+                    ) : (
+                    <button
+                            id="btnActivar"
+                            type="button"
+                            class="bg-green-500 hover:bg-green-600 text-white rounded px-3 py-1 transition-colors duration-300"
+                        >
+                            Activar
+                        </button>
+                    )
+                }
+                <BackBtn />
+            </div>
+            <span id="profesor_id" class="hidden">{profesor.profesor_id}</span>
+        </div>
+        }
+        <!-- <div class="flex flex-col gap-2">
+            <Instituto instituto_id={profesor.instituto_id} />
+            <Grupo grupo_id={profesor.grupo_id} />
+        </div> -->
+        <Popup
+            title="¿Está seguro de desactivar el profesor?"
+            url=`/profesor/desactivar/${profesor.profesor_id}`
+        />
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+    let btnDesactivar = document.getElementById("btnDesactivar");
+    let btnActivar = document.getElementById("btnActivar");
+    let popup = document.getElementById("popup");
+    let btnAceptar = document.getElementById("btnconfirm");
+    let alu_id = document.getElementById("profesor_id");
+    let url = `http://${window.location.hostname}:${window.location.port}/api/profesor/switch`;
+
+    if (btnDesactivar) {
+        btnDesactivar.addEventListener("click", () => {
+            popup.style.display = "grid";
+        });
+    }
+
+    if (btnAceptar) {
+        btnAceptar.addEventListener("click", async () => {
+            popup.style.display = "none";
+
+            let data = {
+                profesor_id: alu_id.textContent,
+                activo: 0,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+    if (btnActivar) {
+        btnActivar.addEventListener("click", async () => {
+            let data = {
+                profesor_id: alu_id.textContent,
+                activo: 1,
+            }
+
+            const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        alert((await response.json()).message);
+        if (response.ok) {
+            window.location.reload();
+        }
+        });
+    }
+</script>
