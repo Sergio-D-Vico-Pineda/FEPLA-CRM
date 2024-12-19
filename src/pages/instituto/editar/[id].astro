@@ -120,7 +120,7 @@ const instituto = rows[0];
     const alu_id = document.querySelector("#instituto_id");
     const url = `http://${window.location.hostname}:${window.location.port}/api/instituto/modify`;
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         // Peticion para modificar el instituto
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
@@ -135,18 +135,18 @@ const instituto = rows[0];
             comentarios: form.comentarios.value,
         };
 
-        fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json.message);
-                // window.location.href = `/instituto/${alu_id.textContent}`;
-                window.location.reload();
-            });
+        });
+
+        alert((await response.json()).message);
+
+        if (response.ok) {
+            window.location.reload();
+        }
     });
 </script>

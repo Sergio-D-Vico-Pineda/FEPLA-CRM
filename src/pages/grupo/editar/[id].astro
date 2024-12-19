@@ -95,7 +95,7 @@ const grupo = rows[0];
     const gru_id = document.querySelector("#grupo_id");
     const url = `http://${window.location.hostname}:${window.location.port}/api/grupo/modify`;
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         // Peticion para modificar el grupo
         // Posibilidad de verificar si ha habido algun cambio
         e.preventDefault();
@@ -108,18 +108,18 @@ const grupo = rows[0];
             comentarios: form.comentarios.value,
         };
 
-        fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
         })
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json.message);
-                // window.location.href = `/grupo/${gru_id.textContent}`;
-                window.location.reload();
-            });
+
+        alert((await response.json()).message);
+
+        if (response.ok) {
+            window.location.reload();
+        }
     });
 </script>
