@@ -831,8 +831,8 @@
     },
     {
       "type": "text",
-      "version": 2308,
-      "versionNonce": 1552442288,
+      "version": 2314,
+      "versionNonce": 1989013483,
       "isDeleted": false,
       "id": "mM4VjH7Ww4YU-_gi2irjb",
       "fillStyle": "solid",
@@ -854,16 +854,16 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1731858505728,
+      "updated": 1734597211045,
       "link": null,
       "locked": false,
       "fontSize": 20.839440413673145,
       "fontFamily": 3,
-      "text": "profesor_id INT PK\nnombre* VARCHAR(255)\napellidos? VARCHAR(255)\ntelefono? VARCHAR(20)\nemail* VARCHAR(100)\nnif? VARCHAR(20)\nnip? VARCHAR(20)\ncomentarios? VARCHAR(255)\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\ngrupo_id* FK\ninstituto_id* FK\nusuario_id* FK",
+      "text": "profesor_id INT PK\nnombre* VARCHAR(255)\napellidos? VARCHAR(255)\ntelefono? VARCHAR(20)\nemail* VARCHAR(100)\nnif? VARCHAR(20)\nnip? VARCHAR(20)\ncomentarios? VARCHAR(255)\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\ngrupo_id? FK\ninstituto_id? FK\nusuario_id* FK",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "profesor_id INT PK\nnombre* VARCHAR(255)\napellidos? VARCHAR(255)\ntelefono? VARCHAR(20)\nemail* VARCHAR(100)\nnif? VARCHAR(20)\nnip? VARCHAR(20)\ncomentarios? VARCHAR(255)\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\ngrupo_id* FK\ninstituto_id* FK\nusuario_id* FK",
+      "originalText": "profesor_id INT PK\nnombre* VARCHAR(255)\napellidos? VARCHAR(255)\ntelefono? VARCHAR(20)\nemail* VARCHAR(100)\nnif? VARCHAR(20)\nnip? VARCHAR(20)\ncomentarios? VARCHAR(255)\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\ngrupo_id? FK\ninstituto_id? FK\nusuario_id* FK",
       "lineHeight": 1.2,
       "baseline": 186,
       "index": "b1k",
@@ -1698,8 +1698,8 @@
     },
     {
       "type": "rectangle",
-      "version": 1915,
-      "versionNonce": 1205003088,
+      "version": 1963,
+      "versionNonce": 1235797669,
       "isDeleted": false,
       "id": "wW1jtOjQXv_ScJSIvA400",
       "fillStyle": "solid",
@@ -1712,8 +1712,8 @@
       "y": -127.76498590840282,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 338.55091205612354,
-      "height": 396.75179653695193,
+      "width": 369.55091205612354,
+      "height": 435.75179653695193,
       "seed": 347359242,
       "groupIds": [
         "n3lZyXyUuqzh0E7p71cLA"
@@ -1736,15 +1736,15 @@
           "type": "arrow"
         }
       ],
-      "updated": 1731847394635,
+      "updated": 1734597241418,
       "link": null,
       "locked": false,
       "index": "b21"
     },
     {
       "type": "line",
-      "version": 1693,
-      "versionNonce": 2011085648,
+      "version": 1724,
+      "versionNonce": 773265029,
       "isDeleted": false,
       "id": "_v6Pgh8wHRR96NaPM_bBi",
       "fillStyle": "solid",
@@ -1757,7 +1757,7 @@
       "y": -70.33228538711268,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 340.0620411037264,
+      "width": 372.0620411037264,
       "height": 0,
       "seed": 1942140618,
       "groupIds": [
@@ -1768,7 +1768,7 @@
         "type": 2
       },
       "boundElements": [],
-      "updated": 1731847394636,
+      "updated": 1734597255283,
       "link": null,
       "locked": false,
       "startBinding": null,
@@ -1782,7 +1782,7 @@
           0
         ],
         [
-          340.0620411037264,
+          372.0620411037264,
           0
         ]
       ],
@@ -1830,8 +1830,8 @@
     },
     {
       "type": "text",
-      "version": 2383,
-      "versionNonce": 901524816,
+      "version": 2426,
+      "versionNonce": 208319653,
       "isDeleted": false,
       "id": "h8PAATrwF2G1n4dxaVtpZ",
       "fillStyle": "solid",
@@ -1840,12 +1840,12 @@
       "roughness": 1,
       "opacity": 100,
       "angle": 0,
-      "x": -526.1009072271709,
-      "y": -55.58001299970036,
+      "x": -533.1009072271709,
+      "y": -61.58001299970036,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
-      "width": 292.96875,
-      "height": 312,
+      "width": 340.125,
+      "height": 360,
       "seed": 1147604042,
       "groupIds": [
         "n3lZyXyUuqzh0E7p71cLA"
@@ -1853,16 +1853,16 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1731858648423,
+      "updated": 1734597523401,
       "link": null,
       "locked": false,
       "fontSize": 20,
       "fontFamily": 3,
-      "text": "pro_alu_emp_id INT PK\nfecha_inicio* DATETIME\nfecha_fin? DATETIME\nestado* VARCHAR(255)\ncurso* VARCHAR(255) \ntutor_emp? VARCHAR(255)\ncomentarios? VARCHAR(255)\ninstituto_id* INT\ngrupo_id* INT\n-------------\nprofesor_id* FK\nalumno_id* FK\nempresa_id* FK",
+      "text": "pro_alu_emp_id INT PK\nfecha_inicio* DATETIME\nfecha_fin? DATETIME\nestado? VARCHAR(255)\ncurso? VARCHAR(255) \ntutor_emp? VARCHAR(255)\ncomentarios? VARCHAR(255)\ninstituto_id* INT\ngrupo_id* INT\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\nprofesor_id* FK\nalumno_id* FK\nempresa_id* FK",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "pro_alu_emp_id INT PK\nfecha_inicio* DATETIME\nfecha_fin? DATETIME\nestado* VARCHAR(255)\ncurso* VARCHAR(255) \ntutor_emp? VARCHAR(255)\ncomentarios? VARCHAR(255)\ninstituto_id* INT\ngrupo_id* INT\n-------------\nprofesor_id* FK\nalumno_id* FK\nempresa_id* FK",
+      "originalText": "pro_alu_emp_id INT PK\nfecha_inicio* DATETIME\nfecha_fin? DATETIME\nestado? VARCHAR(255)\ncurso? VARCHAR(255) \ntutor_emp? VARCHAR(255)\ncomentarios? VARCHAR(255)\ninstituto_id* INT\ngrupo_id* INT\nfecha_creacion* DATETIME\nfecha_actualizacion? DATETIME\n-------------\nprofesor_id* FK\nalumno_id* FK\nempresa_id* FK",
       "lineHeight": 1.2,
       "baseline": 186,
       "index": "b24",
@@ -1873,8 +1873,8 @@
       "type": "arrow",
       "x": -80.31551282467832,
       "y": 278.1531142030589,
-      "width": 117.84768778429107,
-      "height": 46.74911917371125,
+      "width": 86.8476877842911,
+      "height": 40.075090607240895,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1890,11 +1890,11 @@
         "type": 2
       },
       "seed": 389013718,
-      "version": 232,
-      "versionNonce": 1329529168,
+      "version": 280,
+      "versionNonce": 1753393669,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1731849327288,
+      "updated": 1734597241418,
       "link": null,
       "locked": false,
       "points": [
@@ -1903,8 +1903,8 @@
           0
         ],
         [
-          -117.84768778429107,
-          -46.74911917371125
+          -86.8476877842911,
+          -40.075090607240895
         ]
       ],
       "lastCommittedPoint": null,
@@ -1929,7 +1929,7 @@
       "type": "arrow",
       "x": -49.35062807415176,
       "y": -240.38790835596058,
-      "width": 160.62889051747118,
+      "width": 142.4941764406487,
       "height": 106.46901397445345,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1946,11 +1946,11 @@
         "type": 2
       },
       "seed": 542398934,
-      "version": 388,
-      "versionNonce": 1123041200,
+      "version": 436,
+      "versionNonce": 2089397445,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1731849317306,
+      "updated": 1734597241418,
       "link": null,
       "locked": false,
       "points": [
@@ -1959,7 +1959,7 @@
           0
         ],
         [
-          -160.62889051747118,
+          -142.4941764406487,
           106.46901397445345
         ]
       ],
@@ -1986,7 +1986,7 @@
       "x": -685.1698028681521,
       "y": 66.19038924673256,
       "width": 128.3504902618871,
-      "height": 6.6788116378306555,
+      "height": 2.1979615763524265,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -2002,11 +2002,11 @@
         "type": 2
       },
       "seed": 1283295254,
-      "version": 279,
-      "versionNonce": 210951973,
+      "version": 327,
+      "versionNonce": 218702181,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1733156978279,
+      "updated": 1734597241418,
       "link": null,
       "locked": false,
       "points": [
@@ -2016,7 +2016,7 @@
         ],
         [
           128.3504902618871,
-          -6.6788116378306555
+          2.1979615763524265
         ]
       ],
       "lastCommittedPoint": null,
@@ -2166,8 +2166,8 @@
     },
     {
       "type": "text",
-      "version": 2428,
-      "versionNonce": 1686843216,
+      "version": 2430,
+      "versionNonce": 1522453707,
       "isDeleted": false,
       "id": "ZC1EmlWYeZDRXPYnLLuZH",
       "fillStyle": "solid",
@@ -2189,16 +2189,16 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1731858398025,
+      "updated": 1734597349232,
       "link": null,
       "locked": false,
       "fontSize": 20.088011480980338,
       "fontFamily": 3,
-      "text": "interracion_id INT PK\nfecha* DATETIME\ntipo? VARCHAR(255)\ncomentarios? VARCHAR(255)\nobjetivo? VARCHAR(255)\nresultado? VARCHAR(255)\n-------------\ncontacto_id* FK\nempresa_id* FK",
+      "text": "interracion_id INT PK\nfecha* DATETIME\ntipo? VARCHAR(255)\ncomentarios? VARCHAR(255)\nobjetivo? VARCHAR(255)\nresultado? VARCHAR(255)\n-------------\ncontacto_id* FK\nempresa_id? FK",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "interracion_id INT PK\nfecha* DATETIME\ntipo? VARCHAR(255)\ncomentarios? VARCHAR(255)\nobjetivo? VARCHAR(255)\nresultado? VARCHAR(255)\n-------------\ncontacto_id* FK\nempresa_id* FK",
+      "originalText": "interracion_id INT PK\nfecha* DATETIME\ntipo? VARCHAR(255)\ncomentarios? VARCHAR(255)\nobjetivo? VARCHAR(255)\nresultado? VARCHAR(255)\n-------------\ncontacto_id* FK\nempresa_id? FK",
       "lineHeight": 1.2,
       "baseline": 186,
       "index": "b2B",

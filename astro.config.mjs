@@ -135,8 +135,8 @@ const queries = [
     profesor_id INT NOT NULL,
     alumno_id INT NOT NULL,
     empresa_id INT NOT NULL,
-    fecha_actualizacion DATETIME,
     fecha_creacion DATETIME NOT NULL,
+    fecha_actualizacion DATETIME,
     FOREIGN KEY (profesor_id) REFERENCES profesor (profesor_id) ON DELETE RESTRICT,
     FOREIGN KEY (alumno_id) REFERENCES alumno (alumno_id) ON DELETE RESTRICT,
     FOREIGN KEY (empresa_id) REFERENCES empresa (empresa_id) ON DELETE RESTRICT
