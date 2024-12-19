@@ -5,8 +5,8 @@ import Footer from "@comp/Footer.astro";
 import FormElement from "@comp/FormElement.astro";
 import BackBtn from "@comp/BackBtn.astro";
 
-/* Profesor: profesor_id, nombre, apellidos, telefono, email, nif, nip, comentarios, fecha_creacion, fecha_actualizacion */
-/* Usuario: usuario_id, usuario, email, contrasena, rol, activo */
+/* Profesor: profesor_id, nombre*, apellidos, telefono, email*, nif, nip, comentarios, fecha_creacion*, fecha_actualizacion, usuario_id* */
+/* Usuario: usuario_id, usuario*, email*, contrasena*, rol*, activo* */
 ---
 
 <Layout title="Nuevo Profesor" kind={1}>
@@ -48,13 +48,15 @@ import BackBtn from "@comp/BackBtn.astro";
                     <summary class="w-full text-center text-xl font-semibold"
                         >Información adicional</summary
                     >
-                    <div class="grid grid-cols-2 grid-rows gap-2">
+                    <div class="grid grid-cols-2 grid-rows gap-2 pt-2.5">
                         <FormElement
                             texto="apellidos"
                             placehold="Pérez Pastor"
                             type="textarea"
                         />
                         <FormElement texto="telefono" placehold="123456789" />
+                        <FormElement texto="nif" placehold="12345678A" />
+                        <FormElement texto="nip" placehold="12345678" />
                         <FormElement
                             classes="col-span-2 w-full"
                             texto="comentarios"
@@ -86,9 +88,11 @@ import BackBtn from "@comp/BackBtn.astro";
         e.preventDefault();
         const data = {
             nombre: form.nombre.value,
+            email: form.email.value,
+            usuario: form.usuario.value,
+            contrasena: form.contraseña.value,
             apellidos: form.apellidos.value,
             telefono: form.telefono.value,
-            email: form.email.value,
             nif: form.nif.value,
             nip: form.nip.value,
             comentarios: form.comentarios.value,
@@ -105,6 +109,7 @@ import BackBtn from "@comp/BackBtn.astro";
         alert((await response.json()).message);
 
         if (response.ok) {
+            /* window.location.reload(); */
             window.location.href = "/admin";
         }
     }
